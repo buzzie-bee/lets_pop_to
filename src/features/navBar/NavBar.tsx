@@ -49,6 +49,7 @@ export const NavBar: React.FC = () => {
         >
           Lets Go To
         </Typography>
+
         <nav>
           <Link
             variant="button"
