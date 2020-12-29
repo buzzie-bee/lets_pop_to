@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { formatPrice } from '../../helpers/formatPrice';
+import { parseTime } from '../../helpers/parseTime';
 
 export const Flight: React.FC<{ index: number }> = ({ index }) => {
   const { quotes, places, carriers, currencies } = useSelector(
@@ -34,6 +35,11 @@ export const Flight: React.FC<{ index: number }> = ({ index }) => {
   );
 
   if (quotes) {
+    console.log(
+      parseTime({
+        timestamp: outboundLeg.departureDate,
+      }).formattedDate
+    );
     return (
       <div>
         <div>Quoted at: {quoteDateTime}</div>
