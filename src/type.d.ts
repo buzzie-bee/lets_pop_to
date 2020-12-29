@@ -1,4 +1,8 @@
 export interface FlightsType {
+  loaded: boolean;
+  loading: boolean;
+  error: boolean;
+  errorMessage: string;
   quotes: QuoteType[] | null;
   places: PlaceType[] | null;
   carriers: CarrierType[] | null;

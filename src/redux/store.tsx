@@ -1,4 +1,5 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, Action } from '@reduxjs/toolkit';
+import { ThunkAction } from 'redux-thunk';
 import { flightsReducer } from '../features/flights/flightsSlice';
 
 const rootReducer = combineReducers({
@@ -7,6 +8,9 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-export default configureStore({
+export const store = configureStore({
   reducer: rootReducer,
 });
+
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;

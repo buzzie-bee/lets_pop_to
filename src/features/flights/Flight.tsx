@@ -14,56 +14,75 @@ export const Flight: React.FC<{ index: number }> = ({ index }) => {
   }
 
   const quote = quotes[index];
-  const { minPrice, direct, outboundLeg, inboundLeg, quoteDateTime } = quote;
+  const { minPrice, direct, outboundLeg, quoteDateTime } = quote;
 
   const formattedPrice = formatPrice(minPrice, currencies[0]);
 
-  const outboundPlace = places.find(
+  const outboundFromPlace = places.find(
     (place) => place.placeId === outboundLeg.originId
   );
 
-  const outboundCarrier = carriers.find(
-    (carrier) => carrier.carrierId === outboundLeg.carrierIds[0]
+  const outboundDestinationPlace = places.find(
+    (place) => place.placeId === outboundLeg.destinationId
   );
 
-  const inboundPlace = places.find(
-    (place) => place.placeId === inboundLeg.originId
-  );
+  const outboundInfo = {
+    from: {
+      iataCode: outboundFromPlace?.iataCode,
+      locationName: outboundFromPlace?.name,
+      cityName: outboundFromPlace?.cityName,
+      countryName: outboundFromPlace?.countryName,
+    },
+    to: {
+      iataCode: outboundDestinationPlace?.iataCode,
+      locationName: outboundDestinationPlace?.name,
+      cityName: outboundDestinationPlace?.cityName,
+      countryName: outboundDestinationPlace?.countryName,
+    },
+    carrier: carriers.find(
+      (carrier) => carrier.carrierId === outboundLeg.carrierIds[0]
+    ),
+  };
 
-  const inboundCarrier = carriers.find(
-    (carrier) => carrier.carrierId === inboundLeg.carrierIds[0]
-  );
+  const formattedLocation = ({ direction }: { direction: string }) => {
+    if (direction === 'from' || direction === 'to') {
+      const data = direction === 'from' ? outboundInfo.from : outboundInfo.to;
+      const { iataCode, locationName, cityName, countryName } = data;
 
-  if (quotes) {
-    console.log(
-      parseTime({
-        timestamp: outboundLeg.departureDate,
-      }).formattedDate
-    );
+      return `
+      ${iataCode},
+      ${locationName},
+      ${cityName},
+      ${countryName},`;
+    }
+
+    return '';
+  };
+
+  if (quote) {
     return (
       <div>
-        <div>Quoted at: {quoteDateTime}</div>
+        <br />
+        <div>From: {formattedLocation({ direction: 'from' })}</div>
+        <br />
+        <div>To: {formattedLocation({ direction: 'to' })}</div>
         <br />
         <div>
-          From: {outboundPlace?.iataCode}, {outboundPlace?.name},
-          {outboundPlace?.cityName},{outboundPlace?.countryName}
+          On:{' '}
+          {
+            parseTime({
+              timestamp: outboundLeg.departureDate,
+            }).formattedDate
+          }
         </div>
-        <div>Carrier: {outboundCarrier?.name}</div>
-        <div>Departing at: {outboundLeg.departureDate}</div>
         <br />
-        <div>
-          To: {inboundPlace?.iataCode}, {inboundPlace?.name},
-          {inboundPlace?.cityName},{inboundPlace?.countryName}
-        </div>
-        <div>Carrier: {inboundCarrier?.name}</div>
-        <div>Arriving at: {inboundLeg.departureDate}</div>
-        <br />
+        <div>Carrier: {outboundInfo?.carrier?.name}</div>
         <div>Cost: {formattedPrice}</div>
         <div>Direct: {direct.toString()}</div>
-        {/* <pre>{JSON.stringify(quote, null, 2)}</pre>
-        <pre>{JSON.stringify(places, null, 2)}</pre>
-        <pre>{JSON.stringify(carriers, null, 2)}</pre>
-        <pre>{JSON.stringify(currencies, null, 2)}</pre> */}
+        <div>
+          Quoted price last updated at:{' '}
+          {parseTime({ timestamp: quoteDateTime }).formattedDateTime}
+        </div>
       </div>
     );
   } else {
