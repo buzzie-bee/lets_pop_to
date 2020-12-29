@@ -8,8 +8,14 @@ export const formatPrice = (amount: number, currency: CurrencyType): string => {
     decimalSeparator,
     symbolOnLeft,
     spaceBetweenAmountAndSymbol,
-    decimalDigits,
+    // decimalDigits,
   } = currency;
+
+  // Looks like skyscanner never send prices with decimal digits
+  // Just in case there are some currencies which have it and I need to reenable the decimal places
+  // I am keeping it in
+
+  const decimalDigits = 0;
 
   const millions =
     amount / Math.pow(10, 6 + decimalDigits) > 1
