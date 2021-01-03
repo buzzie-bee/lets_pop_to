@@ -1,3 +1,4 @@
+import * as functions from 'firebase-functions';
 import { cameliseKeys } from './cameliseKeys';
 import {
   BrowseQuotesType,
@@ -54,11 +55,17 @@ export const formatFlightData = (data: BrowseQuotesType): FlightsType => {
       sunlightMinutes: undefined,
     };
 
+    const flightMonth = parseInt(
+      quote.outboundLeg.departureDate.substring(5, 7)
+    );
+
     if (outboundFromPlace !== undefined) {
       if (outboundFromPlace.iataCode !== undefined) {
         if (outboundFromPlace.iataCode in weatherData) {
-          // @ts-ignore:
-          toWeather = weatherData[outboundFromPlace?.iataCode][1];
+          if (flightMonth) {
+            // @ts-ignore:
+            toWeather = weatherData[outboundFromPlace?.iataCode][1];
+          }
         }
       }
     }
