@@ -3,45 +3,65 @@ export interface FlightsType {
   loading: boolean;
   error: boolean;
   errorMessage: string;
-  quotes: QuoteType[] | null;
-  places: PlaceType[] | null;
-  carriers: CarrierType[] | null;
-  currencies: CurrencyType[] | null;
+  flights: Flight[];
 }
 
-export interface QuoteType {
-  quoteId: number;
-  minPrice: number;
+export interface FlightType {
+  from: FromType;
+  to: ToType;
+  carrier: CarrierType;
+  cost: CostType;
   direct: boolean;
-  outboundLeg: {
-    carrierIds: number[];
-    originId: number;
-    destinationId: number;
-    departureDate: string;
-  };
-  inboundLeg: {
-    carrierIds: number[];
-    originId: number;
-    destinationId: number;
-    departureDate: string;
-  };
-  quoteDateTime: string;
+  quotedAt: string;
 }
 
-export interface PlaceType {
-  placeId: number;
+export interface FromType {
   iataCode: string;
-  name: string;
-  type: string;
-  skyscannerCode: string;
+  locationName: string;
   cityName: string;
-  cityId: string;
   countryName: string;
+  weather: {};
+}
+
+export interface ToType {
+  iataCode: string;
+  locationName: string;
+  cityName: string;
+  countryName: string;
+  weather: WeatherType;
+}
+
+export interface WeatherType {
+  tavg: number | null;
+  tmin: number | null;
+  tmax: number | null;
+  precipitation: number | null;
+  windDirection: number | null;
+  windSpeed: number | null;
+  windPeakGust: number | null;
+  pressure: number | null;
+  sunlightHours: number | null;
+  sunlightMinutes: number | null;
 }
 
 export interface CarrierType {
   carrierId: number;
   name: string;
+}
+
+export interface CostType {
+  cost: number;
+  currency: string;
+  formatted: string;
+}
+
+export interface FetchBrowseFlightsParams {
+  country: string;
+  currency: string;
+  locale: string;
+  originPlace: string;
+  destinationPlace: string;
+  outboundPartialDate: string;
 }
 
 export interface CurrencyType {

@@ -1,4 +1,3 @@
-import * as functions from 'firebase-functions';
 import { cameliseKeys } from './cameliseKeys';
 import {
   BrowseQuotesType,
@@ -105,7 +104,7 @@ export const formatFlightData = (data: BrowseQuotesType): FlightsType => {
     const departing = quote.outboundLeg.departureDate;
 
     const carrier = carriers.find(
-      (carrier) => carrier.carrierId === quote.outboundLeg.carrierIds[0]
+      (carr) => carr.carrierId === quote.outboundLeg.carrierIds[0]
     );
 
     const cost = {

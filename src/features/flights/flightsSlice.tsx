@@ -2,28 +2,33 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { AppDispatch, AppThunk } from '../../redux/store';
-import { FlightsType } from '../../type';
-import { cameliseKeys } from '../../helpers/cameliseKeys';
+import { FlightsType, FetchBrowseFlightsParams } from '../../type';
 
-export const fetchFlights = (): AppThunk => {
+export const fetchBrowseFlights = ({
+  country,
+  currency,
+  locale,
+  originPlace,
+  destinationPlace,
+  outboundPartialDate,
+}: FetchBrowseFlightsParams): AppThunk => {
   return async (dispatch: AppDispatch) => {
     dispatch(getFlights);
 
     const fetchFlightsOptions: AxiosRequestConfig = {
       method: 'GET',
-      url:
-        'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/UK/GBP/en-GB/MAN-sky/anywhere/anytime',
-      // params: { inboundpartialdate: '2019-12-01' },
-      headers: {
-        'x-rapidapi-key':
-          process.env.REACT_APP_SKYSCANNER_X_RAPID_API_KEY ||
-          'SKYSCANNER_API_KEY_NOT_FOUND',
-        'x-rapidapi-host':
-          process.env.REACT_APP_SKYSCANNER_X_RAPID_API_HOST ||
-          'SKYSCANNER_HOST_NOT_FOUND',
+      url: `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchFlightsCacheQuotes`,
+      params: {
+        country,
+        currency,
+        locale,
+        originPlace,
+        destinationPlace,
+        outboundPartialDate,
       },
     };
 
+    // TODO: Remove this console.log
     console.log(fetchFlightsOptions);
     try {
       const response = await axios.request(fetchFlightsOptions);
@@ -40,10 +45,7 @@ const flightsInitialState: FlightsType = {
   loading: false,
   error: false,
   errorMessage: '',
-  quotes: null,
-  places: null,
-  carriers: null,
-  currencies: null,
+  flights: [],
 };
 
 export const flightsSlice = createSlice({
@@ -60,15 +62,12 @@ export const flightsSlice = createSlice({
       state.errorMessage = payload;
     },
     getFlightsSuccess: (state, { payload }) => {
-      const { quotes, places, carriers, currencies } = cameliseKeys(payload);
+      const { flights } = payload;
       state.loaded = true;
       state.loading = false;
       state.error = false;
       state.errorMessage = '';
-      state.quotes = quotes;
-      state.places = places;
-      state.carriers = carriers;
-      state.currencies = currencies;
+      state.flights = flights;
     },
   },
 });
