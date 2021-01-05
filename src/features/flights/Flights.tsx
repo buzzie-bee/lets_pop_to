@@ -5,7 +5,8 @@ import { Button, Container } from '@material-ui/core';
 // import { getFlights } from './flightsSlice';
 import { fetchBrowseFlights } from './flightsSlice';
 import { RootState } from '../../redux/store';
-import { Flight } from './Flight';
+// import { Flight } from './Flight';
+import { Inspire } from './Inspire';
 import { FlightsType } from '../../type';
 
 export const Flights: React.FC = () => {
@@ -38,7 +39,7 @@ export const Flights: React.FC = () => {
         flights.flights.map((flight, index) => (
           <Flight key={`flight#${index}`} {...flight} />
         ))} */}
-      <Flight key={`flight#${1}`} {...flightTemp} />
+      <Inspire key={`flight#${1}`} {...flightTemp} />
     </Container>
   );
 };

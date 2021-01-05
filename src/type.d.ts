@@ -9,6 +9,7 @@ export interface FlightsType {
 export interface FlightType {
   from: FromType;
   to: ToType;
+  departing: string;
   carrier: CarrierType;
   cost: CostType;
   direct: boolean;

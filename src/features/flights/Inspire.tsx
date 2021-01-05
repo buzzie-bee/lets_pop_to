@@ -5,7 +5,7 @@ import { FlightType } from '../../type';
 // import { ReactComponent as TempLogo } from '../../assets/temp_logo2.svg';
 import { parseTime } from '../../helpers/parseTime';
 
-export const Flight: React.FC<FlightType> = ({
+export const Inspire: React.FC<FlightType> = ({
   from,
   to,
   departing,
