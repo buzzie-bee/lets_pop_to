@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Paper, Typography } from '@material-ui/core';
-import axios, { AxiosRequestConfig } from 'axios';
+import { fetchPhoto } from './fetchPhoto';
 
 interface DestinationCardPropTypes {
   place: any;
@@ -16,32 +16,24 @@ export const DestinationCard = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [photo, setPhoto] = useState<string>('');
 
-  const fetchPhoto = async () => {
-    try {
-      const cityName = place.cityName;
-
-      const url = `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchPlacePhoto?cityName=${cityName}`;
-      setLoading(true);
-      const fetchPhotoOptions: AxiosRequestConfig = {
-        method: 'GET',
-        url: url,
-        headers: {
-          'Allow-Control-Allow-Origin': '*',
-        },
-      };
-      // const response = await axios.get(url);
-      const response = await axios.request(fetchPhotoOptions);
-
-      const photoB64: any = response.data.b64Img;
-      setPhoto(photoB64);
-      setLoading(false);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
-    fetchPhoto();
+    const isSubscribed = true;
+    const cityName = place.cityName;
+
+    setLoading(true);
+
+    const getPhoto = async (cityName: string) => {
+      const photoB64 = await fetchPhoto(cityName);
+      if (isSubscribed) {
+        if (photoB64) {
+          setPhoto(photoB64);
+          setLoading(false);
+        }
+      }
+    };
+
+    getPhoto(cityName);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

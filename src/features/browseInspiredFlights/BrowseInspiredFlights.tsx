@@ -71,18 +71,20 @@ const BrowseInspiredFlights: React.FC = () => {
       // );
       return (
         <>
-          {/* {sortedDestinations.map(({ destination, cost }) => {
-            return (
-              <DestinationCard
-                key={destination}
-                {...destinations[destination]}
-              />
-            );
-          })} */}
-          <DestinationCard
+          {sortedDestinations.map(({ destination, cost }, index) => {
+            if (index < 50) {
+              return (
+                <DestinationCard
+                  key={destination}
+                  {...destinations[destination]}
+                />
+              );
+            }
+          })}
+          {/* <DestinationCard
             key={sortedDestinations[0]}
             {...destinations[sortedDestinations[0].destination]}
-          />
+          /> */}
         </>
       );
     }
