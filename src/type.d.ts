@@ -19,7 +19,6 @@ export interface FlightType {
 export interface FromType {
   iataCode: string;
   locationName: string;
-<<<<<<< HEAD
   cityName: string;
   countryName: string;
   weather: {};
@@ -30,18 +29,6 @@ export interface ToType {
   locationName: string;
   cityName: string;
   countryName: string;
-=======
-  cityName: string;
-  countryName: string;
-  weather: {};
-}
-
-export interface ToType {
-  iataCode: string;
-  locationName: string;
-  cityName: string;
-  countryName: string;
->>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
   weather: WeatherType;
 }
 

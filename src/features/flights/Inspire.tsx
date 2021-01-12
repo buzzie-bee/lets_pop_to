@@ -1,18 +1,11 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
-<<<<<<< HEAD
 import React, { useState } from 'react';
-=======
-import React from 'react';
->>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
 import { FlightType } from '../../type';
 
 // import { ReactComponent as TempLogo } from '../../assets/temp_logo2.svg';
 import { parseTime } from '../../helpers/parseTime';
-<<<<<<< HEAD
 import StaticCalendar from './components/StaticCalendar';
 import MultiDatePicker from './components/MultiDatePicker';
-=======
->>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
 
 export const Inspire: React.FC<FlightType> = ({
   from,
@@ -23,7 +16,6 @@ export const Inspire: React.FC<FlightType> = ({
   direct,
   quotedAt,
 }: FlightType) => {
-<<<<<<< HEAD
   const [selectedDates, updateSelectedDates] = useState<Date[]>([]);
   if (!from) {
     return (
@@ -32,10 +24,6 @@ export const Inspire: React.FC<FlightType> = ({
         updateSelectedDates={updateSelectedDates}
       />
     );
-=======
-  if (!from) {
-    return <></>;
->>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
   }
   return (
     <>
@@ -111,10 +99,7 @@ export const Inspire: React.FC<FlightType> = ({
             </Grid>
           </Grid>
         </Grid>
-<<<<<<< HEAD
         <StaticCalendar date={parseTime({ timestamp: departing }).timestamp} />
-=======
->>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
 
         <Typography>
           Quote age: {parseTime({ timestamp: quotedAt }).formattedDateTime}

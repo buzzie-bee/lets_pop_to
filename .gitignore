@@ -33,3 +33,4 @@ yarn-error.log*
 /functions/node_modules
 /functions/.runtimeconfig.json
 
+.runtimeconfig.json

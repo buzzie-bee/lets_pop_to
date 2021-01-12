@@ -14,10 +14,6 @@ export const Flights: React.FC = () => {
   const flights: FlightsType = useSelector((state: RootState) => state.flights);
 
   const handleButton = (): void => {
-<<<<<<< HEAD
-=======
-    // dispatch(getFlights());
->>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
     dispatch(
       fetchBrowseFlights({
         country: 'UK',

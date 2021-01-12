@@ -20,11 +20,8 @@
     "@types/react-redux": "^7.1.12",
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.21.1",
-<<<<<<< HEAD
     "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
-=======
->>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
     "firebase": "^8.2.1",
     "lodash": "^4.17.20",
     "material-ui-popup-state": "^1.7.1",
