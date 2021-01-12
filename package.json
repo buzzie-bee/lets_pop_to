@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@material-ui/pickers": "^3.2.10",
     "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
@@ -15,12 +18,20 @@
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
     "@types/react-redux": "^7.1.12",
+    "@types/react-router-dom": "^5.1.7",
     "axios": "^0.21.1",
+<<<<<<< HEAD
+    "clsx": "^1.1.1",
+    "date-fns": "^2.16.1",
+=======
+>>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
     "firebase": "^8.2.1",
     "lodash": "^4.17.20",
+    "material-ui-popup-state": "^1.7.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "redux": "^4.0.5",
     "typescript": "^4.1.3",

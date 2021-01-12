@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  AppBar,
-  Button,
-  Link,
-  makeStyles,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import { AppBar, Button, Link, makeStyles, Toolbar } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -41,14 +35,17 @@ export const NavBar: React.FC = () => {
       className={classes.appBar}
     >
       <Toolbar>
-        <Typography
+        <Link
+          component={RouterLink}
+          to="/"
           variant="h6"
           color="inherit"
+          underline="none"
           noWrap
           className={classes.toolbarTitle}
         >
           Lets Go To
-        </Typography>
+        </Link>
 
         <nav>
           <Link

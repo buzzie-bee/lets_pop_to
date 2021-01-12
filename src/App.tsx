@@ -1,11 +1,14 @@
 import React from 'react';
-
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { CssBaseline, makeStyles } from '@material-ui/core';
 
 import { NavBar } from './features/navBar/NavBar';
-import { Flights } from './features/flights/Flights';
-import Footer from './features/Footer';
+
+import Footer from './features/footer/Footer';
+import InspireMe from './features/inspireMe/InspireMe';
+import BrowseInspiredFlights from './features/browseInspiredFlights/BrowseInspiredFlights';
+
+import { ROUTES } from './constants/routes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,14 +34,23 @@ export const App: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <>
+    <BrowserRouter>
       <CssBaseline />
       <NavBar />
       <div className={classes.root}>
-        <Flights />
+        <InspireMe />
+        <Switch>
+          <Route exact path={ROUTES.HOME}>
+            <div>Home</div>
+          </Route>
+          <Route exact path={ROUTES.INSPIRATION}>
+            <BrowseInspiredFlights />
+          </Route>
+        </Switch>
+
         <Footer />
       </div>
-    </>
+    </BrowserRouter>
   );
 };
 
