@@ -91,3 +91,33 @@ export interface CurrencyType {
   roundingCoefficient: number;
   decimalDigits: number;
 }
+<<<<<<< HEAD
+
+export interface AutoSuggestPlaces {
+  places: AutoSuggestPlace[];
+}
+
+export interface AutoSuggestPlace {
+  placeId: string;
+  placeName: string;
+  countryId: string;
+  regionId: string;
+  cityId: string;
+  countryName: string;
+}
+
+export interface PlaceOptionType {
+  placeId: string;
+  placeName: string;
+  countryId: string;
+  regionId: string;
+  cityId: string;
+  countryName: string;
+}
+
+export interface InspireMeQueryType {
+  from: PlaceOptionType | null;
+  dates: string[];
+}
+=======
+>>>>>>> e8d08dd6f092a8c522901988b1c48782d8b33b40
