@@ -3,7 +3,10 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { InspireMeQueryType } from '../types';
 import { formatInspireDestinationFlights } from '../helpers/formatInspireDestinationFlights';
 
-const cors = require('cors')({ origin: true });
+import * as cors from 'cors';
+const corsHandler = cors({ origin: ['*'] });
+
+// const cors = require('cors')({ origin: true });
 
 const parseParams = (
   queryParams: any
@@ -91,7 +94,8 @@ const parseParams = (
 export const fetchInspireDestinations = functions
   .region('europe-west1')
   .https.onRequest(async (request, response) => {
-    cors(request, response, async () => {
+    // cors(request, response, async () => {
+    corsHandler(request, response, async () => {
       const queryParams = request.query;
 
       const { from, dates } = parseParams(queryParams);

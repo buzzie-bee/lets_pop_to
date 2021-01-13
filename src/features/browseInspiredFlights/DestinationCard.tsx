@@ -6,12 +6,19 @@ interface DestinationCardPropTypes {
   place: any;
   weather: any;
   flights: any;
+  timeoutR: number;
 }
+
+const timeout = (ms: number): Promise<void> => {
+  const delay = ms * 100;
+  return new Promise((resolve) => setTimeout(resolve, delay));
+};
 
 export const DestinationCard = ({
   place,
   weather,
   flights,
+  timeoutR,
 }: DestinationCardPropTypes) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [photo, setPhoto] = useState<string>('');
@@ -23,6 +30,7 @@ export const DestinationCard = ({
     setLoading(true);
 
     const getPhoto = async (cityName: string) => {
+      await timeout(timeoutR);
       const photoB64 = await fetchPhoto(cityName);
       if (isSubscribed) {
         if (photoB64) {
@@ -33,8 +41,21 @@ export const DestinationCard = ({
     };
 
     getPhoto(cityName);
-
+    return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    setTimeout((isSubscribed = true) => {
+      if (isSubscribed) {
+        setLoading(false);
+      }
+    }, 1000);
+
+    // prettier-ignore
+    return () => {isSubscribed = false}
   }, []);
 
   const renderImage = () => {

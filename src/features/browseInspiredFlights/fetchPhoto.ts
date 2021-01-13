@@ -6,7 +6,8 @@ export const fetchPhoto = async (cityName: string) => {
   }
 
   try {
-    const url = `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchPlacePhoto?cityName=${cityName}`;
+    // const url = `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchPlacePhoto?cityName=${cityName}`;
+    const url = `http://localhost:5001/lets-pop-to-dev/europe-west1/fetchPlacePhoto?cityName=${cityName}`;
 
     const fetchPhotoOptions: AxiosRequestConfig = {
       method: 'GET',

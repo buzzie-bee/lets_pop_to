@@ -53,6 +53,7 @@ export const fetchPlacePhoto = functions
       } catch (error) {
         // Internal Server Error
         // The server has encountered a situation it doesn't know how to handle.
+        functions.logger.error('Fetch Photo Error:', request.query);
         response.status(500).json(error);
         return;
       }

@@ -72,11 +72,12 @@ const BrowseInspiredFlights: React.FC = () => {
       return (
         <>
           {sortedDestinations.map(({ destination, cost }, index) => {
-            if (index < 50) {
+            if (index < 10) {
               return (
                 <DestinationCard
                   key={destination}
                   {...destinations[destination]}
+                  timeoutR={index}
                 />
               );
             }
