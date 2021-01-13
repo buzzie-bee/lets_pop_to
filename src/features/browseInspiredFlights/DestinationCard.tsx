@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Paper, Typography } from '@material-ui/core';
+// ts-ignore
+import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 
 interface DestinationCardPropTypes {
@@ -25,13 +27,15 @@ export const DestinationCard = ({
 
   useEffect(() => {
     const isSubscribed = true;
-    const cityName = place.cityName;
+    const cityQuery = removeDiacritics(
+      `${place.cityName} ${place.countryName}`
+    );
 
     setLoading(true);
 
-    const getPhoto = async (cityName: string) => {
+    const getPhoto = async (cityQuery: string) => {
       await timeout(timeoutR);
-      const photoB64 = await fetchPhoto(cityName);
+      const photoB64 = await fetchPhoto(cityQuery);
       if (isSubscribed) {
         if (photoB64) {
           setPhoto(photoB64);
@@ -40,7 +44,7 @@ export const DestinationCard = ({
       }
     };
 
-    getPhoto(cityName);
+    getPhoto(cityQuery);
     return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -48,7 +52,7 @@ export const DestinationCard = ({
   useEffect(() => {
     let isSubscribed = true;
 
-    setTimeout((isSubscribed = true) => {
+    setTimeout(() => {
       if (isSubscribed) {
         setLoading(false);
       }

@@ -55,37 +55,17 @@ const BrowseInspiredFlights: React.FC = () => {
   const renderFlights = () => {
     if (!loading && destinations && sortedDestinations.length) {
       console.log(destinations[sortedDestinations[0].destination]);
-      // const flightDivs = flights.map((flight, idx) => {
-      //   return (
-      //     <div style={{ marginBottom: '1em' }}>
-      //       <FlightCard key={`flight#${idx}`} {...flight} />
-      //     </div>
-      //   );
-      // });
-      // console.log('displaying flights');
-      // return flightDivs;
-      // return (
-      //   <div style={{ marginBottom: '1em' }}>
-      //     <FlightCard key={`flight#${1}`} {...destinations[0]} />
-      //   </div>
-      // );
       return (
         <>
           {sortedDestinations.map(({ destination, cost }, index) => {
-            if (index < 10) {
-              return (
-                <DestinationCard
-                  key={destination}
-                  {...destinations[destination]}
-                  timeoutR={index}
-                />
-              );
-            }
+            return (
+              <DestinationCard
+                key={destination}
+                {...destinations[destination]}
+                timeoutR={index}
+              />
+            );
           })}
-          {/* <DestinationCard
-            key={sortedDestinations[0]}
-            {...destinations[sortedDestinations[0].destination]}
-          /> */}
         </>
       );
     }
