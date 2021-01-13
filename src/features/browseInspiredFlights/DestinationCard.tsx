@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Typography } from '@material-ui/core';
+import { Container, Paper, Typography } from '@material-ui/core';
 // ts-ignore
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
+import { Skeleton } from '@material-ui/lab';
+import { TestCard } from './DestinationCard/Test';
 
 interface DestinationCardPropTypes {
   place: any;
@@ -68,7 +70,12 @@ export const DestinationCard = ({
         <img
           alt={`${place.cityName}`}
           src={`data:image/jpeg;base64,${photo}`}
+          style={{ height: 400, width: 400, borderRadius: '8px' }}
         />
+      );
+    } else {
+      return (
+        <Skeleton variant="rect" width={400} height={400} animation="wave" />
       );
     }
   };
@@ -77,14 +84,17 @@ export const DestinationCard = ({
     <>
       <Paper>
         <Typography>Flight</Typography>
-        loading: {JSON.stringify(loading)}
+        {/* loading: {JSON.stringify(loading)} */}
         {renderImage()}
+        <Container>
+          <TestCard img={renderImage()} />
+        </Container>
       </Paper>
-      <div>
+      {/* <div>
         <pre>{JSON.stringify(place)}</pre>
         <pre>{JSON.stringify(weather)}</pre>
         <pre>{JSON.stringify(flights)}</pre>
-      </div>
+      </div> */}
     </>
   );
 };
