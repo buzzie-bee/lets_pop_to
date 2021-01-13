@@ -4,9 +4,7 @@ import { InspireMeQueryType } from '../types';
 import { formatInspireDestinationFlights } from '../helpers/formatInspireDestinationFlights';
 
 import * as cors from 'cors';
-const corsHandler = cors({ origin: ['*'] });
-
-// const cors = require('cors')({ origin: true });
+const corsHandler = cors({ origin: true });
 
 const parseParams = (
   queryParams: any
@@ -94,7 +92,6 @@ const parseParams = (
 export const fetchInspireDestinations = functions
   .region('europe-west1')
   .https.onRequest(async (request, response) => {
-    // cors(request, response, async () => {
     corsHandler(request, response, async () => {
       const queryParams = request.query;
 
@@ -140,48 +137,55 @@ export const fetchInspireDestinations = functions
         } catch (error) {
           // Internal Server Error
           // The server has encountered a situation it doesn't know how to handle.
-          response.status(501).json(error);
+          response.status(501).json({ query: request.query, error });
         }
       }
 
-      if (allFlights) {
-        const allFlightsConsolidated: any = {};
-        for (let i = 0; i < allFlights.length; i++) {
-          for (const iata in allFlights[i]) {
-            if (!allFlightsConsolidated[iata]) {
-              allFlightsConsolidated[iata] = allFlights[i][iata];
-            } else {
-              allFlightsConsolidated[iata].flights?.push(
-                ...allFlights[i][iata].flights
-              );
+      try {
+        if (allFlights) {
+          const allFlightsConsolidated: any = {};
+          for (let i = 0; i < allFlights.length; i++) {
+            for (const iata in allFlights[i]) {
+              if (!allFlightsConsolidated[iata]) {
+                allFlightsConsolidated[iata] = allFlights[i][iata];
+              } else {
+                allFlightsConsolidated[iata].flights?.push(
+                  ...allFlights[i][iata].flights
+                );
+              }
             }
           }
-        }
 
-        for (const iata in allFlightsConsolidated) {
-          allFlightsConsolidated[iata].flights.sort(
-            (a: any, b: any) => a.cost.cost - b.cost.cost
-          );
-        }
+          for (const iata in allFlightsConsolidated) {
+            allFlightsConsolidated[iata].flights.sort(
+              (a: any, b: any) => a.cost.cost - b.cost.cost
+            );
+          }
 
-        const sortedByPrice = [];
+          const sortedByPrice = [];
 
-        for (const iata in allFlightsConsolidated) {
-          sortedByPrice.push({
-            destination: iata,
-            cost: allFlightsConsolidated[iata].flights[0].cost.cost,
+          for (const iata in allFlightsConsolidated) {
+            sortedByPrice.push({
+              destination: iata,
+              cost: allFlightsConsolidated[iata].flights[0].cost.cost,
+            });
+          }
+
+          sortedByPrice.sort((a: any, b: any) => a.cost - b.cost);
+
+          response.status(200).json({
+            sortedByPrice,
+            data: allFlightsConsolidated,
           });
+          return;
         }
-
-        sortedByPrice.sort((a: any, b: any) => a.cost - b.cost);
-
-        response.status(200).json({
-          sortedByPrice,
-          data: allFlightsConsolidated,
+      } catch (error) {
+        functions.logger.error('Fetch Inspire Destinations Error:', {
+          query: request.query,
+          error: error,
         });
+        response.status(501).json({ query: request.query, error });
         return;
       }
-      response.status(501).json({ oops: 'oops' });
-      return;
     });
   });

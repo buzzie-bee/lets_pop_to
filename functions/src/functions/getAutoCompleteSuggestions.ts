@@ -2,12 +2,13 @@ import * as functions from 'firebase-functions';
 import axios, { AxiosRequestConfig } from 'axios';
 import { cameliseKeys } from '../helpers/cameliseKeys';
 
-const cors = require('cors')({ origin: true });
+import * as cors from 'cors';
+const corsHandler = cors({ origin: true });
 
 export const getAutoCompleteSuggestions = functions
   .region('europe-west1')
   .https.onRequest(async (request, response) => {
-    cors(request, response, async () => {
+    corsHandler(request, response, async () => {
       functions.logger.info('Request for autoCompleteSuggestions');
 
       if (!request.query.value) {
@@ -39,9 +40,13 @@ export const getAutoCompleteSuggestions = functions
         // OK
         response.status(200).json(cameliseKeys(res.data));
       } catch (error) {
+        functions.logger.error('Fetch AutoComplete Error:', {
+          query: request.query,
+          error: error,
+        });
         // Internal Server Error
         // The server has encountered a situation it doesn't know how to handle.
-        response.status(500).json(error);
+        response.status(500).json({ query: request.query, error });
       }
       return;
     });

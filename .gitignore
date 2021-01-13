@@ -32,5 +32,6 @@ yarn-error.log*
 # firebase
 /functions/node_modules
 /functions/.runtimeconfig.json
+/functions/admin_keys.json
 
 .runtimeconfig.json

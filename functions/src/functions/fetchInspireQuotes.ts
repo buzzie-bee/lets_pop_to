@@ -3,7 +3,8 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { FlightsType, FlightDataType, InspireMeQueryType } from '../types';
 import { formatFlightData } from '../helpers/formatFlightData';
 
-const cors = require('cors')({ origin: true });
+import * as cors from 'cors';
+const corsHandler = cors({ origin: true });
 
 const parseParams = (
   queryParams: any
@@ -91,7 +92,7 @@ const parseParams = (
 export const fetchInspireQuotes = functions
   .region('europe-west1')
   .https.onRequest(async (request, response) => {
-    cors(request, response, async () => {
+    corsHandler(request, response, async () => {
       const queryParams = request.query;
 
       const { from, dates } = parseParams(queryParams);
@@ -133,9 +134,13 @@ export const fetchInspireQuotes = functions
           // OK
           flights.push(...flightData.flights);
         } catch (error) {
+          functions.logger.error('Fetch Inspire Quotes Error:', {
+            query: request.query,
+            error: error,
+          });
           // Internal Server Error
           // The server has encountered a situation it doesn't know how to handle.
-          response.status(501).json(error);
+          response.status(501).json({ query: request.query, error });
         }
       }
 

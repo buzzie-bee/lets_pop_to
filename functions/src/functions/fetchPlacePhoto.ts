@@ -1,12 +1,13 @@
 import * as functions from 'firebase-functions';
 import axios from 'axios';
 
-const cors = require('cors')({ origin: true });
+import * as cors from 'cors';
+const corsHandler = cors({ origin: true });
 
 export const fetchPlacePhoto = functions
   .region('europe-west1')
   .https.onRequest(async (request, response) => {
-    cors(request, response, async () => {
+    corsHandler(request, response, async () => {
       functions.logger.info('Received fetch photo request', request.query);
 
       if (!request.query.cityName) {
@@ -53,8 +54,11 @@ export const fetchPlacePhoto = functions
       } catch (error) {
         // Internal Server Error
         // The server has encountered a situation it doesn't know how to handle.
-        functions.logger.error('Fetch Photo Error:', request.query);
-        response.status(500).json(error);
+        functions.logger.error('Fetch Photo Error:', {
+          query: request.query,
+          error: error,
+        });
+        response.status(500).json({ query: request.query, error });
         return;
       }
     });
