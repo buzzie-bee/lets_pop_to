@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
-import { Container, Typography } from '@material-ui/core';
+import {
+  Container,
+  Grid,
+  GridList,
+  GridListTile,
+  Typography,
+} from '@material-ui/core';
 
 import { RootState } from '../../redux/store';
 import { InspireMeStateType } from '../../type';
@@ -56,17 +62,21 @@ const BrowseInspiredFlights: React.FC = () => {
     if (!loading && destinations && sortedDestinations.length) {
       return (
         <>
-          {sortedDestinations.map(({ destination, cost }, index) => {
-            if (index < 100) {
-              return (
-                <DestinationCard
-                  key={destination}
-                  {...destinations[destination]}
-                  timeoutR={index}
-                />
-              );
-            }
-          })}
+          <Grid container spacing={2}>
+            {sortedDestinations.map(({ destination, cost }, index) => {
+              if (index < 100) {
+                return (
+                  <Grid item>
+                    <DestinationCard
+                      key={destination}
+                      {...destinations[destination]}
+                      timeoutR={index}
+                    />
+                  </Grid>
+                );
+              }
+            })}
+          </Grid>
         </>
       );
     }
