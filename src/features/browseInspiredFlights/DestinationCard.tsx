@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Paper, Typography } from '@material-ui/core';
+// import { Container, Paper, Typography } from '@material-ui/core';
 // ts-ignore
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
-import { TestCard } from './DestinationCard/Test';
 
 interface DestinationCardPropTypes {
   place: any;
@@ -70,7 +69,7 @@ export const DestinationCard = ({
         <img
           alt={`${place.cityName}`}
           src={`data:image/jpeg;base64,${photo}`}
-          style={{ height: 400, width: 400, borderRadius: '8px' }}
+          style={{ borderRadius: '8px' }}
         />
       );
     } else {
@@ -80,16 +79,47 @@ export const DestinationCard = ({
     }
   };
 
+  const renderCard = () => {
+    if (photo) {
+      return (
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          {renderImage()}
+          <div
+            style={{
+              position: 'absolute',
+              top: 5,
+              right: 5,
+              border: '2px',
+              backgroundColor: '#FFFFFF',
+              padding: '4px',
+              borderRadius: '4px',
+            }}
+          >
+            Hello
+          </div>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 10,
+              width: '100%',
+              alignContent: 'end',
+              justifyContent: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <button>Press Me</button>
+          </div>
+        </div>
+      );
+    }
+
+    return renderImage();
+  };
+
   return (
     <>
-      <Paper>
-        <Typography>Flight</Typography>
-        {/* loading: {JSON.stringify(loading)} */}
-        {renderImage()}
-        <Container>
-          <TestCard img={renderImage()} />
-        </Container>
-      </Paper>
+      {renderCard()}
+
       {/* <div>
         <pre>{JSON.stringify(place)}</pre>
         <pre>{JSON.stringify(weather)}</pre>

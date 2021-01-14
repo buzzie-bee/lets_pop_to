@@ -54,17 +54,18 @@ const BrowseInspiredFlights: React.FC = () => {
 
   const renderFlights = () => {
     if (!loading && destinations && sortedDestinations.length) {
-      console.log(destinations[sortedDestinations[0].destination]);
       return (
         <>
           {sortedDestinations.map(({ destination, cost }, index) => {
-            return (
-              <DestinationCard
-                key={destination}
-                {...destinations[destination]}
-                timeoutR={index}
-              />
-            );
+            if (index < 100) {
+              return (
+                <DestinationCard
+                  key={destination}
+                  {...destinations[destination]}
+                  timeoutR={index}
+                />
+              );
+            }
           })}
         </>
       );
@@ -76,6 +77,7 @@ const BrowseInspiredFlights: React.FC = () => {
   return (
     <Container>
       <Typography variant="h4">Browse inspired flights</Typography>
+      {loading && <div>Loading</div>}
       <Container>{renderFlights()}</Container>
     </Container>
   );
