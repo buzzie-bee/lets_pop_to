@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
+import { Box, Button, Typography } from '@material-ui/core';
 
 interface DestinationCardPropTypes {
   place: any;
@@ -69,7 +70,7 @@ export const DestinationCard = ({
         <img
           alt={`${place.cityName}`}
           src={`data:image/jpeg;base64,${photo}`}
-          style={{ borderRadius: '8px' }}
+          style={{ borderRadius: '8px', objectFit: 'cover' }}
         />
       );
     } else {
@@ -87,15 +88,26 @@ export const DestinationCard = ({
           <div
             style={{
               position: 'absolute',
-              top: 5,
-              right: 5,
-              border: '2px',
+              top: 0,
+              right: 0,
               backgroundColor: '#FFFFFF',
-              padding: '4px',
+              padding: '8px',
               borderRadius: '4px',
             }}
           >
-            Hello
+            <Typography style={{ textAlign: 'right', lineHeight: '110%' }}>
+              <span style={{ fontSize: '1.3em' }}>
+                {place.cityName}
+                <br />
+              </span>
+              <span style={{ fontWeight: 200, fontSize: '0.8em' }}>
+                from:
+                <br />
+              </span>
+              <span style={{ fontStyle: 'bold', fontSize: '1.1em' }}>
+                {flights[0].cost.formatted}
+              </span>
+            </Typography>
           </div>
           <div
             style={{
@@ -107,7 +119,7 @@ export const DestinationCard = ({
               textAlign: 'center',
             }}
           >
-            <button>Press Me</button>
+            <Button>More</Button>
           </div>
         </div>
       );
@@ -121,9 +133,9 @@ export const DestinationCard = ({
       {renderCard()}
 
       {/* <div>
-        <pre>{JSON.stringify(place)}</pre>
-        <pre>{JSON.stringify(weather)}</pre>
-        <pre>{JSON.stringify(flights)}</pre>
+        <pre>{JSON.stringify(place, null, 2)}</pre>
+        <pre>{JSON.stringify(weather, null, 2)}</pre>
+        <pre>{JSON.stringify(flights, null, 2)}</pre>
       </div> */}
     </>
   );

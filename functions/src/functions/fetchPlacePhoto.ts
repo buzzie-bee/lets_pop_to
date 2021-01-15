@@ -34,7 +34,7 @@ export const fetchPlacePhoto = functions
           ];
 
         // Fetch photo blob
-        const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=400&photoreference=${photoReference}&key=${key}`;
+        const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${key}`;
         console.log('fetch photo request');
         // const photoResponse: any = await axios.get(photoUrl, {
         //   responseType: 'blob',

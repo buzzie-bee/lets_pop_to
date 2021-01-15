@@ -4,10 +4,11 @@ import axios, { AxiosRequestConfig } from 'axios';
 import {
   Container,
   Grid,
-  GridList,
-  GridListTile,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@material-ui/core';
+import useSize from '@react-hook/size';
 
 import { RootState } from '../../redux/store';
 import { InspireMeStateType } from '../../type';
@@ -18,9 +19,54 @@ const BrowseInspiredFlights: React.FC = () => {
     (state: RootState) => state.inspireMe
   );
 
+  const theme = useTheme();
+  // const xs = useMediaQuery(theme.breakpoints.up('xs'));
+  const sm = useMediaQuery(theme.breakpoints.up('sm'));
+  const md = useMediaQuery(theme.breakpoints.up('md'));
+  const lg = useMediaQuery(theme.breakpoints.up('lg'));
+  // const xl = useMediaQuery(theme.breakpoints.up('xl'));
+
+  const gridRef = React.useRef(null);
+  const [width] = useSize(gridRef);
+
+  useEffect(() => {
+    console.log(width);
+  }, [width]);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [destinations, setDestinations] = useState<any>({});
   const [sortedDestinations, setSortedDestinations] = useState<any[]>([]);
+
+  const [columns, setColumns] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (sortedDestinations) {
+      if (lg) {
+        const tempColumns = [];
+
+        tempColumns.push(sortedDestinations.filter((d, i) => i % 2 === 0));
+        tempColumns.push(
+          sortedDestinations.filter((d, i) => (i + 1) % 2 === 0)
+        );
+        setColumns(tempColumns);
+      } else if (md) {
+        const tempColumns = [];
+
+        tempColumns.push(sortedDestinations.filter((d, i) => i % 2 === 0));
+        tempColumns.push(
+          sortedDestinations.filter((d, i) => (i + 1) % 2 === 0)
+        );
+
+        setColumns(tempColumns);
+      } else {
+        setColumns([sortedDestinations]);
+      }
+    }
+  }, [sm, md, lg, sortedDestinations]);
+
+  useEffect(() => {
+    console.log(columns);
+  }, [columns]);
 
   const fetchFlights = async () => {
     try {
@@ -58,25 +104,46 @@ const BrowseInspiredFlights: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderFlights = () => {
-    if (!loading && destinations && sortedDestinations.length) {
+  // const renderFlights = () => {
+  //   if (!loading && destinations && sortedDestinations.length) {
+  //     return (
+  //       <>
+  //         {sortedDestinations.map(({ destination, cost }, index) => {
+  //           if (index < 100) {
+  //             return (
+  //               // <Grid item>
+  //               <DestinationCard
+  //                 key={destination}
+  //                 {...destinations[destination]}
+  //                 timeoutR={index}
+  //               />
+  //               // </Grid>
+  //             );
+  //           }
+  //         })}
+  //       </>
+  //     );
+  //   }
+
+  //   return <div>No flights</div>;
+  // };
+  const renderColumn = (columnData: any[]) => {
+    if (!loading && destinations && columnData.length) {
       return (
         <>
-          <Grid container spacing={2}>
-            {sortedDestinations.map(({ destination, cost }, index) => {
-              if (index < 100) {
-                return (
-                  <Grid item>
-                    <DestinationCard
-                      key={destination}
-                      {...destinations[destination]}
-                      timeoutR={index}
-                    />
-                  </Grid>
-                );
-              }
-            })}
-          </Grid>
+          {columnData.map(({ destination, cost }, index) => {
+            if (index < 100) {
+              return (
+                <Grid item style={{ display: 'block' }} sm={12}>
+                  <DestinationCard
+                    key={destination}
+                    {...destinations[destination]}
+                    timeoutR={index}
+                  />
+                </Grid>
+              );
+            }
+          })}
         </>
       );
     }
@@ -84,11 +151,30 @@ const BrowseInspiredFlights: React.FC = () => {
     return <div>No flights</div>;
   };
 
+  // const renderGrids = () => {
+  //   if (true) {
+  //   }
+  // };
+
   return (
     <Container>
       <Typography variant="h4">Browse inspired flights</Typography>
       {loading && <div>Loading</div>}
-      <Container>{renderFlights()}</Container>
+      <Grid container alignItems="baseline" direction="row" ref={gridRef}>
+        {columns.map((columnData, i) => {
+          return (
+            <Grid
+              container
+              className={`Grid: ${i}`}
+              spacing={1}
+              style={{ display: 'block', maxWidth: '420px' }}
+              direction="column"
+            >
+              {renderColumn(columnData)}
+            </Grid>
+          );
+        })}
+      </Grid>
     </Container>
   );
 };
