@@ -98,7 +98,15 @@ export const fetchInspireQuotes = functions
       const { from, dates } = parseParams(queryParams);
 
       if (from === undefined || dates === undefined) {
-        response.status(400).json({ message: 'oops' });
+        functions.logger.error('Fetch Inspire Quotes Error:', {
+          query: request.query,
+          error: 'Failed to parse params',
+        });
+        response
+          .status(400)
+          .json({
+            message: 'Failed to parse parameters from fetch inspire quotes',
+          });
         return;
       }
       // TODO: Start implementing flight gathering
