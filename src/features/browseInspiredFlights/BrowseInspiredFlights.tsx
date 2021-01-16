@@ -123,12 +123,6 @@ const BrowseInspiredFlights: React.FC = () => {
     return <div>No flights</div>;
   };
 
-  useEffect(() => {
-    console.log(divWidth);
-    console.log(imgWidth);
-    console.log(columns.length * (imgWidth + theme.spacing(2)));
-  }, [divWidth]);
-
   return (
     <Container maxWidth="xl">
       <Typography variant="h4">Browse inspired flights</Typography>
