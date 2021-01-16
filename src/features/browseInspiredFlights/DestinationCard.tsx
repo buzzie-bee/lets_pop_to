@@ -72,12 +72,17 @@ export const DestinationCard = ({
         <img
           alt={`${place.cityName}`}
           src={`data:image/jpeg;base64,${photo}`}
-          style={{ borderRadius: '8px', objectFit: 'cover' }}
+          style={{
+            borderRadius: '8px',
+            width: '100%',
+            height: 'auto',
+            objectFit: 'cover',
+          }}
         />
       );
     } else {
       return (
-        <Skeleton variant="rect" width={400} height={400} animation="wave" />
+        <Skeleton variant="rect" width={width} height={400} animation="wave" />
       );
     }
   };
@@ -85,7 +90,13 @@ export const DestinationCard = ({
   const renderCard = () => {
     if (photo) {
       return (
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <div
+          style={{
+            position: 'relative',
+            display: 'inline-block',
+            width: '100%',
+          }}
+        >
           {renderImage()}
           <div
             style={{
