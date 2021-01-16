@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { Container, Paper, Typography } from '@material-ui/core';
 // ts-ignore
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
@@ -140,15 +139,5 @@ export const DestinationCard = ({
     return renderImage();
   };
 
-  return (
-    <>
-      {renderCard()}
-
-      {/* <div>
-        <pre>{JSON.stringify(place, null, 2)}</pre>
-        <pre>{JSON.stringify(weather, null, 2)}</pre>
-        <pre>{JSON.stringify(flights, null, 2)}</pre>
-      </div> */}
-    </>
-  );
+  return <>{renderCard()}</>;
 };
