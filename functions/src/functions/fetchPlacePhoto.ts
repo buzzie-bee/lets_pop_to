@@ -4,13 +4,40 @@ import axios from 'axios';
 import * as cors from 'cors';
 const corsHandler = cors({ origin: true });
 
+const checkParams = (params: any) => {
+  let cityNameOK = false;
+  let widthOK = false;
+
+  try {
+    if (params.cityName) {
+      // console.log('from exists');
+      if (typeof params.cityName === 'string') {
+        // console.log('from is string, parsing');
+        cityNameOK = true;
+      }
+    }
+    if (params.width) {
+      // console.log('dates exists');
+      if (typeof params.width === 'number') {
+        // console.log('dates is a string');
+        widthOK = true;
+      }
+    }
+  } catch (error) {
+    // console.log(error);
+    return false;
+  }
+  return !cityNameOK && !widthOK;
+};
+
 export const fetchPlacePhoto = functions
   .region('europe-west1')
   .https.onRequest(async (request, response) => {
     corsHandler(request, response, async () => {
       functions.logger.info('Received fetch photo request', request.query);
 
-      if (!request.query.cityName) {
+      // if (!request.query.cityName) {
+      if (checkParams(request.query)) {
         response.status(400).json({
           message:
             'Not all required fields were sent. Required fields: cityName',
@@ -19,7 +46,7 @@ export const fetchPlacePhoto = functions
         return;
       }
 
-      const { cityName } = request.query;
+      const { cityName, width } = request.query;
 
       try {
         const key = functions.config().googlephotos.key;
@@ -34,13 +61,7 @@ export const fetchPlacePhoto = functions
           ];
 
         // Fetch photo blob
-        const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${key}`;
-        console.log('fetch photo request');
-        // const photoResponse: any = await axios.get(photoUrl, {
-        //   responseType: 'blob',
-        // });
-        // const blob = photoResponse.data;
-
+        const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${width}&photoreference=${photoReference}&key=${key}`;
         const photoResponse: any = await axios.get(photoUrl, {
           responseType: 'arraybuffer',
         });
@@ -52,8 +73,6 @@ export const fetchPlacePhoto = functions
         response.status(200).json({ photoReference, b64Img });
         return;
       } catch (error) {
-        // Internal Server Error
-        // The server has encountered a situation it doesn't know how to handle.
         functions.logger.error('Fetch Photo Error:', {
           query: request.query,
           error: error,
