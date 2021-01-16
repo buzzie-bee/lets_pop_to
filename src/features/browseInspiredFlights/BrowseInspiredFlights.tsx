@@ -104,29 +104,6 @@ const BrowseInspiredFlights: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const renderFlights = () => {
-  //   if (!loading && destinations && sortedDestinations.length) {
-  //     return (
-  //       <>
-  //         {sortedDestinations.map(({ destination, cost }, index) => {
-  //           if (index < 100) {
-  //             return (
-  //               // <Grid item>
-  //               <DestinationCard
-  //                 key={destination}
-  //                 {...destinations[destination]}
-  //                 timeoutR={index}
-  //               />
-  //               // </Grid>
-  //             );
-  //           }
-  //         })}
-  //       </>
-  //     );
-  //   }
-
-  //   return <div>No flights</div>;
-  // };
   const renderColumn = (columnData: any[]) => {
     if (!loading && destinations && columnData.length) {
       return (
@@ -139,6 +116,7 @@ const BrowseInspiredFlights: React.FC = () => {
                     key={destination}
                     {...destinations[destination]}
                     timeoutR={index}
+                    width={350}
                   />
                 </Grid>
               );
@@ -150,11 +128,6 @@ const BrowseInspiredFlights: React.FC = () => {
 
     return <div>No flights</div>;
   };
-
-  // const renderGrids = () => {
-  //   if (true) {
-  //   }
-  // };
 
   return (
     <Container>

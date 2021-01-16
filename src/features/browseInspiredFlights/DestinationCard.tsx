@@ -11,6 +11,7 @@ interface DestinationCardPropTypes {
   weather: any;
   flights: any;
   timeoutR: number;
+  width?: number;
 }
 
 const timeout = (ms: number): Promise<void> => {
@@ -23,6 +24,7 @@ export const DestinationCard = ({
   weather,
   flights,
   timeoutR,
+  width,
 }: DestinationCardPropTypes) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [photo, setPhoto] = useState<string>('');
@@ -37,7 +39,7 @@ export const DestinationCard = ({
 
     const getPhoto = async (cityQuery: string) => {
       await timeout(timeoutR);
-      const photoB64 = await fetchPhoto(cityQuery);
+      const photoB64 = await fetchPhoto({ cityName: cityQuery, width });
       if (isSubscribed) {
         if (photoB64) {
           setPhoto(photoB64);

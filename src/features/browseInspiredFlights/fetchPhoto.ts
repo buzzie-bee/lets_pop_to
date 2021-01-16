@@ -1,12 +1,18 @@
 import axios from 'axios';
 
-export const fetchPhoto = async (cityName: string) => {
+export const fetchPhoto = async ({
+  cityName,
+  width = 400,
+}: {
+  cityName: string;
+  width?: number;
+}) => {
   if (!cityName) {
     return;
   }
 
   try {
-    const url = `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchPlacePhoto?cityName=${cityName}`;
+    const url = `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchPlacePhoto?cityName=${cityName}&width=${width}`;
     const response = await axios.get(url);
     const photoB64: any = response.data.b64Img;
     return photoB64;
