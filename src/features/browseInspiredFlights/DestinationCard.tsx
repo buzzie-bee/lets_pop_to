@@ -80,7 +80,6 @@ export const DestinationCard = ({
         />
       );
     } else {
-      console.log(`Skeleton Width: ${width}`);
       return <Skeleton variant="rect" animation="wave" />;
     }
   };
