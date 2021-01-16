@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // ts-ignore
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
@@ -10,7 +10,7 @@ interface DestinationCardPropTypes {
   weather: any;
   flights: any;
   timeoutR: number;
-  width?: number;
+  width: number;
 }
 
 const timeout = (ms: number): Promise<void> => {
@@ -29,7 +29,7 @@ export const DestinationCard = ({
   const [photo, setPhoto] = useState<string>('');
 
   useEffect(() => {
-    const isSubscribed = true;
+    let isSubscribed = true;
     const cityQuery = removeDiacritics(
       `${place.cityName} ${place.countryName}`
     );
@@ -48,7 +48,8 @@ export const DestinationCard = ({
     };
 
     getPhoto(cityQuery);
-    return;
+    // prettier-ignore
+    return () =>{isSubscribed = false};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -80,7 +81,7 @@ export const DestinationCard = ({
         />
       );
     } else {
-      return <Skeleton variant="rect" animation="wave" />;
+      return <Skeleton variant="rect" height={400} animation="wave" />;
     }
   };
 
