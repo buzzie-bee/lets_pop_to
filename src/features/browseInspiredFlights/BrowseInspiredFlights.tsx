@@ -35,9 +35,8 @@ const BrowseInspiredFlights: React.FC = () => {
   };
 
   const calculatedImgWidth = (columns: number): void => {
-    const calculatedImgWidth = Math.floor(
-      (divWidth - (theme.spacing(2) * columns + 2)) / columns
-    );
+    const padding = theme.spacing(2) * columns;
+    const calculatedImgWidth = Math.floor((divWidth - padding) / columns);
     setImgWidth(calculatedImgWidth);
   };
 
@@ -152,7 +151,6 @@ const BrowseInspiredFlights: React.FC = () => {
               style={{
                 display: 'block',
                 width: `${imgWidth + theme.spacing(2)}px`,
-                // width: `100%`,
               }}
               direction="column"
             >
