@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // ts-ignore
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 
 interface DestinationCardPropTypes {
   place: any;
@@ -80,6 +80,9 @@ export const DestinationCard = ({
           }}
         />
       );
+    } else if (!loading) {
+      // TODO implement default image to display
+      return <div>Failed to load image</div>;
     } else {
       return <Skeleton variant="rect" height={400} animation="wave" />;
     }
