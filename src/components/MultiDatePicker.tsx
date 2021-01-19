@@ -95,10 +95,6 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
     );
   };
 
-  useEffect(() => {
-    console.log(selectedDates);
-  }, [selectedDates]);
-
   return (
     <DatePicker
       orientation="landscape"
