@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { DatePicker } from '@material-ui/pickers';
 import { IconButton, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -43,16 +43,21 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
   const classes = useStyles();
 
   const handleChange = (newDate: Date | null) => {
-    handleChangeDate(newDate);
     if (!newDate) {
       return;
     }
-    if (selectedDates.find((date) => date.getTime() === newDate.getTime())) {
+    const newDateNormalised = new Date(newDate.toDateString());
+    handleChangeDate(newDateNormalised);
+    if (
+      selectedDates.find(
+        (date) => date.getTime() === newDateNormalised.getTime()
+      )
+    ) {
       updateSelectedDates((dates) =>
-        dates.filter((date) => date.getTime() !== newDate.getTime())
+        dates.filter((date) => date.getTime() !== newDateNormalised.getTime())
       );
     } else {
-      updateSelectedDates((dates) => [...dates, newDate]);
+      updateSelectedDates((dates) => [...dates, newDateNormalised]);
     }
   };
 
@@ -89,6 +94,10 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
       </div>
     );
   };
+
+  useEffect(() => {
+    console.log(selectedDates);
+  }, [selectedDates]);
 
   return (
     <DatePicker
