@@ -25,7 +25,6 @@ export const DestinationCard = ({
   timeoutR,
   width,
 }: DestinationCardPropTypes) => {
-  const [loading, setLoading] = useState<boolean>(true);
   const [photo, setPhoto] = useState<string>('');
 
   useEffect(() => {
@@ -34,15 +33,12 @@ export const DestinationCard = ({
       `${place.cityName} ${place.countryName}`
     );
 
-    setLoading(true);
-
     const getPhoto = async (cityQuery: string) => {
       await timeout(timeoutR);
       const photoB64 = await fetchPhoto({ cityName: cityQuery, width });
       if (isSubscribed) {
         if (photoB64) {
           setPhoto(photoB64);
-          setLoading(false);
         }
       }
     };
@@ -51,19 +47,6 @@ export const DestinationCard = ({
     // prettier-ignore
     return () =>{isSubscribed = false};
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    let isSubscribed = true;
-
-    setTimeout(() => {
-      if (isSubscribed) {
-        setLoading(false);
-      }
-    }, 1000);
-
-    // prettier-ignore
-    return () => {isSubscribed = false}
   }, []);
 
   const renderImage = () => {
@@ -80,9 +63,6 @@ export const DestinationCard = ({
           }}
         />
       );
-    } else if (!loading) {
-      // TODO implement default image to display
-      return <div>Failed to load image</div>;
     } else {
       return <Skeleton variant="rect" height={400} animation="wave" />;
     }
