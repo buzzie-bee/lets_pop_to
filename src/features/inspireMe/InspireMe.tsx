@@ -73,10 +73,15 @@ const InspireMe: React.FC = () => {
             size="large"
             disabled={!valid}
             component={Link}
-            to={ROUTES.INSPIRATION}
+            to={`${ROUTES.INSPIRATION}/${JSON.stringify(from)}/${JSON.stringify(
+              dates
+            )}`}
             // TODO: Remove this
             onClick={() => {
               console.log({ from, dates });
+              console.log(
+                `/inspire/${JSON.stringify({ from: from?.placeId, dates })}`
+              );
             }}
           >
             Inspire Me

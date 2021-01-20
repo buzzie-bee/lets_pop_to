@@ -1,16 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Container, Divider, Paper, Typography } from '@material-ui/core';
 
-import { RootState } from '../../redux/store';
-import { InspireMeStateType } from '../../type';
 import DestinationGrid from './DestinationGrid';
+import { useParams } from 'react-router-dom';
 
 const BrowseInspiredFlights: React.FC = () => {
-  const { from }: InspireMeStateType = useSelector(
-    (state: RootState) => state.inspireMe
-  );
-
+  const params: any = useParams();
+  const from = JSON.parse(params.from);
+  const dates = JSON.parse(params.dates);
+  // TODO: add error checking here to validate search query
   return (
     <>
       <Divider />
@@ -29,7 +27,7 @@ const BrowseInspiredFlights: React.FC = () => {
           <Typography>Let's go and never come back</Typography>
         </Container>
 
-        <DestinationGrid />
+        <DestinationGrid from={from} dates={dates} />
       </Paper>
     </>
   );
