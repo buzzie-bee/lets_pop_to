@@ -14,6 +14,22 @@ import { DestinationCard } from './DestinationCard';
 
 const useStyles = makeStyles((theme) => ({
   columnItem: { display: 'block' },
+  loadingGridItem: { width: '100%', minHeight: '25%' },
+  loadingDiv: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    minHeight: '25%',
+  },
+  linearProgress: { width: '100%', marginBottom: '1em', marginTop: '2em' },
+  paperStyle: {
+    padding: '2%',
+    marginTop: '1em',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '73vh',
+  },
 }));
 
 const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
@@ -136,19 +152,9 @@ const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
     if (loading) {
       // if (true) {
       return (
-        <Grid item style={{ width: '100%', minHeight: '25%' }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
-              minHeight: '25%',
-            }}
-          >
-            <LinearProgress
-              style={{ width: '100%', marginBottom: '1em', marginTop: '2em' }}
-            />
+        <Grid item className={classes.loadingGridItem}>
+          <div className={classes.loadingDiv}>
+            <LinearProgress className={classes.linearProgress} />
             <Typography>Loading</Typography>
           </div>
         </Grid>
@@ -163,11 +169,11 @@ const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
                 alignItems="flex-start"
                 key={`column${i}`}
                 spacing={1}
+                direction="column"
                 style={{
                   display: 'block',
                   width: `${imgWidth + theme.spacing(2)}px`,
                 }}
-                direction="column"
               >
                 {renderColumn(columnData)}
               </Grid>
@@ -180,15 +186,7 @@ const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
 
   return (
     <>
-      <Paper
-        style={{
-          padding: '2%',
-          marginTop: '1em',
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '73vh',
-        }}
-      >
+      <Paper className={classes.paperStyle}>
         <Grid
           container
           alignItems="flex-start"
