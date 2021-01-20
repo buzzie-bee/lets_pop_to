@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
-import { Grid, Paper, useTheme } from '@material-ui/core';
+import {
+  Grid,
+  LinearProgress,
+  makeStyles,
+  Paper,
+  Typography,
+  useTheme,
+} from '@material-ui/core';
 import useSize from '@react-hook/size';
 
-import { RootState } from '../../redux/store';
-import { InspireMeStateType } from '../../type';
 import { DestinationCard } from './DestinationCard';
 
-const DestinationGrid: React.FC = () => {
-  const { from, dates }: InspireMeStateType = useSelector(
-    (state: RootState) => state.inspireMe
-  );
+const useStyles = makeStyles((theme) => ({
+  columnItem: { display: 'block' },
+}));
+
+const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
   const theme = useTheme();
+  const classes = useStyles();
   const gridRef = React.useRef(null);
   const [divWidth] = useSize(gridRef);
   const [loading, setLoading] = useState<boolean>(true);
@@ -96,13 +102,18 @@ const DestinationGrid: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    fetchFlights();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [from, dates]);
+
   const renderColumn = (columnData: any[]) => {
     if (!loading && destinations && columnData.length && imgWidth) {
       return (
         <>
           {columnData.map(({ destination }, index) => {
             return (
-              <Grid item style={{ display: 'block' }} sm={12}>
+              <Grid item className={classes.columnItem} sm={12}>
                 <DestinationCard
                   key={destination}
                   {...destinations[destination]}
@@ -121,34 +132,75 @@ const DestinationGrid: React.FC = () => {
     return <></>;
   };
 
+  const renderMasonry = () => {
+    if (loading) {
+      // if (true) {
+      return (
+        <Grid item style={{ width: '100%', minHeight: '25%' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
+              minHeight: '25%',
+            }}
+          >
+            <LinearProgress
+              style={{ width: '100%', marginBottom: '1em', marginTop: '2em' }}
+            />
+            <Typography>Loading</Typography>
+          </div>
+        </Grid>
+      );
+    } else {
+      return (
+        <>
+          {columns.map((columnData, i) => {
+            return (
+              <Grid
+                container
+                alignItems="flex-start"
+                key={`column${i}`}
+                spacing={1}
+                style={{
+                  display: 'block',
+                  width: `${imgWidth + theme.spacing(2)}px`,
+                }}
+                direction="column"
+              >
+                {renderColumn(columnData)}
+              </Grid>
+            );
+          })}
+        </>
+      );
+    }
+  };
+
   return (
-    <Paper style={{ padding: '2%', marginTop: '1em' }}>
-      <Grid
-        container
-        alignItems="flex-start"
-        justify="space-between"
-        direction="row"
-        spacing={1}
-        ref={gridRef}
+    <>
+      <Paper
+        style={{
+          padding: '2%',
+          marginTop: '1em',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '73vh',
+        }}
       >
-        {columns.map((columnData, i) => {
-          return (
-            <Grid
-              container
-              alignItems="flex-start"
-              spacing={1}
-              style={{
-                display: 'block',
-                width: `${imgWidth + theme.spacing(2)}px`,
-              }}
-              direction="column"
-            >
-              {renderColumn(columnData)}
-            </Grid>
-          );
-        })}
-      </Grid>
-    </Paper>
+        <Grid
+          container
+          alignItems="flex-start"
+          justify="space-between"
+          direction="row"
+          spacing={1}
+          ref={gridRef}
+        >
+          {renderMasonry()}
+        </Grid>
+      </Paper>
+    </>
   );
 };
 
