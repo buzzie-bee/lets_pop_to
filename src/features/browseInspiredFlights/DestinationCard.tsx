@@ -3,13 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
-import {
-  Button,
-  ClickAwayListener,
-  Fab,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Fab, Typography } from '@material-ui/core';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import './DestinationCardStyles.css';
 
@@ -63,12 +57,7 @@ export const DestinationCard = ({
         <img
           alt={`${place.cityName}`}
           src={`data:image/jpeg;base64,${photo}`}
-          style={{
-            borderRadius: '8px',
-            width: '100%',
-            height: 'auto',
-            objectFit: 'cover',
-          }}
+          className="cardImage"
         />
       );
     } else {
@@ -96,22 +85,26 @@ export const DestinationCard = ({
               </span>
             </Typography>
           </div>
-          <div className="cardButtonContainer">
-            <Fab
-              color="default"
-              size="small"
-              aria-label="up"
-              onClick={() => {
-                setShowOverlay(true);
-              }}
-            >
-              <KeyboardArrowUpIcon />
-            </Fab>
-          </div>
-
-          <div className={`cardOverlay ${showOverlay ? 'show' : ''}`}>
-            <h1>Test</h1>
-            <button>Push me</button>
+          {/* <div className={`cardOverlay ${showOverlay ? 'active' : 'inactive'}`}> */}
+          <div className={'cardOverlay active'}>
+            <div className="cardButtonContainer">
+              <Fab
+                color="default"
+                size="small"
+                aria-label="up"
+                className="cardOverlayFAB"
+                onClick={() => {
+                  setShowOverlay(!showOverlay);
+                }}
+              >
+                <KeyboardArrowUpIcon />
+              </Fab>
+            </div>
+            <div className="cardOverlayContent">
+              <Typography variant="h4">Flights</Typography>
+              {/* <pre>{JSON.stringify(weather, null, 2)}</pre> */}
+              <Weather weather={weather} />
+            </div>
           </div>
         </div>
       );
@@ -121,4 +114,12 @@ export const DestinationCard = ({
   };
 
   return <>{renderCard()}</>;
+};
+
+const Weather = ({ weather }: { weather: any }) => {
+  return (
+    <div>
+      <pre>{JSON.stringify(weather, null, 2)}</pre>
+    </div>
+  );
 };

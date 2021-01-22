@@ -7,6 +7,23 @@
 
 .cardContainer:hover .cardOverlay {
   height: 100%;
+  background-color: #ffffff;
+  opacity: 75%;
+}
+
+.cardContainer:hover .cardOverlayFAB {
+  transform: rotate(-180deg);
+}
+
+.cardContainer:hover .cardOverlayContent {
+  display: block;
+}
+
+.cardImage {
+  border-radius: 8px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .cardDetailsContainer {
@@ -32,29 +49,42 @@
   font-size: 1.1em;
 }
 
-.cardButtonContainer {
+/* .cardButtonContainer {
   position: absolute;
   bottom: 10px;
   width: 100%;
   align-content: end;
   justify-content: center;
   text-align: center;
+} */
+
+.cardButtonContainer {
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  align-content: start;
+  justify-content: center;
+  text-align: center;
 }
 
-.cardOverlay {
+.cardOverlay.inactive {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #ffffff;
-  opacity: 75%;
+
+  opacity: 100%;
   overflow: hidden;
   width: 100%;
-  height: 0;
+  height: 55px;
   transition: 0.5s ease;
 }
 
-.cardOverlay.show {
+.cardOverlayFAB {
+  transition: transform 5s;
+}
+
+.cardOverlay.active {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -65,4 +95,17 @@
   width: 100%;
   height: 100%;
   transition: 0.5s ease;
+}
+
+.cardOverlay.active .cardOverlayFAB {
+  transition: 0.5s;
+  transform: rotate(-180deg);
+}
+
+.cardOverlay.active .cardOverlayContent {
+  display: block;
+}
+
+.cardOverlayContent {
+  display: none;
 }
