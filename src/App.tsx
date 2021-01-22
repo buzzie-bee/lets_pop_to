@@ -46,11 +46,7 @@ export const App: React.FC = () => {
           <Route exact path={`${ROUTES.INSPIRATION}/:from/:dates`}>
             <BrowseInspiredFlights />
           </Route>
-          <Route exact path={'/test'}>
-            <BrowseInspiredFlights />
-          </Route>
         </Switch>
-
         <Footer />
       </div>
     </BrowserRouter>
