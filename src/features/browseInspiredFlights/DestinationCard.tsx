@@ -3,7 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
-import { Button, Typography } from '@material-ui/core';
+import {
+  Button,
+  ClickAwayListener,
+  Fab,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import './DestinationCardStyles.css';
 
 interface DestinationCardPropTypes {
   place: any;
@@ -26,7 +34,7 @@ export const DestinationCard = ({
   width,
 }: DestinationCardPropTypes) => {
   const [photo, setPhoto] = useState<string>('');
-
+  const [showOverlay, setShowOverlay] = useState<boolean>(false);
   useEffect(() => {
     let isSubscribed = true;
     const cityQuery = removeDiacritics(
@@ -71,49 +79,39 @@ export const DestinationCard = ({
   const renderCard = () => {
     if (photo) {
       return (
-        <div
-          style={{
-            position: 'relative',
-            display: 'inline-block',
-            width: '100%',
-          }}
-        >
+        <div className="cardContainer">
           {renderImage()}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              backgroundColor: '#FFFFFF',
-              padding: '8px',
-              borderRadius: '4px',
-            }}
-          >
+          <div className="cardDetailsContainer">
             <Typography style={{ textAlign: 'right', lineHeight: '110%' }}>
-              <span style={{ fontSize: '1.3em' }}>
+              <span className="cardDetailsCityName">
                 {place.cityName}
                 <br />
               </span>
-              <span style={{ fontWeight: 200, fontSize: '0.8em' }}>
+              <span className="cardDetailsFrom">
                 from:
                 <br />
               </span>
-              <span style={{ fontStyle: 'bold', fontSize: '1.1em' }}>
+              <span className="cardDetailsCost">
                 {flights[0].cost.formatted}
               </span>
             </Typography>
           </div>
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 10,
-              width: '100%',
-              alignContent: 'end',
-              justifyContent: 'center',
-              textAlign: 'center',
-            }}
-          >
-            <Button>More</Button>
+          <div className="cardButtonContainer">
+            <Fab
+              color="default"
+              size="small"
+              aria-label="up"
+              onClick={() => {
+                setShowOverlay(true);
+              }}
+            >
+              <KeyboardArrowUpIcon />
+            </Fab>
+          </div>
+
+          <div className={`cardOverlay ${showOverlay ? 'show' : ''}`}>
+            <h1>Test</h1>
+            <button>Push me</button>
           </div>
         </div>
       );

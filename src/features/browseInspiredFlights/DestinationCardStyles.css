@@ -1,0 +1,68 @@
+.cardContainer {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  transition: width 0.3s, height 0.3s, transform 0.3s;
+}
+
+.cardContainer:hover .cardOverlay {
+  height: 100%;
+}
+
+.cardDetailsContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ffffff;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.cardDetailsCityName {
+  font-size: 1.3em;
+}
+
+.cardDetailsFrom {
+  font-weight: 200;
+  font-size: 0.8em;
+}
+
+.cardDetailsCost {
+  font-style: bold;
+  font-size: 1.1em;
+}
+
+.cardButtonContainer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  align-content: end;
+  justify-content: center;
+  text-align: center;
+}
+
+.cardOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  opacity: 75%;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: 0.5s ease;
+}
+
+.cardOverlay.show {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  opacity: 75%;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s ease;
+}
