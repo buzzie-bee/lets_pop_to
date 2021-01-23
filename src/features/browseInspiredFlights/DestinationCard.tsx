@@ -73,7 +73,6 @@ export const DestinationCard = ({
 
   const renderCard = () => {
     if (photo) {
-      console.log(`${place.cityName}: ${flights[0].direct}`);
       return (
         <div className="cardContainer">
           {renderImage()}
