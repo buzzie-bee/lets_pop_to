@@ -28,7 +28,7 @@ const BrowseInspiredFlights: React.FC = () => {
           <div>{`Direct: ${direct}`}</div>
         </Container>
 
-        <DestinationGrid from={from} dates={dates} />
+        <DestinationGrid from={from} dates={dates} directOnly={direct} />
       </Paper>
     </>
   );
