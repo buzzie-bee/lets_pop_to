@@ -58,7 +58,7 @@ const DestinationGrid = ({
 
     for (let i = 0; i < num; i++) {
       tempColumns.push(
-        sortedDestinations.filter((d, j) => (j + i) % num === 0)
+        filteredDestinations.filter((d, j) => (j + i) % num === 0)
       );
     }
     return tempColumns;
@@ -74,7 +74,11 @@ const DestinationGrid = ({
     const filtered = sortedDestinations.filter(({ destination }) => {
       //@ts-ignore
       return destinations[destination].flights.some(({ direct }) => {
-        return direct === !directOnly;
+        if (directOnly) {
+          return direct === directOnly;
+        } else {
+          return true;
+        }
       });
     });
 
@@ -83,7 +87,7 @@ const DestinationGrid = ({
   }, [sortedDestinations]);
 
   useEffect(() => {
-    if (sortedDestinations) {
+    if (filteredDestinations) {
       let numberOfColumns = 1;
 
       if (divWidth <= 600) {
@@ -101,7 +105,7 @@ const DestinationGrid = ({
       setColumns(sortedColumns);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [divWidth, sortedDestinations]);
+  }, [divWidth, filteredDestinations]);
 
   const fetchFlights = async () => {
     try {

@@ -90,7 +90,7 @@ export const DestinationCard = ({
                 {flights[0].cost.formatted}
               </span>
               <br />
-              {flights[0].direct ? (
+              {flights.some(({ direct }: { direct: boolean }) => direct) ? (
                 <span style={{ color: 'green' }}>direct</span>
               ) : (
                 ''
@@ -162,7 +162,14 @@ const CardData = ({ flights }: { flights: any }) => {
           }}
         >
           <CardContent>
-            <Typography>{flights.length} Flights</Typography>
+            <Typography>
+              {flights.length} Flights.{' '}
+              {
+                flights.filter(({ direct }: { direct: boolean }) => direct)
+                  .length
+              }{' '}
+              Direct
+            </Typography>
 
             <Typography>{renderPrices()}</Typography>
             <Typography
