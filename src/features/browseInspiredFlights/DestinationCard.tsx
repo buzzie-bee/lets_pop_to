@@ -3,7 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
-import { Fab, Typography } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Fab,
+  Typography,
+} from '@material-ui/core';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import './DestinationCardStyles.css';
 
@@ -22,13 +29,13 @@ const timeout = (ms: number): Promise<void> => {
 
 export const DestinationCard = ({
   place,
-  weather,
   flights,
   timeoutR,
   width,
 }: DestinationCardPropTypes) => {
   const [photo, setPhoto] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
+
   useEffect(() => {
     let isSubscribed = true;
     const cityQuery = removeDiacritics(
@@ -67,6 +74,7 @@ export const DestinationCard = ({
 
   const renderCard = () => {
     if (photo) {
+      console.log(`${place.cityName}: ${flights[0].direct}`);
       return (
         <div className="cardContainer">
           {renderImage()}
@@ -83,10 +91,16 @@ export const DestinationCard = ({
               <span className="cardDetailsCost">
                 {flights[0].cost.formatted}
               </span>
+              <br />
+              {flights[0].direct ? (
+                <span style={{ color: 'green' }}>direct</span>
+              ) : (
+                ''
+              )}
             </Typography>
           </div>
-          {/* <div className={`cardOverlay ${showOverlay ? 'active' : 'inactive'}`}> */}
-          <div className={'cardOverlay active'}>
+          <div className={`cardOverlay ${showOverlay ? 'active' : 'inactive'}`}>
+            {/* <div className={'cardOverlay active'}> */}
             <div className="cardButtonContainer">
               <Fab
                 color="default"
@@ -103,7 +117,7 @@ export const DestinationCard = ({
             <div className="cardOverlayContent">
               <Typography variant="h4">Flights</Typography>
               {/* <pre>{JSON.stringify(weather, null, 2)}</pre> */}
-              <Weather weather={weather} />
+              <CardData flights={flights} />
             </div>
           </div>
         </div>
@@ -116,10 +130,53 @@ export const DestinationCard = ({
   return <>{renderCard()}</>;
 };
 
-const Weather = ({ weather }: { weather: any }) => {
+const CardData = ({ flights }: { flights: any }) => {
+  const renderPrices = () => {
+    if (flights.length === 1) {
+      if (flights[0].cost.formatted) {
+        return `From ${flights[0].cost.formatted}`;
+      }
+    } else {
+      return `From ${flights[0].cost.formatted} to ${
+        flights[flights.length - 1].cost.formatted
+      }`;
+    }
+  };
+
   return (
-    <div>
-      <pre>{JSON.stringify(weather, null, 2)}</pre>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        width: '100%',
+        marginTop: '50px',
+        position: 'relative',
+        overflow: 'auto',
+        height: '90%',
+      }}
+    >
+      <Card style={{ margin: '10px' }}>
+        <CardActionArea
+          onClick={() => {
+            console.log('clicked');
+          }}
+        >
+          <CardContent>
+            <Typography>{flights.length} Flights</Typography>
+
+            <Typography>{renderPrices()}</Typography>
+            <Typography
+              variant="button"
+              display="block"
+              style={{ textAlign: 'right' }}
+            >
+              Tell me more
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
     </div>
   );
 };
