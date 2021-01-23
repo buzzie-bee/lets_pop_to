@@ -32,7 +32,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
+const DestinationGrid = ({
+  from,
+  dates,
+  directOnly,
+}: {
+  from: any;
+  dates: any;
+  directOnly: boolean;
+}) => {
   const theme = useTheme();
   const classes = useStyles();
   const gridRef = React.useRef(null);
@@ -40,6 +48,7 @@ const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [destinations, setDestinations] = useState<any>({});
   const [sortedDestinations, setSortedDestinations] = useState<any[]>([]);
+  const [filteredDestinations, setFilteredDestinations] = useState<any[]>([]);
 
   const [columns, setColumns] = useState<any[]>([]);
   const [imgWidth, setImgWidth] = useState<number>(400);
@@ -60,6 +69,18 @@ const DestinationGrid = ({ from, dates }: { from: any; dates: any }) => {
     const calculatedImgWidth = Math.floor((divWidth - padding) / columns);
     setImgWidth(calculatedImgWidth);
   };
+
+  useEffect(() => {
+    const filtered = sortedDestinations.filter(({ destination }) => {
+      //@ts-ignore
+      return destinations[destination].flights.some(({ direct }) => {
+        return direct === !directOnly;
+      });
+    });
+
+    setFilteredDestinations(filtered);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortedDestinations]);
 
   useEffect(() => {
     if (sortedDestinations) {
