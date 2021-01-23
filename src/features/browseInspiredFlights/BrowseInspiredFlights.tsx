@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Divider,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from '@material-ui/core';
+import { Container, Divider, Paper } from '@material-ui/core';
 
 import DestinationGrid from './DestinationGrid';
 import { useParams } from 'react-router-dom';

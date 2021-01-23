@@ -4,7 +4,6 @@ import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
 import {
-  Button,
   Card,
   CardActionArea,
   CardContent,
