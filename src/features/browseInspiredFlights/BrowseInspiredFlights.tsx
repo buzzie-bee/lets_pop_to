@@ -1,14 +1,27 @@
-import React from 'react';
-import { Container, Divider, Paper, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import {
+  Container,
+  Divider,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from '@material-ui/core';
 
 import DestinationGrid from './DestinationGrid';
 import { useParams } from 'react-router-dom';
+import { Filters } from './Filters';
 
 const BrowseInspiredFlights: React.FC = () => {
   const params: any = useParams();
   const from = JSON.parse(params.from);
   const dates = JSON.parse(params.dates);
   // TODO: add error checking here to validate search query
+
+  // const [minPrice, setMinPrice] = useState<number>(0);
+  // const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
+  const [direct, setDirect] = useState<boolean>(false);
+
   return (
     <>
       <Divider />
@@ -17,14 +30,9 @@ const BrowseInspiredFlights: React.FC = () => {
         style={{ padding: '2%', marginTop: '0.5em', minHeight: '100%' }}
       >
         <Container maxWidth="lg">
-          <Typography variant="h4">
-            <span style={{ fontWeight: 2 }}>Let's fly from </span>
-            {from?.placeName}. . .
-          </Typography>
-          <Typography>Any weather is fine</Typography>
-          <Typography>I don't care about price</Typography>
-          <Typography>Who cares about stopovers?</Typography>
-          <Typography>Let's go and never come back</Typography>
+          <Filters direct={direct} setDirect={setDirect} />
+          <div style={{ height: '200px' }} />
+          <div>{`Direct: ${direct}`}</div>
         </Container>
 
         <DestinationGrid from={from} dates={dates} />
