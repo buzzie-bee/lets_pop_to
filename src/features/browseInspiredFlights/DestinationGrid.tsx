@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 import {
+  Container,
   Grid,
   LinearProgress,
   makeStyles,
@@ -223,6 +224,16 @@ const DestinationGrid = ({
   return (
     <>
       <Paper className={classes.paperStyle}>
+        {!loading ? (
+          <div className="resultsFoundContainer">
+            <Typography variant="h5">{`Found ${
+              filteredDestinations.length ? filteredDestinations.length : 0
+            } Flights`}</Typography>
+          </div>
+        ) : (
+          ''
+        )}
+
         <Grid
           container
           alignItems="flex-start"
