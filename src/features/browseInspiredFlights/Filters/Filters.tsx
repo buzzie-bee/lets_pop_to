@@ -10,7 +10,11 @@ interface FilterPropType {
   highestPrice: number;
 }
 
-export const Filters = ({ setDirect, highestPrice }: FilterPropType) => {
+export const Filters = ({
+  setDirect,
+  setPriceRange,
+  highestPrice,
+}: FilterPropType) => {
   return (
     <Container>
       <DirectPicker
@@ -19,7 +23,7 @@ export const Filters = ({ setDirect, highestPrice }: FilterPropType) => {
         }}
       />
       <PricePicker
-        handleChange={(direct) => console.log(direct)}
+        handleChange={(priceRange: number[]) => setPriceRange(priceRange)}
         highestPrice={highestPrice}
       />
     </Container>

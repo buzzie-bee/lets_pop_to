@@ -17,11 +17,13 @@ export const PriceSlider = ({
   setValue,
   highestPrice,
   setShowSlider,
+  handleChange,
 }: {
   value: number[];
   setValue: (value: number[]) => void;
   highestPrice: number;
   setShowSlider: (showSlider: boolean) => void;
+  handleChange: (priceRange: number[]) => void;
 }) => {
   const handleSliderChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -135,7 +137,14 @@ export const PriceSlider = ({
         />
       </div>
       <div className="sliderButtonContainer">
-        <Button onClick={() => setShowSlider(false)}>Save</Button>
+        <Button
+          onClick={() => {
+            setShowSlider(false);
+            handleChange(value);
+          }}
+        >
+          Save
+        </Button>
       </div>
     </div>
   );

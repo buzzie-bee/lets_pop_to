@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Menu, MenuItem, Slider, Typography } from '@material-ui/core';
+import { Menu, MenuItem, Typography } from '@material-ui/core';
 import { PriceRange } from './PriceRange';
 import './Filters.css';
 
 interface PricePickerPropType {
-  handleChange: (direct: boolean) => void;
+  handleChange: (priceRange: number[]) => void;
   highestPrice: number;
 }
 
@@ -20,7 +20,6 @@ export const PricePicker = ({
 
   const handleSelect = (showFilter: boolean) => {
     setFilter(showFilter);
-    // handleChange(direct);
     setAnchorEl(null);
   };
 
@@ -64,7 +63,7 @@ export const PricePicker = ({
         </Menu>
       </Typography>
       {highestPrice && filter ? (
-        <PriceRange highestPrice={highestPrice} />
+        <PriceRange highestPrice={highestPrice} handleChange={handleChange} />
       ) : (
         <></>
       )}

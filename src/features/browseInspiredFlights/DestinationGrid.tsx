@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 import {
-  Container,
   Grid,
   LinearProgress,
   makeStyles,
@@ -38,11 +37,13 @@ const DestinationGrid = ({
   dates,
   directOnly,
   setHighestPrice,
+  priceRange,
 }: {
   from: any;
   dates: any;
   directOnly: boolean;
   setHighestPrice: (price: number) => void;
+  priceRange: number[];
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -74,7 +75,7 @@ const DestinationGrid = ({
   };
 
   useEffect(() => {
-    const filtered = sortedDestinations.filter(({ destination }) => {
+    const directFiltered = sortedDestinations.filter(({ destination }) => {
       //@ts-ignore
       return destinations[destination].flights.some(({ direct }) => {
         if (directOnly) {
@@ -83,6 +84,11 @@ const DestinationGrid = ({
           return true;
         }
       });
+    });
+
+    const [minPrice, maxPrice] = priceRange;
+    const filtered = directFiltered.filter(({ cost }) => {
+      return minPrice <= cost && cost <= maxPrice;
     });
 
     setFilteredDestinations(filtered);
@@ -166,7 +172,12 @@ const DestinationGrid = ({
         <>
           {columnData.map(({ destination }, index) => {
             return (
-              <Grid item className={classes.columnItem} sm={12}>
+              <Grid
+                key={`grid for ${destination} ${index}`}
+                item
+                className={classes.columnItem}
+                sm={12}
+              >
                 <DestinationCard
                   key={destination}
                   {...destinations[destination]}

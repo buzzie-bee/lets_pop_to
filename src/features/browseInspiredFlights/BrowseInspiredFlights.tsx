@@ -12,7 +12,7 @@ const BrowseInspiredFlights: React.FC = () => {
   // TODO: add error checking here to validate search query
 
   const [direct, setDirect] = useState<boolean>(false);
-  const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 1000000]);
   const [highestPrice, setHighestPrice] = useState<number>(0);
 
   return (
@@ -38,6 +38,7 @@ const BrowseInspiredFlights: React.FC = () => {
           dates={dates}
           directOnly={direct}
           setHighestPrice={setHighestPrice}
+          priceRange={priceRange}
         />
       </Paper>
     </>

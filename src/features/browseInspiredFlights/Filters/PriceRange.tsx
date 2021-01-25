@@ -4,9 +4,13 @@ import { PriceSlider } from './PriceSlider';
 
 interface PriceRangePropType {
   highestPrice: number;
+  handleChange: (priceRange: number[]) => void;
 }
 
-export const PriceRange = ({ highestPrice }: PriceRangePropType) => {
+export const PriceRange = ({
+  highestPrice,
+  handleChange,
+}: PriceRangePropType) => {
   const [value, setValue] = useState<number[]>([0, highestPrice]);
   const [showSlider, setShowSlider] = useState<boolean>(true);
 
@@ -17,6 +21,7 @@ export const PriceRange = ({ highestPrice }: PriceRangePropType) => {
         setValue={setValue}
         highestPrice={highestPrice}
         setShowSlider={setShowSlider}
+        handleChange={handleChange}
       />
     );
   } else {
