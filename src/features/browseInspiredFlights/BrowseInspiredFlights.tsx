@@ -31,7 +31,6 @@ const BrowseInspiredFlights: React.FC = () => {
             setPriceRange={setPriceRange}
             highestPrice={highestPrice}
           />
-          <div>{`Direct: ${direct}`}</div>
         </Container>
 
         <DestinationGrid
