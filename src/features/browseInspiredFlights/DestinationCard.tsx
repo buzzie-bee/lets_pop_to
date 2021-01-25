@@ -114,8 +114,7 @@ export const DestinationCard = ({
             </div>
             <div className="cardOverlayContent">
               <Typography variant="h4">Flights</Typography>
-              {/* <pre>{JSON.stringify(weather, null, 2)}</pre> */}
-              <CardData flights={flights} />
+              <CardData flights={flights} place={place} />
             </div>
           </div>
         </div>
@@ -128,7 +127,7 @@ export const DestinationCard = ({
   return <>{renderCard()}</>;
 };
 
-const CardData = ({ flights }: { flights: any }) => {
+const CardData = ({ flights, place }: { flights: any; place: any }) => {
   const renderPrices = () => {
     if (flights.length === 1) {
       if (flights[0].cost.formatted) {
@@ -162,6 +161,7 @@ const CardData = ({ flights }: { flights: any }) => {
           }}
         >
           <CardContent>
+            <Typography>{place.name}</Typography>
             <Typography>
               {flights.length} Flights.{' '}
               {
