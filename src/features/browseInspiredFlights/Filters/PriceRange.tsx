@@ -23,7 +23,7 @@ export const PriceRange = ({ highestPrice }: PriceRangePropType) => {
     return (
       <div className="filterContainer">
         <Typography variant="h5">
-          {'Show me flights between '}
+          {'My budget is '}
           <Typography
             variant="h5"
             className="filterOption"
@@ -33,7 +33,7 @@ export const PriceRange = ({ highestPrice }: PriceRangePropType) => {
           >
             {value[0]}
           </Typography>
-          {' and '}
+          {' to '}
           <Typography
             variant="h5"
             className="filterOption"

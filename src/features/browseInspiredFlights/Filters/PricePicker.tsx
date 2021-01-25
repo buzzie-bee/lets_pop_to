@@ -35,7 +35,7 @@ export const PricePicker = ({
           aria-haspopup="true"
           onClick={(e) => setAnchorEl(e.currentTarget)}
         >
-          {filter ? 'Important' : 'of no concern'}
+          {filter ? 'Important' : 'Unimportant'}
         </Typography>
 
         <Menu
@@ -59,7 +59,7 @@ export const PricePicker = ({
               handleSelect(false);
             }}
           >
-            of no concern
+            Unimportant
           </MenuItem>
         </Menu>
       </Typography>
