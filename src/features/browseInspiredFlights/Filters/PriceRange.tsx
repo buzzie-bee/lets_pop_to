@@ -20,10 +20,11 @@ export const PriceRange = ({ highestPrice }: PriceRangePropType) => {
       />
     );
   } else {
+    const [minPrice, maxPrice] = value;
     return (
       <div className="filterContainer">
         <Typography variant="h5">
-          {'My budget is '}
+          {'My budget is from '}
           <Typography
             variant="h5"
             className="filterOption"
@@ -31,7 +32,7 @@ export const PriceRange = ({ highestPrice }: PriceRangePropType) => {
             aria-haspopup="true"
             onClick={() => setShowSlider(true)}
           >
-            {value[0]}
+            {minPrice}
           </Typography>
           {' to '}
           <Typography
@@ -41,7 +42,7 @@ export const PriceRange = ({ highestPrice }: PriceRangePropType) => {
             aria-haspopup="true"
             onClick={() => setShowSlider(true)}
           >
-            {value[1]}
+            {maxPrice === highestPrice ? 'the moon 🚀' : maxPrice}
           </Typography>
         </Typography>
       </div>
