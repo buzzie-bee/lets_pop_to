@@ -1,0 +1,47 @@
+.filterContainer {
+  margin-top: 4px;
+  padding: 4px;
+  display: block;
+}
+
+.filterOption {
+  box-shadow: 0 2px 0 #9933cc;
+  display: inline;
+}
+
+.filterOption:hover {
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.sliderContainer {
+  margin: 4px;
+  padding: 10px;
+  border: 1px solid #9933cc;
+  border-radius: 4px;
+  box-sizing: content-box;
+  width: 400px;
+}
+
+.sliderInnerContainer {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sliderButtonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.priceInputContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

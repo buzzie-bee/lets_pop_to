@@ -1,39 +1,14 @@
 import React, { useState } from 'react';
-import { Container, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Menu, MenuItem, Typography } from '@material-ui/core';
 import './Filters.css';
 
-export const Filters = ({
-  direct,
-  setDirect,
-}: {
-  direct: boolean;
-  setDirect: (direct: boolean) => void;
-}) => {
-  // const [direct, setDirect] = useState<boolean>(false);
-  // const [minPrice, setMinPrice] = useState<number>(0);
-  // const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
-
-  return (
-    <Container>
-      <DirectPicker
-        handleChange={(direct) => {
-          setDirect(direct);
-        }}
-      />
-      {/* <div style={{ height: '300px' }} />
-      <div>{`Direct = ${direct}`}</div> */}
-      {/* <div>{`Min Price = ${minPrice}`}</div>
-      <div>{`Max Price = ${maxPrice}`}</div> */}
-    </Container>
-  );
-};
-
-const DirectPicker = ({
-  handleChange,
-}: {
+interface DirectPickerPropType {
   handleChange: (direct: boolean) => void;
-}) => {
+}
+
+export const DirectPicker = ({ handleChange }: DirectPickerPropType) => {
   const [direct, setDirect] = useState<boolean>(false);
+
   const [anchorEl, setAnchorEl] = React.useState<
     (EventTarget & HTMLSpanElement) | null
   >(null);

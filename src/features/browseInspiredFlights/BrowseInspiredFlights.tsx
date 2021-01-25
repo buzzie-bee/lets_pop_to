@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Divider, Paper } from '@material-ui/core';
+import { Container, Divider, Paper, Typography } from '@material-ui/core';
 
 import DestinationGrid from './DestinationGrid';
 import { useParams } from 'react-router-dom';
-import { Filters } from './Filters';
+import { Filters } from './Filters/Filters';
 
 const BrowseInspiredFlights: React.FC = () => {
   const params: any = useParams();
@@ -11,9 +11,9 @@ const BrowseInspiredFlights: React.FC = () => {
   const dates = JSON.parse(params.dates);
   // TODO: add error checking here to validate search query
 
-  // const [minPrice, setMinPrice] = useState<number>(0);
-  // const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
   const [direct, setDirect] = useState<boolean>(false);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
+  const [highestPrice, setHighestPrice] = useState<number>(0);
 
   return (
     <>
@@ -23,12 +23,23 @@ const BrowseInspiredFlights: React.FC = () => {
         style={{ padding: '2%', marginTop: '0.5em', minHeight: '100%' }}
       >
         <Container maxWidth="lg">
-          <Filters direct={direct} setDirect={setDirect} />
-          <div style={{ height: '200px' }} />
+          <Typography variant="h4">
+            Let's fly from {from.placeName} . . .
+          </Typography>
+          <Filters
+            setDirect={setDirect}
+            setPriceRange={setPriceRange}
+            highestPrice={highestPrice}
+          />
           <div>{`Direct: ${direct}`}</div>
         </Container>
 
-        <DestinationGrid from={from} dates={dates} directOnly={direct} />
+        <DestinationGrid
+          from={from}
+          dates={dates}
+          directOnly={direct}
+          setHighestPrice={setHighestPrice}
+        />
       </Paper>
     </>
   );

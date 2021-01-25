@@ -36,10 +36,12 @@ const DestinationGrid = ({
   from,
   dates,
   directOnly,
+  setHighestPrice,
 }: {
   from: any;
   dates: any;
   directOnly: boolean;
+  setHighestPrice: (price: number) => void;
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -129,7 +131,16 @@ const DestinationGrid = ({
         setDestinations(flightsResponse.data);
       }
       if (Array.isArray(flightsResponse.sortedByPrice)) {
-        setSortedDestinations(flightsResponse.sortedByPrice.slice(0, 50));
+        // TODO introduce lazy loading/pagination to use slices of prices?
+        // setSortedDestinations(flightsResponse.sortedByPrice.slice(0, 50));
+        setSortedDestinations(flightsResponse.sortedByPrice);
+        if (flightsResponse.sortedByPrice.length) {
+          setHighestPrice(
+            flightsResponse.sortedByPrice[
+              flightsResponse.sortedByPrice.length - 1
+            ].cost
+          );
+        }
       }
       setLoading(false);
     } catch (error) {
