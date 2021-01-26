@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import './DestinationCardStyles.css';
+import { ROUTES } from '../../constants/routes';
 
 interface DestinationCardPropTypes {
   place: any;
@@ -159,6 +160,17 @@ const CardData = ({ flights, place }: { flights: any; place: any }) => {
         <CardActionArea
           onClick={() => {
             console.log('clicked');
+            const newTab = window.open(
+              `${ROUTES.FLIGHTS_PREFIX}/${JSON.stringify(
+                flights[0].from
+              )}/${JSON.stringify(flights[0].to)}/${JSON.stringify([
+                '2021-02-11',
+                '2021-02-18',
+                '2021-02-25',
+              ])}`,
+              '_blank'
+            );
+            newTab?.focus();
           }}
         >
           <CardContent>
