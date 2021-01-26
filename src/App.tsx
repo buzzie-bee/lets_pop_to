@@ -7,6 +7,7 @@ import { NavBar } from './features/navBar/NavBar';
 import Footer from './features/footer/Footer';
 import InspireMe from './features/inspireMe/InspireMe';
 import BrowseInspiredFlights from './features/browseInspiredFlights/BrowseInspiredFlights';
+import Flights from './features/flights/Flights';
 
 import { ROUTES } from './constants/routes';
 
@@ -43,8 +44,11 @@ export const App: React.FC = () => {
           <Route exact path={ROUTES.HOME}>
             <div>Home</div>
           </Route>
-          <Route exact path={`${ROUTES.INSPIRATION}/:from/:dates`}>
+          <Route exact path={`${ROUTES.INSPIRATION}`}>
             <BrowseInspiredFlights />
+          </Route>
+          <Route exact path={`${ROUTES.FLIGHTS}`}>
+            <Flights />
           </Route>
         </Switch>
         <Footer />
