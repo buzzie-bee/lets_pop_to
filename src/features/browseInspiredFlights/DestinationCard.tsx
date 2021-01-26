@@ -37,6 +37,7 @@ export const DestinationCard = ({
 
   useEffect(() => {
     let isSubscribed = true;
+    //TODO validate cityName and countryName are present
     const cityQuery = removeDiacritics(
       `${place.cityName} ${place.countryName}`
     );
