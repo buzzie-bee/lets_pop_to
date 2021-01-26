@@ -1,9 +1,11 @@
 import { combineReducers, configureStore, Action } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 import { inspireMeReducer } from '../features/inspireMe/inspireMeSlice';
+import { filtersReducer } from '../features/browseInspiredFlights/Filters/filtersSlice';
 
 const rootReducer = combineReducers({
   inspireMe: inspireMeReducer,
+  filters: filtersReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
