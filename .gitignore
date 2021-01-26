@@ -29,6 +29,9 @@ yarn-error.log*
 .env.production.local
 .env
 
+# temp
+/temp
+
 # firebase
 /functions/node_modules
 /functions/.runtimeconfig.json

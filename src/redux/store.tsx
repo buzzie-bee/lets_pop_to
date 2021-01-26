@@ -1,10 +1,8 @@
 import { combineReducers, configureStore, Action } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
-import { flightsReducer } from '../features/flights/flightsSlice';
 import { inspireMeReducer } from '../features/inspireMe/inspireMeSlice';
 
 const rootReducer = combineReducers({
-  flights: flightsReducer,
   inspireMe: inspireMeReducer,
 });
 
