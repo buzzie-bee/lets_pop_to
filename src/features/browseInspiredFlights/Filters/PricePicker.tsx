@@ -7,7 +7,6 @@ import { RootState } from '../../../redux/store';
 import { setShowPriceFilter } from './filtersSlice';
 
 export const PricePicker = () => {
-  // const [filter, setFilter] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { showPriceFilter, highestPrice } = useSelector(
     (state: RootState) => state.filters
@@ -18,7 +17,6 @@ export const PricePicker = () => {
   >(null);
 
   const handleSelect = (showFilter: boolean) => {
-    // setFilter(showFilter);
     dispatch(setShowPriceFilter(showFilter));
     setAnchorEl(null);
   };
