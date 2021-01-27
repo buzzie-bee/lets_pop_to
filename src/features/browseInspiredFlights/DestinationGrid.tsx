@@ -183,6 +183,7 @@ const DestinationGrid = ({
                   {...destinations[destination]}
                   timeoutR={index}
                   width={imgWidth - theme.spacing(2)}
+                  dates={dates}
                 />
               </Grid>
             );

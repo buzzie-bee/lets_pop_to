@@ -20,6 +20,7 @@ interface DestinationCardPropTypes {
   flights: any;
   timeoutR: number;
   width: number;
+  dates: any;
 }
 
 const timeout = (ms: number): Promise<void> => {
@@ -32,6 +33,7 @@ export const DestinationCard = ({
   flights,
   timeoutR,
   width,
+  dates,
 }: DestinationCardPropTypes) => {
   const [photo, setPhoto] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
@@ -116,7 +118,7 @@ export const DestinationCard = ({
             </div>
             <div className="cardOverlayContent">
               <Typography variant="h4">Flights</Typography>
-              <CardData flights={flights} place={place} />
+              <CardData flights={flights} place={place} dates={dates} />
             </div>
           </div>
         </div>
@@ -129,7 +131,15 @@ export const DestinationCard = ({
   return <>{renderCard()}</>;
 };
 
-const CardData = ({ flights, place }: { flights: any; place: any }) => {
+const CardData = ({
+  flights,
+  place,
+  dates,
+}: {
+  flights: any;
+  place: any;
+  dates: any;
+}) => {
   const renderPrices = () => {
     if (flights.length === 1) {
       if (flights[0].cost.formatted) {
@@ -163,11 +173,7 @@ const CardData = ({ flights, place }: { flights: any; place: any }) => {
             const newTab = window.open(
               `${ROUTES.FLIGHTS_PREFIX}/${JSON.stringify(
                 flights[0].from
-              )}/${JSON.stringify(flights[0].to)}/${JSON.stringify([
-                '2021-02-11',
-                '2021-02-18',
-                '2021-02-25',
-              ])}`,
+              )}/${JSON.stringify(flights[0].to)}/${JSON.stringify(dates)}`,
               '_blank'
             );
             newTab?.focus();
