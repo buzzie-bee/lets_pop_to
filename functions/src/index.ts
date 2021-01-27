@@ -3,3 +3,4 @@ export { getAutoCompleteSuggestions } from './functions/getAutoCompleteSuggestio
 export { fetchInspireQuotes } from './functions/fetchInspireQuotes';
 export { fetchInspireDestinations } from './functions/fetchInspireDestinations';
 export { fetchPlacePhoto } from './functions/fetchPlacePhoto';
+export { fetchFlights } from './functions/fetchFlights';

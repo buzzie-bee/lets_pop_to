@@ -118,3 +118,9 @@ export interface InspireMeQueryType {
   from: PlaceOptionType | null;
   dates: string[];
 }
+
+export interface FetchFlightsQueryType {
+  from: PlaceOptionType | null;
+  to: PlaceOptionType | null;
+  dates: string[];
+}
