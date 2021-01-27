@@ -135,9 +135,15 @@ export const fetchInspireDestinations = functions
           // // OK
           allFlights.push(destinationData);
         } catch (error) {
-          // Internal Server Error
-          // The server has encountered a situation it doesn't know how to handle.
+          functions.logger.error(
+            'Fetch Destination Quotes Skyscanner API Error:',
+            {
+              query: request.query,
+              error: error,
+            }
+          );
           response.status(501).json({ query: request.query, error });
+          return;
         }
       }
 
