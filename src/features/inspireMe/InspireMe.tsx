@@ -8,6 +8,11 @@ import SelectDates from './SelectDates';
 import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFrom, setDates } from './inspireMeSlice';
+import {
+  setHighestPrice,
+  setPriceRange,
+  setShowPriceFilter,
+} from '../browseInspiredFlights/Filters/filtersSlice';
 import { ROUTES } from '../../constants/routes';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,15 +78,13 @@ const InspireMe: React.FC = () => {
             size="large"
             disabled={!valid}
             component={Link}
-            to={`${ROUTES.INSPIRATION}/${JSON.stringify(from)}/${JSON.stringify(
-              dates
-            )}`}
-            // TODO: Remove this
+            to={`${ROUTES.INSPIRATION_PREFIX}/${JSON.stringify(
+              from
+            )}/${JSON.stringify(dates)}`}
             onClick={() => {
-              console.log({ from, dates });
-              console.log(
-                `/inspire/${JSON.stringify({ from: from?.placeId, dates })}`
-              );
+              dispatch(setShowPriceFilter(false));
+              dispatch(setPriceRange([0, 100000]));
+              dispatch(setHighestPrice(0));
             }}
           >
             Inspire Me
