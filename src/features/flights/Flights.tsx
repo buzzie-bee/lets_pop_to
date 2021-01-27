@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { fetchFlights } from './fetchFlights';
+import { Flight } from './Flight';
 
 interface PlaceType {
   iataCode: string;
@@ -33,6 +34,8 @@ const Flights = () => {
 
   return (
     <>
+      {flights.length && flights.map((flight) => <Flight {...flight} />)}
+      <div style={{ marginTop: '300px', marginBottom: '300px' }} />
       <Container maxWidth="lg">
         <div>Loading: {loading ? 'true' : 'false'}</div>
         <div>
