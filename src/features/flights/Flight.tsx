@@ -19,6 +19,7 @@ export const Flight: React.FC<FlightType> = ({
   const originId = from.iataCode;
   const destinationId = to.iataCode;
   const outboundPartialDate = departing.slice(0, 10);
+  // This is not a real associate id
   const associateId = 'letspopto';
   return (
     <>
