@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Button, Grid, Paper, Typography } from '@material-ui/core';
+import React from 'react';
+import { Grid, Paper, Typography } from '@material-ui/core';
 import { FlightType } from '../../type';
 import { parseTime } from '../../helpers/parseTime';
 import { ReferralButton } from './ReferralButton';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
 import { PriceRange } from './PriceRange';
 import './Filters.css';
