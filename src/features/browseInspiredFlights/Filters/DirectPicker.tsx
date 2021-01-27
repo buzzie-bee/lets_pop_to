@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
+import { setDirectFilter } from './filtersSlice';
 import './Filters.css';
 
-interface DirectPickerPropType {
-  handleChange: (direct: boolean) => void;
-}
-
-export const DirectPicker = ({ handleChange }: DirectPickerPropType) => {
+export const DirectPicker = () => {
+  const dispatch = useDispatch();
   const [direct, setDirect] = useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = React.useState<
@@ -15,7 +14,8 @@ export const DirectPicker = ({ handleChange }: DirectPickerPropType) => {
 
   const handleSelect = (direct: boolean) => {
     setDirect(direct);
-    handleChange(direct);
+    dispatch(setDirectFilter(direct));
+    // handleChange(direct);
     setAnchorEl(null);
   };
 

@@ -5,26 +5,38 @@ import {
   Slider,
   Typography,
 } from '@material-ui/core';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPriceRange } from './filtersSlice';
+import { RootState } from '../../../redux/store';
 
 const isNumeric = (str: string) => {
   const rx = new RegExp(/^\d+$/);
   return rx.test(str);
 };
 
+const setInitialValues = (priceRange: number[], highestPrice: number) => {
+  if (priceRange.length === 2) {
+    return priceRange;
+  }
+  if (highestPrice) {
+    return [0, highestPrice];
+  }
+  return [0, 1000000];
+};
+
 export const PriceSlider = ({
-  value,
-  setValue,
-  highestPrice,
   setShowSlider,
-  handleChange,
 }: {
-  value: number[];
-  setValue: (value: number[]) => void;
-  highestPrice: number;
   setShowSlider: (showSlider: boolean) => void;
-  handleChange: (priceRange: number[]) => void;
 }) => {
+  const dispatch = useDispatch();
+  const { priceRange, highestPrice } = useSelector(
+    (state: RootState) => state.filters
+  );
+  const initialValues = setInitialValues(priceRange, highestPrice);
+  const [value, setValue] = useState<number[]>(initialValues);
+
   const handleSliderChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
@@ -107,6 +119,12 @@ export const PriceSlider = ({
     }
   };
 
+  const handleSubmit = () => {
+    setShowSlider(false);
+    // handleChange(value);
+    dispatch(setPriceRange(value));
+  };
+
   return (
     <div className="sliderContainer">
       <Typography variant="h6">Price range</Typography>
@@ -137,14 +155,7 @@ export const PriceSlider = ({
         />
       </div>
       <div className="sliderButtonContainer">
-        <Button
-          onClick={() => {
-            setShowSlider(false);
-            handleChange(value);
-          }}
-        >
-          Save
-        </Button>
+        <Button onClick={handleSubmit}>Save</Button>
       </div>
     </div>
   );

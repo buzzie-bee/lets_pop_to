@@ -11,6 +11,8 @@ import {
 import useSize from '@react-hook/size';
 
 import { DestinationCard } from './DestinationCard';
+import { useDispatch } from 'react-redux';
+import { setHighestPrice } from './Filters/filtersSlice';
 
 const useStyles = makeStyles((theme) => ({
   columnItem: { display: 'block' },
@@ -36,13 +38,11 @@ const DestinationGrid = ({
   from,
   dates,
   directOnly,
-  setHighestPrice,
   priceRange,
 }: {
   from: any;
   dates: any;
   directOnly: boolean;
-  setHighestPrice: (price: number) => void;
   priceRange: number[];
 }) => {
   const theme = useTheme();
@@ -53,9 +53,9 @@ const DestinationGrid = ({
   const [destinations, setDestinations] = useState<any>({});
   const [sortedDestinations, setSortedDestinations] = useState<any[]>([]);
   const [filteredDestinations, setFilteredDestinations] = useState<any[]>([]);
-
   const [columns, setColumns] = useState<any[]>([]);
   const [imgWidth, setImgWidth] = useState<number>(400);
+  const dispatch = useDispatch();
 
   const sortColumns = (num: number) => {
     const tempColumns = [];
@@ -142,11 +142,11 @@ const DestinationGrid = ({
         // setSortedDestinations(flightsResponse.sortedByPrice.slice(0, 50));
         setSortedDestinations(flightsResponse.sortedByPrice);
         if (flightsResponse.sortedByPrice.length) {
-          setHighestPrice(
+          const highestPrice =
             flightsResponse.sortedByPrice[
               flightsResponse.sortedByPrice.length - 1
-            ].cost
-          );
+            ].cost;
+          dispatch(setHighestPrice(highestPrice));
         }
       }
       setLoading(false);

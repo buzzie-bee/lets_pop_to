@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface filtersStateType {
+export interface FiltersStateType {
   direct: boolean;
+  showPriceFilter: boolean;
   priceRange: number[];
   highestPrice: number;
 }
 
-const filtersInitialState: filtersStateType = {
+const filtersInitialState: FiltersStateType = {
   direct: false,
+  showPriceFilter: false,
   priceRange: [0, 1000000],
   highestPrice: 0,
 };
@@ -16,8 +18,11 @@ export const filtersSlice = createSlice({
   name: 'filters',
   initialState: filtersInitialState,
   reducers: {
-    setDirect: (state, { payload }) => {
+    setDirectFilter: (state, { payload }) => {
       state.direct = payload;
+    },
+    setShowPriceFilter: (state, { payload }) => {
+      state.showPriceFilter = payload;
     },
     setPriceRange: (state, { payload }) => {
       state.priceRange = payload;
@@ -29,7 +34,8 @@ export const filtersSlice = createSlice({
 });
 
 export const {
-  setDirect,
+  setDirectFilter,
+  setShowPriceFilter,
   setPriceRange,
   setHighestPrice,
 } = filtersSlice.actions;

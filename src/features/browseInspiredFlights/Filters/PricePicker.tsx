@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
 import { PriceRange } from './PriceRange';
 import './Filters.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
+import { setShowPriceFilter } from './filtersSlice';
 
-interface PricePickerPropType {
-  handleChange: (priceRange: number[]) => void;
-  highestPrice: number;
-}
-
-export const PricePicker = ({
-  handleChange,
-  highestPrice,
-}: PricePickerPropType) => {
-  const [filter, setFilter] = useState<boolean>(false);
+export const PricePicker = () => {
+  // const [filter, setFilter] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { showPriceFilter, highestPrice } = useSelector(
+    (state: RootState) => state.filters
+  );
 
   const [anchorEl, setAnchorEl] = React.useState<
     (EventTarget & HTMLSpanElement) | null
   >(null);
 
   const handleSelect = (showFilter: boolean) => {
-    setFilter(showFilter);
+    // setFilter(showFilter);
+    dispatch(setShowPriceFilter(showFilter));
     setAnchorEl(null);
   };
 
@@ -34,7 +34,7 @@ export const PricePicker = ({
           aria-haspopup="true"
           onClick={(e) => setAnchorEl(e.currentTarget)}
         >
-          {filter ? 'Important' : 'Unimportant'}
+          {showPriceFilter ? 'Important' : 'Unimportant'}
         </Typography>
 
         <Menu
@@ -62,11 +62,7 @@ export const PricePicker = ({
           </MenuItem>
         </Menu>
       </Typography>
-      {highestPrice && filter ? (
-        <PriceRange highestPrice={highestPrice} handleChange={handleChange} />
-      ) : (
-        <></>
-      )}
+      {highestPrice && showPriceFilter ? <PriceRange /> : <></>}
     </div>
   );
 };

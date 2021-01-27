@@ -8,11 +8,10 @@ const rootReducer = combineReducers({
   filters: filtersReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
-
 export const store = configureStore({
   reducer: rootReducer,
 });
 
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;

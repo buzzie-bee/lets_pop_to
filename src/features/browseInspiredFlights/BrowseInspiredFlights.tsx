@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Container, Divider, Paper, Typography } from '@material-ui/core';
 
 import DestinationGrid from './DestinationGrid';
 import { useParams } from 'react-router-dom';
 import { Filters } from './Filters/Filters';
+import { FiltersStateType } from './Filters/filtersSlice';
+import { RootState } from '../../redux/store';
 
 const BrowseInspiredFlights: React.FC = () => {
   const params: any = useParams();
@@ -11,9 +14,9 @@ const BrowseInspiredFlights: React.FC = () => {
   const dates = JSON.parse(params.dates);
   // TODO: add error checking here to validate search query
 
-  const [direct, setDirect] = useState<boolean>(false);
-  const [priceRange, setPriceRange] = useState<number[]>([0, 1000000]);
-  const [highestPrice, setHighestPrice] = useState<number>(0);
+  const { direct, priceRange }: FiltersStateType = useSelector(
+    (state: RootState) => state.filters
+  );
 
   return (
     <>
@@ -26,18 +29,13 @@ const BrowseInspiredFlights: React.FC = () => {
           <Typography variant="h4">
             Let's fly from {from.placeName} . . .
           </Typography>
-          <Filters
-            setDirect={setDirect}
-            setPriceRange={setPriceRange}
-            highestPrice={highestPrice}
-          />
+          <Filters />
         </Container>
 
         <DestinationGrid
           from={from}
           dates={dates}
           directOnly={direct}
-          setHighestPrice={setHighestPrice}
           priceRange={priceRange}
         />
       </Paper>

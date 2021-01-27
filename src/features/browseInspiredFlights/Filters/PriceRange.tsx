@@ -1,31 +1,19 @@
 import { Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { PriceSlider } from './PriceSlider';
+import { RootState } from '../../../redux/store';
+import { useSelector } from 'react-redux';
 
-interface PriceRangePropType {
-  highestPrice: number;
-  handleChange: (priceRange: number[]) => void;
-}
-
-export const PriceRange = ({
-  highestPrice,
-  handleChange,
-}: PriceRangePropType) => {
-  const [value, setValue] = useState<number[]>([0, highestPrice]);
+export const PriceRange = () => {
   const [showSlider, setShowSlider] = useState<boolean>(true);
+  const { priceRange, highestPrice } = useSelector(
+    (state: RootState) => state.filters
+  );
 
   if (showSlider) {
-    return (
-      <PriceSlider
-        value={value}
-        setValue={setValue}
-        highestPrice={highestPrice}
-        setShowSlider={setShowSlider}
-        handleChange={handleChange}
-      />
-    );
+    return <PriceSlider setShowSlider={setShowSlider} />;
   } else {
-    const [minPrice, maxPrice] = value;
+    const [minPrice, maxPrice] = priceRange;
     return (
       <div className="filterContainer">
         <Typography variant="h5">
