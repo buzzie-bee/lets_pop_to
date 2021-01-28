@@ -6,7 +6,7 @@ import {
   bindPopover,
 } from 'material-ui-popup-state/hooks';
 
-import MultiDatePicker from '../../components/MultiDatePicker';
+import MultiDatePicker from './MultiDatePicker';
 
 interface SelectDatesProps {
   dates?: string[];
