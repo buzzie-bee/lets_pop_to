@@ -44,6 +44,7 @@ export const Flight: React.FC<FlightType> = ({
             toIata={to.iataCode}
             toCityName={to.cityName}
             toCountryName={to.countryName}
+            direct={direct}
           />
           <Grid item>
             <Typography
