@@ -1,9 +1,13 @@
-import { Badge, BadgeOrigin, IconButton } from '@material-ui/core';
+import {
+  Badge,
+  BadgeOrigin,
+  IconButton,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
 import React from 'react';
-
-import './CalendarCard.css';
 
 export const CalendarCard = ({
   start,
@@ -16,6 +20,8 @@ export const CalendarCard = ({
   const startDateTime = startDate.getTime();
   const endDate = new Date(new Date(end).toDateString());
   const endDateTime = endDate.getTime();
+
+  const classes = useStyles();
 
   const renderDay = (
     date: Date | null,
@@ -32,14 +38,14 @@ export const CalendarCard = ({
       ? dayTime > startDateTime && dayTime < endDateTime
       : false;
 
-    const wrapperClassName = clsx('dayWrapper', {
-      leftHighlight: isRangeStart,
-      rightHighlight: isRangeEnd,
-      rangeHighlight: isInRange,
+    const wrapperClassName = clsx(classes.dayWrapper, {
+      [classes.leftHighlight]: isRangeStart,
+      [classes.rightHighlight]: isRangeEnd,
+      [classes.rangeHighlight]: isInRange,
     });
 
-    const dayClassName = clsx('day', {
-      nonCurrentMonthDay: !dayInCurrentMonth || isInPast,
+    const dayClassName = clsx(classes.day, {
+      [classes.nonCurrentMonthDay]: !dayInCurrentMonth || isInPast,
     });
 
     let badgeContent = '';
@@ -76,3 +82,39 @@ export const CalendarCard = ({
     />
   );
 };
+
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
+  dayWrapper: {
+    position: 'relative',
+  },
+  day: {
+    width: 36,
+    height: 36,
+    fontSize: theme.typography.caption.fontSize,
+    margin: '0 2px',
+    color: 'inherit',
+  },
+  nonCurrentMonthDay: {
+    color: theme.palette.text.disabled,
+  },
+  highlightNonCurrentMonthDay: {
+    color: '#676767',
+  },
+  leftHighlight: {
+    background: '#9933cc',
+    color: theme.palette.common.white,
+    borderTopLeftRadius: '25%',
+    borderBottomLeftRadius: '25%',
+  },
+  rightHighlight: {
+    background: '#9933cc',
+    color: theme.palette.common.white,
+    borderTopRightRadius: '25%',
+    borderBottomRightRadius: '25%',
+  },
+  rangeHighlight: {
+    background: '#9933cc',
+    color: theme.palette.common.white,
+    opacity: '60%',
+  },
+}));
