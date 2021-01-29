@@ -23,8 +23,6 @@ export const CalendarCard = ({
   const endDate = new Date(new Date(end).toDateString());
   const endDateTime = endDate.getTime();
 
-  // const classes = useStyles();
-
   const renderDay = (
     date: Date | null,
     _selectedDate: Date | null,
@@ -40,15 +38,6 @@ export const CalendarCard = ({
       ? dayTime > startDateTime && dayTime < endDateTime
       : false;
 
-    // const wrapperClassName = clsx(classes.dayWrapper, {
-    //   [classes.leftHighlight]: isRangeStart,
-    //   [classes.rightHighlight]: isRangeEnd,
-    //   [classes.rangeHighlight]: isInRange,
-    // });
-
-    // const dayClassName = clsx(classes.day, {
-    //   [classes.nonCurrentMonthDay]: !dayInCurrentMonth || isInPast,
-    // });
     const wrapperClassName = clsx('dayWrapper', {
       leftHighlight: isRangeStart,
       rightHighlight: isRangeEnd,
@@ -93,39 +82,3 @@ export const CalendarCard = ({
     />
   );
 };
-
-// const useStyles = makeStyles<Theme>((theme: Theme) => ({
-//   dayWrapper: {
-//     position: 'relative',
-//   },
-//   day: {
-//     width: 36,
-//     height: 36,
-//     fontSize: theme.typography.caption.fontSize,
-//     margin: '0 2px',
-//     color: 'inherit',
-//   },
-//   nonCurrentMonthDay: {
-//     color: theme.palette.text.disabled,
-//   },
-//   highlightNonCurrentMonthDay: {
-//     color: '#676767',
-//   },
-//   leftHighlight: {
-//     background: theme.palette.primary.main,
-//     color: theme.palette.common.white,
-//     borderTopLeftRadius: '25%',
-//     borderBottomLeftRadius: '25%',
-//   },
-//   rightHighlight: {
-//     background: theme.palette.primary.main,
-//     color: theme.palette.common.white,
-//     borderTopRightRadius: '25%',
-//     borderBottomRightRadius: '25%',
-//   },
-//   rangeHighlight: {
-//     background: theme.palette.primary.main,
-//     color: theme.palette.common.white,
-//     opacity: '60%',
-//   },
-// }));
