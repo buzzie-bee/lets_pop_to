@@ -34,15 +34,20 @@ const Flights = () => {
 
   return (
     <>
-      {flights.length && flights.map((flight) => <Flight {...flight} />)}
+      <Container maxWidth="md">
+        {flights.length &&
+          flights.map((flight, index) => (
+            <Flight key={`flight${index}`} {...flight} />
+          ))}
+      </Container>
       <div style={{ marginTop: '300px', marginBottom: '300px' }} />
-      <Container maxWidth="lg">
+      <Container maxWidth="sm">
         <div>Loading: {loading ? 'true' : 'false'}</div>
         <div>
           <pre>{JSON.stringify(flights, null, 2)}</pre>
         </div>
       </Container>
-      <Container maxWidth="lg">
+      <Container>
         <Paper>Hello There</Paper>
         <Paper>
           <pre>{JSON.stringify(from, null, 2)}</pre>
