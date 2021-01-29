@@ -5,28 +5,33 @@ import querystring from 'querystring';
 export const ReferralButton = ({
   origin,
   destination,
-  outboundPartialDate,
+  outboundDate,
   associateId,
 }: {
   origin: string;
   destination: string;
-  outboundPartialDate: string;
+  outboundDate: string;
   associateId: string;
 }) => {
   const params = querystring.stringify({
     origin,
     destination,
-    outboundPartialDate,
+    outboundDate,
     associateId,
   });
   const skyscannerReferalEndpoint =
     'https://skyscanner.net/g/referrals/v1/flights/day-view/?';
   const referralURL = `${skyscannerReferalEndpoint}${params}`;
+  console.log(referralURL);
   return (
     <Button
       variant="outlined"
-      color="primary"
-      style={{ margin: '8px' }}
+      style={{
+        margin: '8px',
+        color: '#9933cc',
+        borderColor: '9933cc',
+        border: '1px solid',
+      }}
       onClick={() => {
         const newTab = window.open(referralURL, '_blank');
         newTab?.focus();
