@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
+import { DestinationDivider } from './DestinationDivider';
 import './FlightDestinations.css';
 
 export const FlightDestinations = ({
@@ -9,6 +10,7 @@ export const FlightDestinations = ({
   toIata,
   toCityName,
   toCountryName,
+  direct,
 }: {
   fromIata: string;
   fromCityName: string;
@@ -16,11 +18,19 @@ export const FlightDestinations = ({
   toIata: string;
   toCityName: string;
   toCountryName: string;
+  direct: boolean;
 }) => {
   return (
     <div className="flightDestinationsContainer">
       <div className="destinationContainer">Destination 1</div>
-      <div className="destinationDivider" />
+      <div className="dividerAndDirectContainer">
+        <DestinationDivider stops={direct ? 0 : 1} />
+        {direct ? (
+          <div className="direct">Direct</div>
+        ) : (
+          <div className="stops">Stops</div>
+        )}
+      </div>
       <div className="destinationContainer">Destination 2</div>
     </div>
   );
