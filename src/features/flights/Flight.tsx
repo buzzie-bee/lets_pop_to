@@ -1,10 +1,11 @@
-import React from 'react';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Grid, Hidden, Paper, Typography } from '@material-ui/core';
 import { ReferralButton } from './ReferralButton';
 import { CalendarCard } from './CalendarCard';
 import { FlightDestinations } from './FlightDestinations';
 import { FlightType } from '../../type';
 import { parseTime } from '../../helpers/parseTime';
+import { Logo } from './Logo';
 
 export const Flight: React.FC<FlightType> = ({
   from,
@@ -18,17 +19,24 @@ export const Flight: React.FC<FlightType> = ({
   if (!from || !to || !departing || !cost) {
     return <></>;
   }
+
   const originId = from.iataCode;
   const destinationId = to.iataCode;
   const outboundPartialDate = departing.slice(0, 10);
   // This is not a real associate id
   const associateId = 'letspopto';
+
   return (
     <Paper style={{ margin: '8px' }}>
       <Grid container direction="row" justify="space-between">
-        <Grid item xs={5}>
-          <CalendarCard start={outboundPartialDate} end={outboundPartialDate} />
-        </Grid>
+        <Hidden xsDown>
+          <Grid item xs={5}>
+            <CalendarCard
+              start={outboundPartialDate}
+              end={outboundPartialDate}
+            />
+          </Grid>
+        </Hidden>
         <Grid
           container
           item
@@ -46,6 +54,9 @@ export const Flight: React.FC<FlightType> = ({
             toCountryName={to.countryName}
             direct={direct}
           />
+          <Grid item>
+            <Logo airlineName={carrier.name} />
+          </Grid>
           <Grid item>
             <Typography
               style={{
@@ -75,9 +86,6 @@ export const Flight: React.FC<FlightType> = ({
               *Last live price fetched:{' '}
               {parseTime({ timestamp: quotedAt }).formattedDateTime}
             </Typography>
-          </Grid>
-          <Grid item>
-            <pre>{JSON.stringify(carrier, null, 2)}</pre>
           </Grid>
 
           <Grid
