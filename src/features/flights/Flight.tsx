@@ -58,7 +58,14 @@ export const Flight: React.FC<FlightType> = ({
           alignItems="stretch"
         >
           <Grid item>
-            <Paper style={{ padding: '4px', margin: '8px' }}>
+            <Paper
+              style={{
+                padding: '4px',
+                marginRight: '8px',
+                marginTop: '8px',
+                marginBottom: '8px',
+              }}
+            >
               <div style={{ display: 'inline' }}>
                 <Typography variant="button">Outbound</Typography>
                 <div style={{ display: 'inline', marginLeft: '8px' }}>
