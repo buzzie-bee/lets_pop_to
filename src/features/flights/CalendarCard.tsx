@@ -1,10 +1,4 @@
-import {
-  Badge,
-  BadgeOrigin,
-  IconButton,
-  makeStyles,
-  Theme,
-} from '@material-ui/core';
+import { Badge, BadgeOrigin, makeStyles, Theme } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
 import React from 'react';
@@ -44,7 +38,7 @@ export const CalendarCard = ({
       [classes.rangeHighlight]: isInRange,
     });
 
-    const dayClassName = clsx(classes.day, {
+    const dayClassName = clsx(classes.day, classes.dateElement, {
       [classes.nonCurrentMonthDay]: !dayInCurrentMonth || isInPast,
     });
 
@@ -63,9 +57,10 @@ export const CalendarCard = ({
     return (
       <Badge badgeContent={badgeContent} anchorOrigin={badgePosition}>
         <div className={wrapperClassName}>
-          <IconButton className={dayClassName}>
+          <div className={dayClassName}>
+            <span className={classes.dateElementText}></span>
             <span>{date?.getDate()}</span>
-          </IconButton>
+          </div>
         </div>
       </Badge>
     );
@@ -116,5 +111,27 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     background: '#9933cc',
     color: theme.palette.common.white,
     opacity: '60%',
+  },
+  dateElement: {
+    padding: '12px',
+    overflow: 'visible',
+    textAlign: 'center',
+    borderRadius: '50%',
+    border: '0',
+    display: 'inline-flex',
+    outline: '0',
+    position: 'relative',
+    alignItems: 'center',
+    verticalAlign: 'middle',
+    justifyContent: 'center',
+    textDecoration: 'none',
+    backgroundColor: 'transparent',
+  },
+  dateElementText: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'inherit',
+    justifyContent: 'inherit',
+    fontSize: '0.75rem',
   },
 }));
