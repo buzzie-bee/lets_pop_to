@@ -12,6 +12,7 @@ export const Logo = ({ airlineName }: { airlineName: string }) => {
       setLogoUrl,
       setLoading,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderLogo = () => {
