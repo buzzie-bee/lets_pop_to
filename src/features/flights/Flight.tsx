@@ -29,63 +29,103 @@ export const Flight: React.FC<FlightType> = ({
   return (
     <Paper style={{ margin: '8px' }}>
       <Grid container direction="row" justify="space-between">
-        <Hidden xsDown>
+        <Hidden smDown>
           <Grid item xs={5}>
-            <CalendarCard
-              start={outboundPartialDate}
-              end={outboundPartialDate}
-            />
+            <Grid
+              container
+              item
+              direction="column"
+              justify="space-around"
+              alignItems="flex-start"
+              style={{ height: '100%' }}
+            >
+              <Grid item>
+                <CalendarCard
+                  start={outboundPartialDate}
+                  end={outboundPartialDate}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Hidden>
         <Grid
           container
           item
-          xs={7}
+          md={7}
+          xs={12}
           direction="column"
           justify="space-between"
           alignItems="stretch"
         >
-          <FlightDestinations
-            fromIata={from.iataCode}
-            fromCityName={from.cityName}
-            fromCountryName={from.countryName}
-            toIata={to.iataCode}
-            toCityName={to.cityName}
-            toCountryName={to.countryName}
-            direct={direct}
-          />
           <Grid item>
-            <Logo airlineName={carrier.name} />
+            <Paper style={{ padding: '4px', margin: '8px' }}>
+              <div style={{ display: 'inline' }}>
+                <Typography variant="button">Outbound</Typography>
+                <div style={{ display: 'inline', marginLeft: '8px' }}>
+                  {departing.slice(0, 10)}
+                </div>
+              </div>
+
+              <Grid
+                container
+                item
+                direction="row"
+                justify="space-around"
+                alignItems="flex-start"
+              >
+                <Grid item>
+                  <Logo airlineName={carrier.name} />
+                  <Typography style={{ marginTop: '-16px' }}>
+                    {carrier.name}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <FlightDestinations
+                    fromIata={from.iataCode}
+                    fromCityName={from.cityName}
+                    fromCountryName={from.countryName}
+                    toIata={to.iataCode}
+                    toCityName={to.cityName}
+                    toCountryName={to.countryName}
+                    direct={direct}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-          <Grid item>
-            <Typography
-              style={{
-                fontSize: '5rem',
-                color: '#9933cc',
-                display: 'inline-block',
-                marginRight: '0',
-                paddingRight: '0',
-              }}
-            >
-              {cost.formatted}
-            </Typography>
-            <Typography
-              style={{
-                fontSize: '2rem',
-                color: '#9933cc',
-                display: 'inline-block',
-                marginLeft: '0',
-                paddingLeft: '0',
-              }}
-            >
-              .00*
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="overline">
-              *Last live price fetched:{' '}
-              {parseTime({ timestamp: quotedAt }).formattedDateTime}
-            </Typography>
+          <Grid container item direction="column" justify="center">
+            <Grid item>
+              <Typography style={{ marginTop: '1rem' }}>From</Typography>
+              <Typography
+                style={{
+                  fontSize: '5rem',
+                  color: '#9933cc',
+                  display: 'inline-block',
+                  marginRight: '0',
+                  paddingRight: '0',
+                  lineHeight: '1.0',
+                }}
+              >
+                {cost.formatted}
+              </Typography>
+              <Typography
+                style={{
+                  fontSize: '2rem',
+                  color: '#9933cc',
+                  display: 'inline-block',
+                  marginLeft: '0',
+                  paddingLeft: '0',
+                }}
+              >
+                .00*
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="overline">
+                *Last live price fetched:{' '}
+                {parseTime({ timestamp: quotedAt }).formattedDateTime}
+              </Typography>
+            </Grid>
           </Grid>
 
           <Grid

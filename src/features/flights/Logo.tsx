@@ -1,3 +1,4 @@
+import { Skeleton } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import { fetchLogo } from './fetchLogo';
 
@@ -15,7 +16,14 @@ export const Logo = ({ airlineName }: { airlineName: string }) => {
 
   const renderLogo = () => {
     if (loading) {
-      return <div>Loading</div>;
+      return (
+        <Skeleton
+          variant="rect"
+          width={80}
+          height={80}
+          style={{ marginBottom: '8px' }}
+        />
+      );
     } else {
       return (
         <img
