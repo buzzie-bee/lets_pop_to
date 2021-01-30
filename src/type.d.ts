@@ -84,8 +84,13 @@ export interface PlaceOptionType {
   cityId: string;
   countryName: string;
 }
+interface DateType {
+  outbound: string;
+  inbound: string;
+}
 
 export interface InspireMeStateType {
   from: PlaceOptionType | null;
   dates: string[];
+  newDates: DateType[];
 }

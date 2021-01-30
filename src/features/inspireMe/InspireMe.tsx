@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Grid, makeStyles, Paper } from '@material-ui/core';
+import {
+  Button,
+  ButtonGroup,
+  Grid,
+  makeStyles,
+  Paper,
+} from '@material-ui/core';
+import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 
 import PlaceInput from './PlaceInput';
 import { InspireMeStateType, PlaceOptionType } from '../../type';
@@ -14,6 +21,7 @@ import {
   setShowPriceFilter,
 } from '../browseInspiredFlights/Filters/filtersSlice';
 import { ROUTES } from '../../constants/routes';
+import { SelectNewDates } from './SelectNewDates/SelectNewDates';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const InspireMe: React.FC = () => {
   const dispatch = useDispatch();
+  const [directional, setDirectional] = useState<'oneWay' | 'return' | ''>('');
   const { from, dates }: InspireMeStateType = useSelector(
     (state: RootState) => state.inspireMe
   );
@@ -70,7 +79,50 @@ const InspireMe: React.FC = () => {
           <PlaceInput handleSetFrom={handleSetFrom} />
         </Grid>
         <Grid item>
-          <SelectDates handleSetDates={handleSetDates} />
+          <ButtonGroup size="large" aria-label="button group">
+            <Button
+              // variant={directional === 'oneWay' ? 'contained' : 'outlined'}
+              startIcon={
+                directional === 'oneWay' ? (
+                  <CheckCircleOutlineRoundedIcon />
+                ) : (
+                  ''
+                )
+              }
+              onClick={() => {
+                setDirectional('oneWay');
+              }}
+            >
+              One-Way
+            </Button>
+            <Button
+              endIcon={
+                directional === 'return' ? (
+                  <CheckCircleOutlineRoundedIcon />
+                ) : (
+                  ''
+                )
+              }
+              onClick={() => {
+                setDirectional('return');
+              }}
+            >
+              Return
+            </Button>
+          </ButtonGroup>
+        </Grid>
+        <Grid item>
+          <SelectNewDates
+            handleSetDates={handleSetDates}
+            directional={directional}
+            disabled={false}
+          />
+        </Grid>
+        <Grid item>
+          <SelectDates
+            handleSetDates={handleSetDates}
+            disabled={directional.length === 0}
+          />
         </Grid>
         <Grid item>
           <Button
