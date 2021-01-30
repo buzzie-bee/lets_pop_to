@@ -11,8 +11,28 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  min-width: 100px;
+  min-width: 125px;
   max-width: 200px;
+}
+
+.iata {
+  font-size: 3.5em;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  line-height: 1em;
+}
+
+.city {
+  font-size: 1.5em;
+  font-weight: 200;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  line-height: 1em;
+}
+
+.country {
+  font-size: 1em;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 300;
+  line-height: 1.5em;
 }
 
 .dividerAndDirectContainer {

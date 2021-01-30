@@ -22,7 +22,11 @@ export const FlightDestinations = ({
 }) => {
   return (
     <div className="flightDestinationsContainer">
-      <div className="destinationContainer">Destination 1</div>
+      <div className="destinationContainer">
+        <div className="iata">{fromIata}</div>
+        <div className="city">{fromCityName}</div>
+        <div className="country">{fromCountryName}</div>
+      </div>
       <div className="dividerAndDirectContainer">
         <DestinationDivider stops={direct ? 0 : 1} />
         {direct ? (
@@ -31,7 +35,11 @@ export const FlightDestinations = ({
           <div className="stops">Stops</div>
         )}
       </div>
-      <div className="destinationContainer">Destination 2</div>
+      <div className="destinationContainer">
+        <div className="iata">{toIata}</div>
+        <div className="city">{toCityName}</div>
+        <div className="country">{toCountryName}</div>
+      </div>
     </div>
   );
 };

@@ -76,6 +76,9 @@ export const Flight: React.FC<FlightType> = ({
               {parseTime({ timestamp: quotedAt }).formattedDateTime}
             </Typography>
           </Grid>
+          <Grid item>
+            <pre>{JSON.stringify(carrier, null, 2)}</pre>
+          </Grid>
 
           <Grid
             container
