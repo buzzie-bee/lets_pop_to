@@ -11,11 +11,13 @@ import MultiDatePicker from './MultiDatePicker';
 interface SelectDatesProps {
   dates?: string[];
   handleSetDates: (dates: Date[]) => void;
+  disabled: boolean;
 }
 
 export const SelectDates: React.FC<SelectDatesProps> = ({
   dates,
   handleSetDates,
+  disabled,
 }: SelectDatesProps) => {
   const [selectedDates, updateSelectedDates] = useState<Date[]>([]);
 
@@ -39,7 +41,12 @@ export const SelectDates: React.FC<SelectDatesProps> = ({
 
   return (
     <>
-      <Button variant="outlined" size="large" {...bindTrigger(popupState)}>
+      <Button
+        variant="outlined"
+        disabled={disabled}
+        size="large"
+        {...bindTrigger(popupState)}
+      >
         Select Dates
       </Button>
       <Popover
