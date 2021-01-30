@@ -11,7 +11,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    borderBottom: `2px solid ${theme.palette.divider}`,
+    // background:
+    //   'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(213,129,255,1) 100%)',
+    background:
+      'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(191,83,245,1) 100%)',
+    height: '5em',
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -21,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     margin: theme.spacing(1, 1.5),
+    color: '#fff',
   },
 }));
 
@@ -30,7 +36,7 @@ export const NavBar: React.FC = () => {
   return (
     <AppBar
       position="static"
-      color="default"
+      // color="default"
       elevation={0}
       className={classes.appBar}
     >
@@ -44,7 +50,7 @@ export const NavBar: React.FC = () => {
           noWrap
           className={classes.toolbarTitle}
         >
-          Lets Go To
+          Lets Pop To
         </Link>
 
         <nav>
@@ -75,7 +81,7 @@ export const NavBar: React.FC = () => {
         </nav>
         <Button
           href="#"
-          color="primary"
+          color="inherit"
           variant="outlined"
           className={classes.link}
         >
