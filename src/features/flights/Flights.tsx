@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Paper } from '@material-ui/core';
+import { Container, Paper, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { fetchFlights } from './fetchFlights';
 import { Flight } from './Flight';
+import { Skeleton } from '@material-ui/lab';
 
 interface PlaceType {
   iataCode: string;
@@ -32,34 +33,30 @@ const Flights = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <>
+  if (loading) {
+    return (
       <Container maxWidth="md">
-        {flights.length &&
-          flights.map((flight, index) => (
-            <Flight key={`flight${index}`} {...flight} />
-          ))}
-      </Container>
-      <div style={{ marginTop: '300px', marginBottom: '300px' }} />
-      <Container maxWidth="sm">
-        <div>Loading: {loading ? 'true' : 'false'}</div>
-        <div>
-          <pre>{JSON.stringify(flights, null, 2)}</pre>
+        <div style={{ margin: '8px' }}>
+          <Typography variant="h5">
+            Let's see what we can find . . .{' '}
+          </Typography>
         </div>
-      </Container>
-      <Container>
-        <Paper>Hello There</Paper>
-        <Paper>
-          <pre>{JSON.stringify(from, null, 2)}</pre>
-        </Paper>
-        <Paper>
-          <pre>{JSON.stringify(to, null, 2)}</pre>
-        </Paper>
-        <Paper>
-          <pre>{JSON.stringify(dates, null, 2)}</pre>
+        <Paper style={{ margin: '8px' }}>
+          <Skeleton variant="rect" height={354} />
         </Paper>
       </Container>
-    </>
+    );
+  }
+  return (
+    <Container maxWidth="md" style={{ marginBottom: '1rem' }}>
+      <div style={{ margin: '8px' }}>
+        <Typography variant="h4">Flights to {to.cityName}</Typography>
+      </div>
+      {flights.length &&
+        flights.map((flight, index) => (
+          <Flight key={`flight${index}`} {...flight} />
+        ))}
+    </Container>
   );
 };
 
