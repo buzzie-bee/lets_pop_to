@@ -63,7 +63,7 @@ export const SelectNewDates: React.FC<SelectDatesProps> = ({
           horizontal: 'center',
         }}
       >
-        <DateTypeController />
+        <DateTypeController direction={directional} />
         {/* <MultiDatePicker
           selectedDates={selectedDates}
           updateSelectedDates={updateSelectedDates}

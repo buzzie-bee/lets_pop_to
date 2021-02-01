@@ -9,7 +9,11 @@ import { SpecificDatesCalendar } from './SpecificDatesCalendar';
 import { WeekdaySelector } from './WeekdaySelector';
 
 import './DateTypeController.css';
-export const DateTypeController = () => {
+export const DateTypeController = ({
+  direction,
+}: {
+  direction: '' | 'oneWay' | 'return';
+}) => {
   const [component, setComponent] = useState<string>('/');
   const [history, setHistory] = useState<string[]>(['/']);
 
@@ -31,7 +35,12 @@ export const DateTypeController = () => {
       case '/':
         return <DateTypeSelector switchComponent={switchComponent} />;
       case '/normal':
-        return <NormalCalendarContainer backButton={backButton} />;
+        return (
+          <NormalCalendarContainer
+            backButton={backButton}
+            direction={direction}
+          />
+        );
       case '/advanced':
         return (
           <AdvancedTypeSelector

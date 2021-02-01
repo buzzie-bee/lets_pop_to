@@ -3,13 +3,15 @@ import React from 'react';
 import { NormalCalendar } from './Calendars/NormalCalendar';
 export const NormalCalendarContainer = ({
   backButton,
+  direction,
 }: {
   backButton: JSX.Element;
+  direction: '' | 'oneWay' | 'return';
 }) => {
   return (
     <div>
       {backButton}
-      <NormalCalendar direction={'oneWay'} />
+      <NormalCalendar direction={direction} />
     </div>
   );
 };

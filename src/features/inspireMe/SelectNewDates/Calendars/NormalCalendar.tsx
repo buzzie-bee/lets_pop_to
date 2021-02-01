@@ -28,9 +28,16 @@ export const NormalCalendar = ({
     const newDateNormalised = new Date(newDate.toDateString());
 
     setSelectedDate(newDateNormalised);
+
+    if (direction === 'oneWay') {
+      setStartDate(newDateNormalised);
+      setEndDate(newDateNormalised);
+      return;
+    }
+
     if (!startDate) {
       setStartDate(newDateNormalised);
-    } else if (!endDate) {
+    } else if (endDate === null) {
       setEndDate(newDateNormalised);
     } else {
       setStartDate(newDateNormalised);
