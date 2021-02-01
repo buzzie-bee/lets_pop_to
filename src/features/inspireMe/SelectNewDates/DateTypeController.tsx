@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Paper } from '@material-ui/core';
 
 import { DateTypeSelector } from './DateTypeSelector';
-import { NormalCalendar } from './NormalCalendar';
+import { NormalCalendarContainer } from './NormalCalendarContainer';
 import { BackButton } from './BackButton';
 import { AdvancedTypeSelector } from './AdvancedTypeSelector';
-import './DateTypeController.css';
+import { SpecificDatesCalendar } from './SpecificDatesCalendar';
+import { WeekdaySelector } from './WeekdaySelector';
 
+import './DateTypeController.css';
 export const DateTypeController = () => {
   const [component, setComponent] = useState<string>('/');
   const [history, setHistory] = useState<string[]>(['/']);
@@ -17,40 +19,35 @@ export const DateTypeController = () => {
   };
 
   const renderPage = () => {
+    const backButton: JSX.Element = (
+      <BackButton
+        history={history}
+        setHistory={setHistory}
+        setComponent={setComponent}
+      />
+    );
+
     switch (component) {
       case '/':
         return <DateTypeSelector switchComponent={switchComponent} />;
       case '/normal':
-        return (
-          <div>
-            <BackButton
-              history={history}
-              setHistory={setHistory}
-              setComponent={setComponent}
-            />
-            <NormalCalendar />
-          </div>
-        );
+        return <NormalCalendarContainer backButton={backButton} />;
       case '/advanced':
         return (
-          <>
-            <BackButton
-              history={history}
-              setHistory={setHistory}
-              setComponent={setComponent}
-            />
-            <AdvancedTypeSelector switchComponent={switchComponent} />
-          </>
+          <AdvancedTypeSelector
+            switchComponent={switchComponent}
+            backButton={backButton}
+          />
         );
+      case '/specific':
+        return <SpecificDatesCalendar backButton={backButton} />;
+
+      case '/weekdays':
+        return <WeekdaySelector backButton={backButton} />;
       default:
         return <DateTypeSelector switchComponent={switchComponent} />;
     }
   };
 
-  return (
-    <Paper className="dateTypeSelectorPaper">
-      <div style={{ width: '100%', textAlign: 'center' }}>{component}</div>
-      {renderPage()}
-    </Paper>
-  );
+  return <Paper className="dateTypeSelectorPaper">{renderPage()}</Paper>;
 };
