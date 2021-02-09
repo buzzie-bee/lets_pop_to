@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// ts-ignore
+// ts-ignore TODO - create typefile
 import { remove as removeDiacritics } from 'diacritics';
 import { fetchPhoto } from './fetchPhoto';
 import { Skeleton } from '@material-ui/lab';
@@ -14,6 +14,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import './DestinationCardStyles.css';
 import { ROUTES } from '../../constants/routes';
 
+// TODO add in types once data structure is settled
 interface DestinationCardPropTypes {
   place: any;
   weather: any;
@@ -32,7 +33,6 @@ export const DestinationCard = ({
   place,
   flights,
   timeoutR,
-  width,
   dates,
 }: DestinationCardPropTypes) => {
   const [photo, setPhoto] = useState<string>('');
@@ -47,17 +47,19 @@ export const DestinationCard = ({
 
     const getPhoto = async (cityQuery: string) => {
       await timeout(timeoutR);
-      const photoB64 = await fetchPhoto({ cityName: cityQuery, width });
+      const imgData = await fetchPhoto({ location: cityQuery });
       if (isSubscribed) {
-        if (photoB64) {
-          setPhoto(photoB64);
+        if (imgData) {
+          setPhoto(imgData.url);
         }
       }
     };
-
     getPhoto(cityQuery);
-    // prettier-ignore
-    return () =>{isSubscribed = false};
+
+    return () => {
+      isSubscribed = false;
+      return;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -65,8 +67,9 @@ export const DestinationCard = ({
     if (photo) {
       return (
         <img
+          key={photo}
           alt={`${place.cityName}`}
-          src={`data:image/jpeg;base64,${photo}`}
+          src={photo}
           className="cardImage"
         />
       );

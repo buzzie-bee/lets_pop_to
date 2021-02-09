@@ -1,21 +1,23 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
-export const fetchPhoto = async ({
-  cityName,
-  width = 400,
-}: {
-  cityName: string;
-  width?: number;
-}) => {
-  if (!cityName) {
+export const fetchPhoto = async ({ location }: { location: string }) => {
+  if (!location) {
     return;
   }
 
   try {
-    const url = `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchPlacePhoto?cityName=${cityName}&width=${width}`;
-    const response = await axios.get(url);
-    const photoB64: any = response.data.b64Img;
-    return photoB64;
+    const url = `https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchPlacePhoto?location=${location}`;
+
+    const fetchPhotosOptions: AxiosRequestConfig = {
+      method: 'GET',
+      url: url,
+      headers: {
+        'Allow-Control-Allow-Origin': '*',
+      },
+    };
+
+    const response = await axios.request(fetchPhotosOptions);
+    return response.data;
   } catch (error) {
     console.log(error.message);
     return;
