@@ -171,7 +171,7 @@ try {
 const placeholder = (location: string): any => {
   const iata = location ? location : 'undefined';
   const placeholderResponse = {
-    url: 'https://via.placeholder.com/506/FF0000/808080?Text=ImgNotYetEntered',
+    url: 'https://via.placeholder.com/500x300?text=Img+Not+Yet+Entered',
     owner: `Image Not Found in DB for ${iata}`,
     title: `Image Not Found in DB for ${iata}`,
     flickrUrl: `Image Not Found in DB for ${iata}`,
