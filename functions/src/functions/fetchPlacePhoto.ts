@@ -1,33 +1,89 @@
 import * as functions from 'firebase-functions';
-import axios from 'axios';
-
+import * as admin from 'firebase-admin';
+// import axios from 'axios';
 import * as cors from 'cors';
+import * as firebaseCredentials from '../firebaseCredentials.json';
+
 const corsHandler = cors({ origin: true });
 
-const checkParams = (params: any) => {
-  let cityNameOK = false;
-  let widthOK = false;
+const parseParams = (
+  queryParams: any
+): { location: string } | { location: undefined } => {
+  let location = undefined;
+  let error = false;
 
+  const errorOutput = { location: '' };
+
+  // Try to parse params
   try {
-    if (params.cityName) {
-      // console.log('from exists');
-      if (typeof params.cityName === 'string') {
-        // console.log('from is string, parsing');
-        cityNameOK = true;
-      }
-    }
-    if (params.width) {
-      // console.log('dates exists');
-      if (typeof params.width === 'number') {
-        // console.log('dates is a string');
-        widthOK = true;
+    if (queryParams.location) {
+      console.log('location exists');
+      if (typeof queryParams.location === 'string') {
+        console.log('location is string, parsing');
+        location = queryParams.location;
       }
     }
   } catch (error) {
-    // console.log(error);
-    return false;
+    console.log(error);
+    return errorOutput;
   }
-  return !cityNameOK && !widthOK;
+
+  // Check params included
+  if (location === undefined) {
+    console.log('location undefined');
+    return errorOutput;
+  }
+
+  // check type of values (and if they exist)
+  if (typeof location !== 'string') {
+    console.log('Type of location not string');
+    error = true;
+  }
+
+  if (error) {
+    console.log('Error bool true!');
+    return errorOutput;
+  }
+
+  return {
+    location,
+  };
+};
+
+// INITIALISE FIREBASE
+let db: FirebaseFirestore.Firestore;
+try {
+  const firebase = admin.initializeApp({
+    // @ts-ignore - TODO manually implement type checking of firebaseCredentials.json
+    credential: admin.credential.cert(firebaseCredentials),
+  });
+  db = firebase.firestore();
+} catch (error) {
+  functions.logger.error('Initialise Firebase Error:', {
+    error,
+  });
+}
+
+const placeholder = (location: string): any => {
+  const iata = location ? location : 'undefined';
+  const data = {
+    iata: iata,
+    query: 'Unrecognised Iata. Entry is not in images database',
+    images: [
+      {
+        url_l:
+          'https://via.placeholder.com/506/FF0000/808080?Text=ImgNotYetEntered',
+        flickrUrl: 'https://www.flickr.com',
+        title: 'Unrecognised IATA',
+        owner: 'Unknown IATA',
+      },
+    ],
+    skyCode: 'Unrecognised',
+    occurances: 0,
+    imgUrl:
+      'https://via.placeholder.com/506/FF0000/808080?Text=ImgNotYetEntered',
+  };
+  return data;
 };
 
 export const fetchPlacePhoto = functions
@@ -36,41 +92,28 @@ export const fetchPlacePhoto = functions
     corsHandler(request, response, async () => {
       functions.logger.info('Received fetch photo request', request.query);
 
-      // if (!request.query.cityName) {
-      if (checkParams(request.query)) {
+      const queryParams = request.query;
+      const { location } = parseParams(queryParams);
+
+      if (!location) {
         response.status(400).json({
           message:
-            'Not all required fields were sent. Required fields: cityName',
-          query: request.query,
+            'All params not included. Required params are location: string;',
         });
         return;
       }
 
-      const { cityName, width } = request.query;
+      const testDoc = await db.collection('images').doc(location).get();
+      if (testDoc.exists) {
+        const data = testDoc.data();
+        response.status(200).json({
+          location,
+          data,
+        });
+      }
 
       try {
-        const key = functions.config().googlephotos.key;
-
-        // Fetch photo reference id
-        const photoReferenceUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${cityName}&inputtype=textquery&key=${key}&fields=name,photos`;
-        const photoReferenceResponse: any = await axios.get(photoReferenceUrl);
-
-        const photoReference =
-          photoReferenceResponse.data.candidates[0].photos[0][
-            'photo_reference'
-          ];
-
-        // Fetch photo blob
-        const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${width}&photoreference=${photoReference}&key=${key}`;
-        const photoResponse: any = await axios.get(photoUrl, {
-          responseType: 'arraybuffer',
-        });
-
-        const b64Img = Buffer.from(photoResponse.data, 'binary').toString(
-          'base64'
-        );
-
-        response.status(200).json({ photoReference, b64Img });
+        response.status(200).json(placeholder(location));
         return;
       } catch (error) {
         functions.logger.error('Fetch Photo Error:', {

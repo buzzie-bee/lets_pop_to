@@ -38,3 +38,4 @@ yarn-error.log*
 /functions/admin_keys.json
 
 .runtimeconfig.json
+firebaseCredentials.json

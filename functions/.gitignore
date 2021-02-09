@@ -10,3 +10,4 @@ node_modules/
 ## Firebase env keys
 .runtimeconfig.json
 admin_keys.json
+firebaseCredentials.json
