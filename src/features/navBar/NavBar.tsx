@@ -2,34 +2,6 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Button, Link, makeStyles, Toolbar } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-  '@global': {
-    ul: {
-      margin: 0,
-      padding: 0,
-      listStyle: 'none',
-    },
-  },
-  appBar: {
-    borderBottom: `2px solid ${theme.palette.divider}`,
-    // background:
-    //   'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(213,129,255,1) 100%)',
-    background:
-      'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(191,83,245,1) 100%)',
-    height: '5em',
-  },
-  toolbar: {
-    flexWrap: 'wrap',
-  },
-  toolbarTitle: {
-    flexGrow: 1,
-  },
-  link: {
-    margin: theme.spacing(1, 1.5),
-    color: '#fff',
-  },
-}));
-
 export const NavBar: React.FC = () => {
   const classes = useStyles();
 
@@ -91,3 +63,31 @@ export const NavBar: React.FC = () => {
     </AppBar>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  '@global': {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+    },
+  },
+  appBar: {
+    borderBottom: `2px solid ${theme.palette.divider}`,
+    // background:
+    //   'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(213,129,255,1) 100%)',
+    background:
+      'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(191,83,245,1) 100%)',
+    height: '5em',
+  },
+  toolbar: {
+    flexWrap: 'wrap',
+  },
+  toolbarTitle: {
+    flexGrow: 1,
+  },
+  link: {
+    margin: theme.spacing(1, 1.5),
+    color: '#fff',
+  },
+}));
