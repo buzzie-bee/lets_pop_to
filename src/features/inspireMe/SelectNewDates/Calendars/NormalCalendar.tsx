@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Badge,
   BadgeOrigin,
@@ -8,6 +8,8 @@ import {
 } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
+import { setNewDates } from '../../inspireMeSlice';
+import { useDispatch } from 'react-redux';
 
 export const NormalCalendar = ({
   direction,
@@ -17,6 +19,7 @@ export const NormalCalendar = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
@@ -31,7 +34,7 @@ export const NormalCalendar = ({
 
     if (direction === 'oneWay') {
       setStartDate(newDateNormalised);
-      setEndDate(newDateNormalised);
+      setEndDate(null);
       return;
     }
 
@@ -44,6 +47,22 @@ export const NormalCalendar = ({
       setEndDate(null);
     }
   };
+
+  useEffect(() => {
+    console.log('setting dates');
+    if (startDate) {
+      const serializeableStart = `${startDate.toISOString().substr(0, 10)}`;
+      const serializeableEnd = endDate
+        ? `${endDate.toISOString().substr(0, 10)}`
+        : '';
+
+      dispatch(
+        setNewDates([
+          { outbound: serializeableStart, inbound: serializeableEnd },
+        ])
+      );
+    }
+  }, [startDate, endDate, dispatch]);
 
   const renderDay = (
     date: Date | null,
@@ -65,7 +84,8 @@ export const NormalCalendar = ({
 
     const wrapperClassName = clsx(classes.dayWrapper, {
       [classes.leftHighlight]: isRangeStart,
-      [classes.rightHighlight]: isRangeEnd,
+      [classes.rightHighlight]:
+        isRangeEnd || (isRangeStart && direction === 'oneWay'),
       [classes.rangeHighlight]: isInRange,
     });
 
