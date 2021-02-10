@@ -5,7 +5,7 @@ import { DateTypeSelector } from './DateTypeSelector';
 import { NormalCalendarContainer } from './NormalCalendarContainer';
 import { BackButton } from './BackButton';
 import { AdvancedTypeSelector } from './AdvancedTypeSelector';
-import { SpecificDatesCalendar } from './SpecificDatesCalendar';
+import { SpecificDatesContainer } from './SpecificDatesContainer';
 import { WeekdaySelector } from './WeekdaySelector';
 
 import './DateTypeController.css';
@@ -49,7 +49,12 @@ export const DateTypeController = ({
           />
         );
       case '/specific':
-        return <SpecificDatesCalendar backButton={backButton} />;
+        return (
+          <SpecificDatesContainer
+            backButton={backButton}
+            direction={direction}
+          />
+        );
 
       case '/weekdays':
         return <WeekdaySelector backButton={backButton} />;
