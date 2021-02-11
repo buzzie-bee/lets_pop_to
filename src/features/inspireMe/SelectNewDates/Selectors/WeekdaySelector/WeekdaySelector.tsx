@@ -1,5 +1,4 @@
 import { Button, makeStyles, Theme, Typography } from '@material-ui/core';
-import { Day } from '@material-ui/pickers';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 
@@ -15,7 +14,7 @@ interface WeekdayType {
   selected: boolean;
 }
 
-export const WeekdayCalendar = ({
+export const WeekdaySelector = ({
   direction,
   closePopup,
 }: {
@@ -112,7 +111,16 @@ export const WeekdayCalendar = ({
         })}
       </div>
       <div className={classes.nextButtonContainer}>
-        {direction === 'return' && <Button>Next</Button>}
+        <Button
+          onClick={() => {
+            console.log('clicked');
+          }}
+          disabled={days.find((day) => day.selected) ? false : true}
+        >
+          {direction === 'return'
+            ? 'Set Return Weekdays'
+            : 'Set Possible Months'}
+        </Button>
       </div>
     </div>
   );
@@ -130,7 +138,7 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'stretch',
-    padding: '16px 32px 8px 32px',
+    padding: '16px 32px 0px 32px',
   },
   dayButton: {
     marginLeft: '32px',
@@ -144,5 +152,13 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     color: '#FFFFFF',
     boxShadow:
       '0px 3px 1px -2px rgba(153, 51, 204, 0.25),0px 2px 2px 0px rgba(153, 51, 204, 0.25),0px 1px 5px 0px rgba(153, 51, 204, 0.25);',
+  },
+  nextButtonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexBasis: 1,
+    padding: '4px',
   },
 }));

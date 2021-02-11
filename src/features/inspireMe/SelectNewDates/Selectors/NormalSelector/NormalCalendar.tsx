@@ -5,6 +5,7 @@ import {
   IconButton,
   makeStyles,
   Theme,
+  Typography,
 } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
@@ -117,16 +118,25 @@ export const NormalCalendar = ({
   };
 
   return (
-    <DatePicker
-      value={selectedDate}
-      onChange={handleChange}
-      variant="static"
-      label="FlightDateCalendar"
-      disableToolbar={true}
-      disablePast={true}
-      openTo="date"
-      renderDay={renderDay}
-    />
+    <>
+      <div className={classes.directionContainer}>
+        <Typography variant="overline">
+          {direction === 'return'
+            ? 'Select Departing & Return Dates'
+            : 'Select A Departure Date'}
+        </Typography>
+      </div>
+      <DatePicker
+        value={selectedDate}
+        onChange={handleChange}
+        variant="static"
+        label="FlightDateCalendar"
+        disableToolbar={true}
+        disablePast={true}
+        openTo="date"
+        renderDay={renderDay}
+      />
+    </>
   );
 };
 
@@ -185,5 +195,12 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     alignItems: 'inherit',
     justifyContent: 'inherit',
     fontSize: '0.75rem',
+  },
+  directionContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexBasis: 1,
   },
 }));

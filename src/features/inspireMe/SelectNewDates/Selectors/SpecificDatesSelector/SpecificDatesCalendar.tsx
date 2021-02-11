@@ -203,7 +203,7 @@ export const SpecificDatesCalendar = ({
         <Typography variant="overline">
           {returnMode
             ? 'Select Possible Return Dates For'
-            : 'Select Possible Departure Dates'}
+            : 'Select Possible Departing Dates'}
         </Typography>
         {returnMode && <Typography>{settingDate}</Typography>}
       </div>
@@ -246,8 +246,11 @@ export const SpecificDatesCalendar = ({
                 closePopup();
               }
             }}
+            disabled={dates.find((date) => date.inbound === '') ? true : false}
           >
-            {dates.find((date) => date.inbound === '') ? 'Set Next' : 'Save'}
+            {dates.find((date) => date.inbound === '')
+              ? 'To next departing'
+              : 'Save'}
           </Button>
         </div>
       )}
@@ -266,6 +269,7 @@ export const SpecificDatesCalendar = ({
                 </li>
               );
             }
+            return <></>;
           })}
         </Paper>
       )}
