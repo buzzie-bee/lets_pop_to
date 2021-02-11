@@ -13,9 +13,9 @@ import { setNewDates } from '../../../inspireMeSlice';
 import { useDispatch } from 'react-redux';
 
 export const NormalCalendar = ({
-  direction,
+  tripType,
 }: {
-  direction: '' | 'oneWay' | 'return';
+  tripType: '' | 'oneWay' | 'return';
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -33,7 +33,7 @@ export const NormalCalendar = ({
 
     setSelectedDate(newDateNormalised);
 
-    if (direction === 'oneWay') {
+    if (tripType === 'oneWay') {
       setStartDate(newDateNormalised);
       setEndDate(null);
       return;
@@ -86,7 +86,7 @@ export const NormalCalendar = ({
     const wrapperClassName = clsx(classes.dayWrapper, {
       [classes.leftHighlight]: isRangeStart,
       [classes.rightHighlight]:
-        isRangeEnd || (isRangeStart && direction === 'oneWay'),
+        isRangeEnd || (isRangeStart && tripType === 'oneWay'),
       [classes.rangeHighlight]: isInRange,
     });
 
@@ -121,7 +121,7 @@ export const NormalCalendar = ({
     <>
       <div className={classes.directionContainer}>
         <Typography variant="overline">
-          {direction === 'return'
+          {tripType === 'return'
             ? 'Select Departing & Return Dates'
             : 'Select A Departure Date'}
         </Typography>

@@ -2,13 +2,13 @@ import React from 'react';
 // import { BackButton } from './BackButton';
 import { NormalCalendar } from './NormalCalendar';
 export const NormalCalendarContainer = ({
-  direction,
+  tripType,
 }: {
-  direction: '' | 'oneWay' | 'return';
+  tripType: '' | 'oneWay' | 'return';
 }) => {
   return (
     <div>
-      <NormalCalendar direction={direction} />
+      <NormalCalendar tripType={tripType} />
     </div>
   );
 };

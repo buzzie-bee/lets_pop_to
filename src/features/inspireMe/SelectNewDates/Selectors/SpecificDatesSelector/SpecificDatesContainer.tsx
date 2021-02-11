@@ -2,15 +2,15 @@ import React from 'react';
 import { SpecificDatesCalendar } from './SpecificDatesCalendar';
 
 export const SpecificDatesContainer = ({
-  direction,
+  tripType,
   closePopup,
 }: {
-  direction: '' | 'oneWay' | 'return';
+  tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
   return (
     <div>
-      <SpecificDatesCalendar direction={direction} closePopup={closePopup} />
+      <SpecificDatesCalendar tripType={tripType} closePopup={closePopup} />
     </div>
   );
 };

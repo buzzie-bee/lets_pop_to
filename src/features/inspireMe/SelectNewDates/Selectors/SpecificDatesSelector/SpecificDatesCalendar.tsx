@@ -16,10 +16,10 @@ import { DateType } from '../../../../../type';
 import { setNewDates } from '../../../inspireMeSlice';
 
 export const SpecificDatesCalendar = ({
-  direction,
+  tripType,
   closePopup,
 }: {
-  direction: '' | 'oneWay' | 'return';
+  tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
   const [dates, setDates] = useState<DateType[]>([]);
@@ -219,7 +219,7 @@ export const SpecificDatesCalendar = ({
         renderDay={renderDay}
       />
 
-      {direction === 'return' && !returnMode && (
+      {tripType === 'return' && !returnMode && (
         <div className={classes.returnButtonContainer}>
           <Button
             disabled={!dates.length}

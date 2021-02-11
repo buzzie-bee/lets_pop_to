@@ -4,10 +4,10 @@ import clsx from 'clsx';
 import { WeekdayType } from './WeekdaySelectorContainer';
 
 export const WeekdaySelector = ({
-  direction,
+  tripType,
   closePopup,
 }: {
-  direction: '' | 'oneWay' | 'return';
+  tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
   const [days, setDays] = useState<WeekdayType[]>([
@@ -106,7 +106,7 @@ export const WeekdaySelector = ({
           }}
           disabled={days.find((day) => day.selected) ? false : true}
         >
-          {direction === 'return'
+          {tripType === 'return'
             ? 'Set Return Weekdays'
             : 'Set Possible Months'}
         </Button>

@@ -11,7 +11,6 @@ import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutline
 
 import PlaceInput from './PlaceInput';
 import { InspireMeStateType, PlaceOptionType } from '../../type';
-import SelectDates from './SelectDates';
 import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFrom, setDates } from './inspireMeSlice';
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const InspireMe: React.FC = () => {
   const dispatch = useDispatch();
-  const [directional, setDirectional] = useState<'oneWay' | 'return' | ''>('');
+  const [tripType, setTripType] = useState<'oneWay' | 'return' | ''>('');
   const { from, dates }: InspireMeStateType = useSelector(
     (state: RootState) => state.inspireMe
   );
@@ -83,28 +82,20 @@ const InspireMe: React.FC = () => {
             <Button
               // variant={directional === 'oneWay' ? 'contained' : 'outlined'}
               startIcon={
-                directional === 'oneWay' ? (
-                  <CheckCircleOutlineRoundedIcon />
-                ) : (
-                  ''
-                )
+                tripType === 'oneWay' ? <CheckCircleOutlineRoundedIcon /> : ''
               }
               onClick={() => {
-                setDirectional('oneWay');
+                setTripType('oneWay');
               }}
             >
               One-Way
             </Button>
             <Button
               endIcon={
-                directional === 'return' ? (
-                  <CheckCircleOutlineRoundedIcon />
-                ) : (
-                  ''
-                )
+                tripType === 'return' ? <CheckCircleOutlineRoundedIcon /> : ''
               }
               onClick={() => {
-                setDirectional('return');
+                setTripType('return');
               }}
             >
               Return
@@ -114,14 +105,8 @@ const InspireMe: React.FC = () => {
         <Grid item>
           <SelectNewDates
             handleSetDates={handleSetDates}
-            directional={directional}
+            tripType={tripType}
             disabled={false}
-          />
-        </Grid>
-        <Grid item>
-          <SelectDates
-            handleSetDates={handleSetDates}
-            disabled={directional.length === 0}
           />
         </Grid>
         <Grid item>

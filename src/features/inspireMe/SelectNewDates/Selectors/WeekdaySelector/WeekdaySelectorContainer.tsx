@@ -84,10 +84,10 @@ const initialState: SelectionsType = {
 };
 
 export const WeekdaySelectorContainer = ({
-  direction,
+  tripType,
   closePopup,
 }: {
-  direction: '' | 'oneWay' | 'return';
+  tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
   const [selections, setSelections] = useState<SelectionsType>(initialState);
@@ -97,7 +97,7 @@ export const WeekdaySelectorContainer = ({
 
   return (
     <div>
-      <WeekdaySelector direction={direction} closePopup={closePopup} />
+      <WeekdaySelector tripType={tripType} closePopup={closePopup} />
     </div>
   );
 };

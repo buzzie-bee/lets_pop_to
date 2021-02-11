@@ -13,14 +13,14 @@ interface SelectDatesProps {
   dates?: string[];
   handleSetDates: (dates: Date[]) => void;
   disabled: boolean;
-  directional: 'oneWay' | 'return' | '';
+  tripType: 'oneWay' | 'return' | '';
 }
 
 export const SelectNewDates: React.FC<SelectDatesProps> = ({
   dates,
   handleSetDates,
   disabled,
-  directional,
+  tripType,
 }: SelectDatesProps) => {
   const [selectedDates, updateSelectedDates] = useState<Date[]>([]);
 
@@ -69,7 +69,7 @@ export const SelectNewDates: React.FC<SelectDatesProps> = ({
           horizontal: 'center',
         }}
       >
-        <DateSelector direction={directional} closePopup={closePopup} />
+        <DateSelector tripType={tripType} closePopup={closePopup} />
       </Popover>
     </>
   );

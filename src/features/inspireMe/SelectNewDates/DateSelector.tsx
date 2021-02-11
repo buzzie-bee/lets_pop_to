@@ -12,10 +12,10 @@ import { SpecificDatesContainer } from './Selectors/SpecificDatesSelector/Specif
 import { WeekdaySelectorContainer } from './Selectors/WeekdaySelector/WeekdaySelectorContainer';
 
 export const DateSelector = ({
-  direction,
+  tripType,
   closePopup,
 }: {
-  direction: '' | 'oneWay' | 'return';
+  tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
   const [component, setComponent] = useState<string>('Normal');
@@ -26,18 +26,15 @@ export const DateSelector = ({
   const renderSelector = () => {
     switch (component) {
       case 'Normal':
-        return <NormalCalendarContainer direction={direction} />;
+        return <NormalCalendarContainer tripType={tripType} />;
       case 'Advanced':
         return (
-          <SpecificDatesContainer
-            direction={direction}
-            closePopup={closePopup}
-          />
+          <SpecificDatesContainer tripType={tripType} closePopup={closePopup} />
         );
       case 'Weekdays':
         return (
           <WeekdaySelectorContainer
-            direction={direction}
+            tripType={tripType}
             closePopup={closePopup}
           />
         );
