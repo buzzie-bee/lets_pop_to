@@ -7,7 +7,7 @@ import {
 } from 'material-ui-popup-state/hooks';
 
 // import MultiDatePicker from './MultiDatePicker';
-import { DateTypeController } from './DateTypeController';
+import { DateSelector } from './DateSelector';
 
 interface SelectDatesProps {
   dates?: string[];
@@ -69,7 +69,7 @@ export const SelectNewDates: React.FC<SelectDatesProps> = ({
           horizontal: 'center',
         }}
       >
-        <DateTypeController direction={directional} closePopup={closePopup} />
+        <DateSelector direction={directional} closePopup={closePopup} />
       </Popover>
     </>
   );
