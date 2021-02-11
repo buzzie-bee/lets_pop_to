@@ -12,8 +12,8 @@ import {
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
 
-import { DateType } from '../../../../type';
-import { setNewDates } from '../../inspireMeSlice';
+import { DateType } from '../../../../../type';
+import { setNewDates } from '../../../inspireMeSlice';
 
 export const SpecificDatesCalendar = ({
   direction,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SpecificDatesCalendar } from './Calendars/SpecificDatesCalendar';
+import { SpecificDatesCalendar } from './SpecificDatesCalendar';
 
 export const SpecificDatesContainer = ({
   backButton,
@@ -12,10 +12,8 @@ export const SpecificDatesContainer = ({
 }) => {
   return (
     <div>
-      <div>
-        {backButton}
-        <SpecificDatesCalendar direction={direction} closePopup={closePopup} />
-      </div>
+      {backButton}
+      <SpecificDatesCalendar direction={direction} closePopup={closePopup} />
     </div>
   );
 };

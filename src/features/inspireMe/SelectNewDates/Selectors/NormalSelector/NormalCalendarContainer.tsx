@@ -1,6 +1,6 @@
 import React from 'react';
 // import { BackButton } from './BackButton';
-import { NormalCalendar } from './Calendars/NormalCalendar';
+import { NormalCalendar } from './NormalCalendar';
 export const NormalCalendarContainer = ({
   backButton,
   direction,

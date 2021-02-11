@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Paper } from '@material-ui/core';
 
 import { DateTypeSelector } from './DateTypeSelector';
-import { NormalCalendarContainer } from './NormalCalendarContainer';
+import { NormalCalendarContainer } from './Selectors/NormalSelector/NormalCalendarContainer';
 import { BackButton } from './BackButton';
 import { AdvancedTypeSelector } from './AdvancedTypeSelector';
-import { SpecificDatesContainer } from './SpecificDatesContainer';
-import { WeekdaySelectorContainer } from './WeekdaySelectorContainer';
+import { SpecificDatesContainer } from './Selectors/SpecificDatesSelector/SpecificDatesContainer';
+import { WeekdaySelectorContainer } from './Selectors/WeekdaySelector/WeekdaySelectorContainer';
 
 import './DateTypeController.css';
 export const DateTypeController = ({
@@ -60,7 +60,13 @@ export const DateTypeController = ({
         );
 
       case '/weekdays':
-        return <WeekdaySelectorContainer backButton={backButton} />;
+        return (
+          <WeekdaySelectorContainer
+            backButton={backButton}
+            direction={direction}
+            closePopup={closePopup}
+          />
+        );
       default:
         return <DateTypeSelector switchComponent={switchComponent} />;
     }
