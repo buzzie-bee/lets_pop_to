@@ -1,18 +1,7 @@
 import { Button, makeStyles, Theme, Typography } from '@material-ui/core';
-import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-
-interface WeekdayType {
-  weekday:
-    | 'Monday'
-    | 'Tuesday'
-    | 'Wednesday'
-    | 'Thursday'
-    | 'Friday'
-    | 'Saturday'
-    | 'Sunday';
-  selected: boolean;
-}
+import clsx from 'clsx';
+import { WeekdayType } from './WeekdaySelectorContainer';
 
 export const WeekdaySelector = ({
   direction,
