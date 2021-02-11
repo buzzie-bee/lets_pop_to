@@ -14,12 +14,13 @@ import clsx from 'clsx';
 
 import { DateType } from '../../../../type';
 import { setNewDates } from '../../inspireMeSlice';
-import { unset } from 'lodash';
 
 export const SpecificDatesCalendar = ({
   direction,
+  closePopup,
 }: {
   direction: '' | 'oneWay' | 'return';
+  closePopup: () => void;
 }) => {
   const [dates, setDates] = useState<DateType[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -116,7 +117,7 @@ export const SpecificDatesCalendar = ({
 
   useEffect(() => {
     dispatch(setNewDates(dates));
-  }, [dates]);
+  }, [dates, dispatch]);
 
   const renderDay = (
     date: Date | null,
@@ -218,7 +219,7 @@ export const SpecificDatesCalendar = ({
         renderDay={renderDay}
       />
 
-      {!returnMode && (
+      {direction === 'return' && !returnMode && (
         <div className={classes.returnButtonContainer}>
           <Button
             disabled={!dates.length}
@@ -240,10 +241,13 @@ export const SpecificDatesCalendar = ({
               if (nextUnsetDate) {
                 console.log('setting to ', nextUnsetDate.outbound);
                 setSettingDate(nextUnsetDate.outbound);
+              } else {
+                dispatch(setNewDates(dates));
+                closePopup();
               }
             }}
           >
-            {true ? 'Save' : 'Set Next'}
+            {dates.find((date) => date.inbound === '') ? 'Set Next' : 'Save'}
           </Button>
         </div>
       )}

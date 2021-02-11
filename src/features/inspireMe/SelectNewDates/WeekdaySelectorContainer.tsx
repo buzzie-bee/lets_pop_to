@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const WeekdaySelector = ({
+export const WeekdaySelectorContainer = ({
   backButton,
 }: {
   backButton: JSX.Element;

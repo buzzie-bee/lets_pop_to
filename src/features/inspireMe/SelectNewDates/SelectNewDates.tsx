@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Popover } from '@material-ui/core';
 import {
   usePopupState,
@@ -42,6 +42,12 @@ export const SelectNewDates: React.FC<SelectDatesProps> = ({
     popupId: 'multiDatePicker',
   });
 
+  const closePopup = () => {
+    if (popupState.isOpen) {
+      popupState.close();
+    }
+  };
+
   return (
     <>
       <Button
@@ -63,11 +69,7 @@ export const SelectNewDates: React.FC<SelectDatesProps> = ({
           horizontal: 'center',
         }}
       >
-        <DateTypeController direction={directional} />
-        {/* <MultiDatePicker
-          selectedDates={selectedDates}
-          updateSelectedDates={updateSelectedDates}
-        /> */}
+        <DateTypeController direction={directional} closePopup={closePopup} />
       </Popover>
     </>
   );

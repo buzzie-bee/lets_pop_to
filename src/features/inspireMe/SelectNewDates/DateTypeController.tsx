@@ -6,13 +6,15 @@ import { NormalCalendarContainer } from './NormalCalendarContainer';
 import { BackButton } from './BackButton';
 import { AdvancedTypeSelector } from './AdvancedTypeSelector';
 import { SpecificDatesContainer } from './SpecificDatesContainer';
-import { WeekdaySelector } from './WeekdaySelector';
+import { WeekdaySelectorContainer } from './WeekdaySelectorContainer';
 
 import './DateTypeController.css';
 export const DateTypeController = ({
   direction,
+  closePopup,
 }: {
   direction: '' | 'oneWay' | 'return';
+  closePopup: () => void;
 }) => {
   const [component, setComponent] = useState<string>('/');
   const [history, setHistory] = useState<string[]>(['/']);
@@ -53,11 +55,12 @@ export const DateTypeController = ({
           <SpecificDatesContainer
             backButton={backButton}
             direction={direction}
+            closePopup={closePopup}
           />
         );
 
       case '/weekdays':
-        return <WeekdaySelector backButton={backButton} />;
+        return <WeekdaySelectorContainer backButton={backButton} />;
       default:
         return <DateTypeSelector switchComponent={switchComponent} />;
     }
