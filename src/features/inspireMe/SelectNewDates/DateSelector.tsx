@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   ButtonGroup,
@@ -10,6 +11,10 @@ import {
 import { NormalCalendarContainer } from './Selectors/NormalSelector/NormalCalendarContainer';
 import { SpecificDatesContainer } from './Selectors/SpecificDatesSelector/SpecificDatesContainer';
 import { WeekdaySelectorContainer } from './Selectors/WeekdaySelector/WeekdaySelectorContainer';
+import { setSelectorType } from '../inspireMeSlice';
+
+import { RootState } from '../../../redux/store';
+import { InspireMeStateType, SelectorType } from '../../../type';
 
 export const DateSelector = ({
   tripType,
@@ -18,13 +23,22 @@ export const DateSelector = ({
   tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
-  const [component, setComponent] = useState<string>('Normal');
+  const { selectorType }: InspireMeStateType = useSelector(
+    (state: RootState) => state.inspireMe
+  );
+  const dispatch = useDispatch();
   const classes = useStyles();
 
-  const buttons = ['Normal', 'Weekdays', 'Advanced'];
+  const buttons: SelectorType[] = ['Normal', 'Weekdays', 'Advanced'];
+
+  const setComponent = (
+    selectorType: 'Normal' | 'Weekdays' | 'Advanced'
+  ): void => {
+    dispatch(setSelectorType(selectorType));
+  };
 
   const renderSelector = () => {
-    switch (component) {
+    switch (selectorType) {
       case 'Normal':
         return (
           <NormalCalendarContainer
@@ -51,7 +65,7 @@ export const DateSelector = ({
       <div className={classes.navButtonContainer}>
         <ButtonGroup fullWidth={true} disableElevation={true}>
           {buttons.map((name) => {
-            const selected = name === component;
+            const selected = name === selectorType;
             return (
               <Button
                 className={

@@ -95,7 +95,10 @@ export interface DateType {
   inbound: string;
 }
 
+export type SelectorType = 'Normal' | 'Weekdays' | 'Advanced';
+
 export interface InspireMeStateType {
   from: PlaceOptionType | null;
   dates: DateType[];
+  selectorType: SelectorType;
 }
