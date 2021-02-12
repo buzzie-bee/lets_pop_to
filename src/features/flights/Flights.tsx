@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { fetchFlights } from './fetchFlights';
 import { Flight } from './Flight';
 import { Skeleton } from '@material-ui/lab';
+import { DateType } from '../../type';
 
 interface PlaceType {
   iataCode: string;
@@ -17,7 +18,7 @@ const Flights = () => {
   const params: any = useParams();
   const from: PlaceType = JSON.parse(params.from);
   const to: PlaceType = JSON.parse(params.to);
-  const dates: string[] = JSON.parse(params.dates);
+  const dates: DateType[] = JSON.parse(params.dates);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [flights, setFlights] = useState<any[]>([]);

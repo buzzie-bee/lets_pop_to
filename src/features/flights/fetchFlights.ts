@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { DateType } from '../../type';
 
 export const fetchFlights = async ({
   from,
@@ -9,7 +10,7 @@ export const fetchFlights = async ({
 }: {
   from: string;
   to: string;
-  dates: string[];
+  dates: DateType[];
   setLoading: (loading: boolean) => void;
   setFlights: (flights: any[]) => void;
 }) => {

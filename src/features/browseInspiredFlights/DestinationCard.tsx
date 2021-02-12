@@ -13,6 +13,7 @@ import {
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import './DestinationCardStyles.css';
 import { ROUTES } from '../../constants/routes';
+import { DateType } from '../../type';
 
 // TODO add in types once data structure is settled
 interface DestinationCardPropTypes {
@@ -21,7 +22,7 @@ interface DestinationCardPropTypes {
   flights: any;
   timeoutR: number;
   width: number;
-  dates: any;
+  dates: DateType[];
 }
 
 const timeout = (ms: number): Promise<void> => {
@@ -141,7 +142,7 @@ const CardData = ({
 }: {
   flights: any;
   place: any;
-  dates: any;
+  dates: DateType[];
 }) => {
   const renderPrices = () => {
     if (flights.length === 1) {
