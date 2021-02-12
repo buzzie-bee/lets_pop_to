@@ -1,6 +1,11 @@
+import { range } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { isNumeric } from '../../../../../helpers/isNumeric';
+import { setNewDates } from '../../../inspireMeSlice';
 import { MonthSelector } from './MonthsSelector';
 import { WeekdaySelector } from './WeekdaySelector';
+import { DateType } from './../../../../../type';
 
 export interface WeekdayType {
   weekday:
@@ -106,6 +111,8 @@ export const WeekdaySelectorContainer = ({
   const [durationRange, setDurationRange] = useState<number[]>([0, 14]);
   const [completed, setCompleted] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
+
   const handleDaySelections = (updatedSelections: WeekdayType[]): void => {
     if (component === 'outbound') {
       console.log('setting outbound');
@@ -129,11 +136,69 @@ export const WeekdaySelectorContainer = ({
 
   const setDates = useCallback(() => {
     const { outbound, inbound, months } = selections;
-    console.log(outbound);
-    console.log(inbound);
-    console.log(months);
-    console.log(durationRange);
-  }, [durationRange, selections]);
+
+    const outboundDays = outbound
+      .filter((outbound) => outbound.selected)
+      .map((outbound) => outbound.weekday);
+
+    const inboundDays = inbound
+      .filter((inbound) => inbound.selected)
+      .map((inbound) => inbound.weekday);
+    const outboundDates: string[] = [];
+
+    months.forEach(({ year, month, name }) => {
+      const dayCount: number = daysInMonth({ year, month });
+      for (let i of range(dayCount)) {
+        const weekDay = getWeekdayFromMonth({ day: i, month, year });
+        if (checkWeekday(weekDay)) {
+          //@ts-ignore because typescript doesn't realise that I've already checked
+          // the type of weekDay is correct
+          if (outboundDays.includes(weekDay)) {
+            outboundDates.push(`${year}-${month}-${i < 10 ? `0${i}` : i}`);
+          }
+        }
+      }
+    });
+    if (!outboundDates.length) {
+      // TODO: handle possible (though unlikely as it's been checked) error here
+      return;
+    }
+
+    if (tripType === 'oneWay') {
+      dispatch(
+        setNewDates(
+          outboundDates.map((date) => {
+            return { outbound: date, inbound: '' };
+          })
+        )
+      );
+      return;
+    }
+
+    let dateArray: DateType[] = [];
+
+    outboundDates.forEach((date) => {
+      for (let i of range(durationRange[0], durationRange[1])) {
+        const newDate = datePlusDays({ date, days: i });
+        if (newDate) {
+          const weekDay = getWeekdayFromDate({ date: newDate });
+          if (checkWeekday(weekDay)) {
+            //@ts-ignore
+            if (inboundDays.includes(weekDay)) {
+              dateArray.push({ outbound: date, inbound: newDate });
+            }
+          }
+        }
+      }
+    });
+
+    if (!dateArray.length) {
+      // TODO: also error handle
+      return;
+    }
+
+    dispatch(setNewDates(dateArray));
+  }, [dispatch, durationRange, selections, tripType]);
 
   const checkValid = useCallback((): boolean => {
     const { outbound, inbound, months } = selections;
@@ -195,10 +260,10 @@ const daysInMonth = ({
   year: string;
   month: string;
 }): number => {
-  // Had to do this because typescript won't allow strings in position param,
-  // but will allow a string to be passed as the whole argument (same below)
-  const stringDate = `${year}-${month}-0`;
-  return new Date(stringDate).getDate();
+  // Bit hacky but setting the day to be 0 gives the last day of the month === day count
+  const yearNum = isNumeric(year) ? parseInt(year) : 2021;
+  const monthNum = isNumeric(month) ? parseInt(month) : 9;
+  return new Date(yearNum, monthNum, 0).getDate();
 };
 
 const days = [
@@ -211,7 +276,7 @@ const days = [
   'Saturday',
 ];
 
-const getWeekday = ({
+const getWeekdayFromMonth = ({
   day,
   month,
   year,
@@ -224,4 +289,34 @@ const getWeekday = ({
   const dayNum: number = new Date(stringDate).getDay();
   const weekday: string = days[dayNum];
   return weekday;
+};
+
+const getWeekdayFromDate = ({ date }: { date: string }) => {
+  const dayNum: number = new Date(date).getDay();
+  const weekday: string = days[dayNum];
+  return weekday;
+};
+
+const checkWeekday = (day: string) => {
+  return (
+    day === 'Monday' ||
+    day === 'Tuesday' ||
+    day === 'Wednesday' ||
+    day === 'Thursday' ||
+    day === 'Friday' ||
+    day === 'Saturday' ||
+    day === 'Sunday'
+  );
+};
+
+const datePlusDays = ({
+  date,
+  days,
+}: {
+  date: string;
+  days: number;
+}): string => {
+  const dateDate = new Date(date);
+  const plusDays = new Date(dateDate.setDate(dateDate.getDate() + days));
+  return plusDays.toString();
 };
