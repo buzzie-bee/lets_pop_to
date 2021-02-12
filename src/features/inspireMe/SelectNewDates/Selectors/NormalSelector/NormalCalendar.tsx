@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Badge,
   BadgeOrigin,
+  Button,
   IconButton,
   makeStyles,
   Theme,
@@ -136,6 +137,18 @@ export const NormalCalendar = ({
         openTo="date"
         renderDay={renderDay}
       />
+      <div className={classes.saveButtonContainer}>
+        <Button
+          onClick={() => {
+            console.log('clicked');
+          }}
+          disabled={
+            (tripType === 'return' ? startDate : endDate) ? false : true
+          }
+        >
+          Save Selection
+        </Button>
+      </div>
     </>
   );
 };
@@ -143,12 +156,13 @@ export const NormalCalendar = ({
 const useStyles = makeStyles<Theme>((theme: Theme) => ({
   dayWrapper: {
     position: 'relative',
+    margin: '1px',
   },
   day: {
     width: 36,
     height: 36,
     fontSize: theme.typography.caption.fontSize,
-    margin: '0 2px',
+    margin: '0 1px',
     color: 'inherit',
   },
   nonCurrentMonthDay: {
@@ -202,5 +216,13 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexBasis: 1,
+  },
+  saveButtonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexBasis: 1,
+    padding: '4px',
   },
 }));

@@ -233,9 +233,8 @@ export const SpecificDatesCalendar = ({
         </div>
       )}
       {returnMode && (
-        <div className={classes.nextButtonContainer}>
+        <div className={classes.returnButtonContainer}>
           <Button
-            variant="outlined"
             onClick={() => {
               const nextUnsetDate = dates.find((date) => date.inbound === '');
               if (nextUnsetDate) {
@@ -255,8 +254,8 @@ export const SpecificDatesCalendar = ({
             }
           >
             {dates.find((date) => date.inbound === '')
-              ? 'To next departing'
-              : 'Save'}
+              ? 'Set next dates'
+              : 'Save Selection'}
           </Button>
         </div>
       )}
@@ -361,15 +360,5 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     alignItems: 'center',
     flexBasis: 1,
     padding: '4px',
-  },
-  nextButtonContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    flexBasis: 1,
-    padding: '4px',
-    marginTop: '-24px',
-    paddingRight: '16px',
   },
 }));
