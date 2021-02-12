@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   Chip,
@@ -12,8 +12,9 @@ import {
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
 
-import { DateType } from '../../../../../type';
+import { DateType, InspireMeStateType } from '../../../../../type';
 import { setDates as setStoreDates } from '../../../inspireMeSlice';
+import { RootState } from '../../../../../redux/store';
 
 export const SpecificDatesCalendar = ({
   tripType,
@@ -22,7 +23,12 @@ export const SpecificDatesCalendar = ({
   tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
-  const [dates, setDates] = useState<DateType[]>([]);
+  const { dates: initialDates }: InspireMeStateType = useSelector(
+    (state: RootState) => state.inspireMe
+  );
+  const [dates, setDates] = useState<DateType[]>(
+    initialDates ? initialDates : []
+  );
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [returnMode, setReturnMode] = useState<boolean>(false);
   const [settingDate, setSettingDate] = useState<string | null>(null);
