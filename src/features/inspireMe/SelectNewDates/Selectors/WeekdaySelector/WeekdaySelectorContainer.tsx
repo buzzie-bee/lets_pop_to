@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { MonthSelector } from './MonthsSelector';
 import { WeekdaySelector } from './WeekdaySelector';
 
 export interface WeekdayType {
@@ -95,9 +96,52 @@ export const WeekdaySelectorContainer = ({
     'outbound'
   );
 
+  const handleDaySelections = (updatedSelections: WeekdayType[]): void => {
+    if (component === 'outbound') {
+      console.log('setting outbound');
+      setSelections({ ...selections, outbound: updatedSelections });
+    }
+    if (component === 'inbound') {
+      //
+      console.log('setting inbound');
+      setSelections({ ...selections, inbound: updatedSelections });
+    }
+  };
+
+  const handleMonthSelections = (updatedSelections: string[]) => {
+    console.log('setting months');
+    setSelections({ ...selections, months: updatedSelections });
+  };
+
+  useEffect(() => {
+    console.log(selections);
+  }, [selections]);
+
   return (
     <div>
-      <WeekdaySelector tripType={tripType} closePopup={closePopup} />
+      {component === 'outbound' && (
+        <WeekdaySelector
+          tripType={tripType}
+          direction="outbound"
+          setComponent={setComponent}
+          handleDaySelections={handleDaySelections}
+        />
+      )}
+      {component === 'inbound' && (
+        <WeekdaySelector
+          tripType={tripType}
+          direction="inbound"
+          setComponent={setComponent}
+          handleDaySelections={handleDaySelections}
+        />
+      )}
+      {component === 'months' && (
+        <MonthSelector
+          closePopup={closePopup}
+          setComponent={setComponent}
+          handleMonthSelections={handleMonthSelections}
+        />
+      )}
     </div>
   );
 };

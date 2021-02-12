@@ -1,45 +1,31 @@
-import { Button, makeStyles, Theme, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  makeStyles,
+  Slider,
+  TextField,
+  Theme,
+  Typography,
+} from '@material-ui/core';
+import React, { ChangeEvent, useState } from 'react';
 import clsx from 'clsx';
 import { WeekdayType } from './WeekdaySelectorContainer';
+import { isNumeric } from '../../../../../helpers/isNumeric';
 
 export const WeekdaySelector = ({
   tripType,
-  closePopup,
+  direction,
+  setComponent,
+  handleDaySelections,
 }: {
   tripType: '' | 'oneWay' | 'return';
-  closePopup: () => void;
+  direction: 'outbound' | 'inbound';
+  setComponent: (component: 'outbound' | 'inbound' | 'months') => void;
+  handleDaySelections: (updatedSelections: WeekdayType[]) => void;
 }) => {
-  const [days, setDays] = useState<WeekdayType[]>([
-    {
-      weekday: 'Monday',
-      selected: false,
-    },
-    {
-      weekday: 'Tuesday',
-      selected: false,
-    },
-    {
-      weekday: 'Wednesday',
-      selected: false,
-    },
-    {
-      weekday: 'Thursday',
-      selected: false,
-    },
-    {
-      weekday: 'Friday',
-      selected: false,
-    },
-    {
-      weekday: 'Saturday',
-      selected: false,
-    },
-    {
-      weekday: 'Sunday',
-      selected: false,
-    },
-  ]);
+  const [days, setDays] = useState<WeekdayType[]>(initialDaysState);
+  const [durationRange, setDurationRange] = useState<number[]>([0, 14]);
+  const [maxDuration, setMaxDuration] = useState<number>(20);
+  const [durationTimeout, setDurationTimeout] = useState<boolean>(false);
 
   const classes = useStyles();
 
@@ -69,9 +55,55 @@ export const WeekdaySelector = ({
     );
   };
 
-  useEffect(() => {
-    console.log(days);
-  }, [days]);
+  const handleDurationChange = (event: any, newValue: number | number[]) => {
+    if (Array.isArray(newValue)) {
+      if (typeof newValue[1] === 'number') {
+        if (newValue[1] >= maxDuration) {
+          if (!durationTimeout) {
+            setDurationTimeout(true);
+            setMaxDuration(maxDuration + 20);
+            setTimeout(() => {
+              setDurationTimeout(false);
+            }, 1000);
+          }
+        }
+      }
+    }
+    setDurationRange(newValue as number[]);
+  };
+
+  const handleTextFieldChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const inputValue = e.target.value;
+    const fieldName = e.target.name;
+    const [minVal, maxVal] = durationRange;
+
+    if (isNumeric(inputValue)) {
+      const newValueInt = parseInt(inputValue);
+      switch (fieldName) {
+        case 'minDuration':
+          setDurationRange([newValueInt, maxVal]);
+          break;
+        case 'maxDuration':
+          setDurationRange([minVal, newValueInt]);
+          break;
+        default:
+          return;
+      }
+    } else if (inputValue === '') {
+      switch (fieldName) {
+        case 'minDuration':
+          setDurationRange([0, durationRange[1]]);
+          break;
+        case 'maxDuration':
+          setDurationRange([durationRange[0], durationRange[0]]);
+          break;
+        default:
+          return;
+      }
+    }
+  };
 
   return (
     <div>
@@ -99,14 +131,53 @@ export const WeekdaySelector = ({
           );
         })}
       </div>
+      {tripType === 'return' && direction === 'inbound' && (
+        <div className={classes.tripLengthContainer}>
+          <Typography variant="overline">Set trip duration (days)</Typography>
+          <div className={classes.sliderContainer}>
+            <Slider
+              value={durationRange}
+              onChange={handleDurationChange}
+              max={maxDuration}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+            />
+          </div>
+          <div className={classes.tripLengthRow}>
+            <div className={classes.textField}>
+              <TextField
+                label="Minimum"
+                name="minDuration"
+                variant="outlined"
+                onChange={handleTextFieldChange}
+                value={durationRange[0]}
+              />
+            </div>
+            <div className={classes.textField}>
+              <TextField
+                label="Maximum"
+                name="maxDuration"
+                variant="outlined"
+                onChange={handleTextFieldChange}
+                value={durationRange[1]}
+              />
+            </div>
+          </div>
+        </div>
+      )}
       <div className={classes.nextButtonContainer}>
         <Button
           onClick={() => {
-            console.log('clicked');
+            setComponent(
+              tripType === 'return' && direction === 'outbound'
+                ? 'inbound'
+                : 'months'
+            );
+            handleDaySelections(days);
           }}
           disabled={days.find((day) => day.selected) ? false : true}
         >
-          {tripType === 'return'
+          {tripType === 'return' && direction === 'outbound'
             ? 'Set Return Weekdays'
             : 'Set Possible Months'}
         </Button>
@@ -150,4 +221,55 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     flexBasis: 1,
     padding: '4px',
   },
+  tripLengthContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  tripLengthRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexBasis: 1,
+    width: '85%',
+  },
+  sliderContainer: {
+    width: '80%',
+  },
+  textField: {
+    width: '120px',
+  },
 }));
+
+const initialDaysState: WeekdayType[] = [
+  {
+    weekday: 'Monday',
+    selected: false,
+  },
+  {
+    weekday: 'Tuesday',
+    selected: false,
+  },
+  {
+    weekday: 'Wednesday',
+    selected: false,
+  },
+  {
+    weekday: 'Thursday',
+    selected: false,
+  },
+  {
+    weekday: 'Friday',
+    selected: false,
+  },
+  {
+    weekday: 'Saturday',
+    selected: false,
+  },
+  {
+    weekday: 'Sunday',
+    selected: false,
+  },
+];
