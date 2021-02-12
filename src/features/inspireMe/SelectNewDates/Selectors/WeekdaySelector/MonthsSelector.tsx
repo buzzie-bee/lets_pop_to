@@ -1,7 +1,9 @@
 import { Button, makeStyles, Theme, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState } from 'react';
-import { MonthType } from './WeekdaySelectorContainer';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../../redux/store';
+import { InspireMeStateType, MonthType } from '../../../../../type';
 
 export const MonthSelector = ({
   handleMonthSelections,
@@ -10,7 +12,11 @@ export const MonthSelector = ({
   handleMonthSelections: (updatedSelections: MonthType[]) => void;
   setCompleted: (completed: boolean) => void;
 }) => {
-  const [months, setMonths] = useState<MonthType[]>(setInitialDatesState());
+  const { months: initialMonths }: InspireMeStateType = useSelector(
+    (state: RootState) => state.inspireMe
+  );
+
+  const [months, setMonths] = useState<MonthType[]>(initialMonths);
   const classes = useStyles();
 
   const toggleMonth = (name: string) => {
@@ -53,7 +59,7 @@ export const MonthSelector = ({
       <div className={classes.saveButtonContainer}>
         <Button
           onClick={() => {
-            handleMonthSelections(months.filter((month) => month.selected));
+            handleMonthSelections(months);
             setCompleted(true);
           }}
           disabled={months.find((month) => month.selected) ? false : true}
@@ -64,52 +70,6 @@ export const MonthSelector = ({
     </>
   );
 };
-
-const setInitialDatesState = (): MonthType[] => {
-  const todaysDate = new Date(new Date());
-  const todaysMonth = todaysDate.getMonth();
-  const todaysYear = todaysDate.getFullYear();
-  const nextYear = todaysYear + 1;
-
-  const selectableMonths = [
-    ...calendarMonths
-      .slice(todaysMonth)
-      .map((month) => `${month} ${todaysYear}`),
-    ...calendarMonths
-      .slice(0, todaysMonth)
-      .map((month) => `${month} ${nextYear}`),
-  ];
-
-  const initialDatesState: MonthType[] = selectableMonths.map((name, idx) => {
-    const monthNum =
-      todaysMonth + idx + 1 <= 12
-        ? todaysMonth + idx + 1
-        : todaysMonth + idx + 1 - 12;
-    const monthString = `${monthNum < 10 ? '0' : ''}${monthNum}`;
-    return {
-      name,
-      month: monthString,
-      year: `${todaysMonth + idx + 1 < 13 ? todaysYear : nextYear}`,
-      selected: false,
-    };
-  });
-  return initialDatesState;
-};
-
-const calendarMonths = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
 
 const useStyles = makeStyles<Theme>((theme: Theme) => ({
   titleContainer: {

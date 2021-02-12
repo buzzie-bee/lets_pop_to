@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
-import { setDates } from '../../../inspireMeSlice';
+import { setDates } from '../../../slice/inspireMeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../redux/store';
 import { InspireMeStateType } from '../../../../../type';

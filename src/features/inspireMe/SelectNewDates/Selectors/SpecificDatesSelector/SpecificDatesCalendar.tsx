@@ -13,7 +13,7 @@ import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
 
 import { DateType, InspireMeStateType } from '../../../../../type';
-import { setDates as setStoreDates } from '../../../inspireMeSlice';
+import { setDates as setStoreDates } from '../../../slice/inspireMeSlice';
 import { RootState } from '../../../../../redux/store';
 
 export const SpecificDatesCalendar = ({

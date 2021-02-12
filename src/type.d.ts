@@ -101,4 +101,33 @@ export interface InspireMeStateType {
   from: PlaceOptionType | null;
   dates: DateType[];
   selectorType: SelectorType;
+  weekdaySelections: SelectionsType;
+  durationRange: number[];
+  months: MonthType[];
+}
+
+export interface WeekdayType {
+  weekday:
+    | 'Monday'
+    | 'Tuesday'
+    | 'Wednesday'
+    | 'Thursday'
+    | 'Friday'
+    | 'Saturday'
+    | 'Sunday';
+  selected: boolean;
+}
+
+export interface MonthType {
+  // TODO: find a better way to say a number between range, or a number with x characters
+  name: string;
+  month: string;
+  year: string;
+  selected: boolean;
+}
+
+interface SelectionsType {
+  outbound: WeekdayType[];
+  inbound: WeekdayType[];
+  months: MonthType[];
 }

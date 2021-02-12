@@ -13,7 +13,7 @@ import PlaceInput from './PlaceInput';
 import { InspireMeStateType, PlaceOptionType } from '../../type';
 import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFrom, setDates } from './inspireMeSlice';
+import { setFrom, setDates } from './slice/inspireMeSlice';
 import {
   setHighestPrice,
   setPriceRange,

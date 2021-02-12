@@ -11,7 +11,7 @@ import {
 import { NormalCalendarContainer } from './Selectors/NormalSelector/NormalCalendarContainer';
 import { SpecificDatesContainer } from './Selectors/SpecificDatesSelector/SpecificDatesContainer';
 import { WeekdaySelectorContainer } from './Selectors/WeekdaySelector/WeekdaySelectorContainer';
-import { setSelectorType } from '../inspireMeSlice';
+import { setSelectorType } from '../slice/inspireMeSlice';
 
 import { RootState } from '../../../redux/store';
 import { InspireMeStateType, SelectorType } from '../../../type';

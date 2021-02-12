@@ -8,8 +8,10 @@ import {
 } from '@material-ui/core';
 import React, { ChangeEvent, useState } from 'react';
 import clsx from 'clsx';
-import { WeekdayType } from './WeekdaySelectorContainer';
 import { isNumeric } from '../../../../../helpers/isNumeric';
+import { InspireMeStateType, WeekdayType } from '../../../../../type';
+import { RootState } from '../../../../../redux/store';
+import { useSelector } from 'react-redux';
 
 export const WeekdaySelector = ({
   tripType,
@@ -24,8 +26,17 @@ export const WeekdaySelector = ({
   handleDaySelections: (updatedSelections: WeekdayType[]) => void;
   handleDurationRange: (durationRange: number[]) => void;
 }) => {
+  const {
+    weekdaySelections,
+    durationRange: initialDurationRange,
+  }: InspireMeStateType = useSelector((state: RootState) => state.inspireMe);
+
+  const initialDaysState = weekdaySelections[direction];
+
   const [days, setDays] = useState<WeekdayType[]>(initialDaysState);
-  const [durationRange, setDurationRange] = useState<number[]>([0, 14]);
+  const [durationRange, setDurationRange] = useState<number[]>(
+    initialDurationRange
+  );
   const [maxDuration, setMaxDuration] = useState<number>(20);
   const [durationTimeout, setDurationTimeout] = useState<boolean>(false);
 
@@ -247,34 +258,3 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     width: '120px',
   },
 }));
-
-const initialDaysState: WeekdayType[] = [
-  {
-    weekday: 'Monday',
-    selected: false,
-  },
-  {
-    weekday: 'Tuesday',
-    selected: false,
-  },
-  {
-    weekday: 'Wednesday',
-    selected: false,
-  },
-  {
-    weekday: 'Thursday',
-    selected: false,
-  },
-  {
-    weekday: 'Friday',
-    selected: false,
-  },
-  {
-    weekday: 'Saturday',
-    selected: false,
-  },
-  {
-    weekday: 'Sunday',
-    selected: false,
-  },
-];

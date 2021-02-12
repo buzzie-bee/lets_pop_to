@@ -1,11 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { InspireMeStateType } from '../../type';
-
-const inspireMeInitialState: InspireMeStateType = {
-  from: null,
-  dates: [],
-  selectorType: 'Normal',
-};
+import { inspireMeInitialState } from './initialState';
 
 export const inspireMeSlice = createSlice({
   name: 'inspireMe',
@@ -21,9 +15,25 @@ export const inspireMeSlice = createSlice({
       state.selectorType = payload;
       state.dates = [];
     },
+    setWeekdaySelections: (state, { payload }) => {
+      state.weekdaySelections = payload;
+    },
+    setDurationRange: (state, { payload }) => {
+      state.durationRange = payload;
+    },
+    setMonths: (state, { payload }) => {
+      state.months = payload;
+    },
   },
 });
 
-export const { setFrom, setDates, setSelectorType } = inspireMeSlice.actions;
+export const {
+  setFrom,
+  setDates,
+  setSelectorType,
+  setWeekdaySelections,
+  setDurationRange,
+  setMonths,
+} = inspireMeSlice.actions;
 
 export const inspireMeReducer = inspireMeSlice.reducer;

@@ -1,101 +1,23 @@
 import { range } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { isNumeric } from '../../../../../helpers/isNumeric';
-import { setDates } from '../../../inspireMeSlice';
+import {
+  setDates,
+  setWeekdaySelections,
+  setDurationRange as setDurationRangeAction,
+  setMonths,
+} from '../../../slice/inspireMeSlice';
 import { MonthSelector } from './MonthsSelector';
 import { WeekdaySelector } from './WeekdaySelector';
-import { DateType } from './../../../../../type';
-
-export interface WeekdayType {
-  weekday:
-    | 'Monday'
-    | 'Tuesday'
-    | 'Wednesday'
-    | 'Thursday'
-    | 'Friday'
-    | 'Saturday'
-    | 'Sunday';
-  selected: boolean;
-}
-
-export interface MonthType {
-  // TODO: find a better way to say a number between range, or a number with x characters
-  name: string;
-  month: string;
-  year: string;
-  selected: boolean;
-}
-
-interface SelectionsType {
-  outbound: WeekdayType[];
-  inbound: WeekdayType[];
-  months: MonthType[];
-}
-
-const initialState: SelectionsType = {
-  outbound: [
-    {
-      weekday: 'Monday',
-      selected: false,
-    },
-    {
-      weekday: 'Tuesday',
-      selected: false,
-    },
-    {
-      weekday: 'Wednesday',
-      selected: false,
-    },
-    {
-      weekday: 'Thursday',
-      selected: false,
-    },
-    {
-      weekday: 'Friday',
-      selected: false,
-    },
-    {
-      weekday: 'Saturday',
-      selected: false,
-    },
-    {
-      weekday: 'Sunday',
-      selected: false,
-    },
-  ],
-  inbound: [
-    {
-      weekday: 'Monday',
-      selected: false,
-    },
-    {
-      weekday: 'Tuesday',
-      selected: false,
-    },
-    {
-      weekday: 'Wednesday',
-      selected: false,
-    },
-    {
-      weekday: 'Thursday',
-      selected: false,
-    },
-    {
-      weekday: 'Friday',
-      selected: false,
-    },
-    {
-      weekday: 'Saturday',
-      selected: false,
-    },
-    {
-      weekday: 'Sunday',
-      selected: false,
-    },
-  ],
-  months: [],
-};
+import {
+  DateType,
+  InspireMeStateType,
+  MonthType,
+  SelectionsType,
+  WeekdayType,
+} from './../../../../../type';
+import { RootState } from '../../../../../redux/store';
 
 export const WeekdaySelectorContainer = ({
   tripType,
@@ -104,7 +26,10 @@ export const WeekdaySelectorContainer = ({
   tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
-  const [selections, setSelections] = useState<SelectionsType>(initialState);
+  const { weekdaySelections: selections }: InspireMeStateType = useSelector(
+    (state: RootState) => state.inspireMe
+  );
+  // const [selections, setSelections] = useState<SelectionsType>(initialState);
   const [component, setComponent] = useState<'outbound' | 'inbound' | 'months'>(
     'outbound'
   );
@@ -112,6 +37,10 @@ export const WeekdaySelectorContainer = ({
   const [completed, setCompleted] = useState<boolean>(false);
 
   const dispatch = useDispatch();
+
+  const setSelections = (selections: SelectionsType) => {
+    dispatch(setWeekdaySelections(selections));
+  };
 
   const handleDaySelections = (updatedSelections: WeekdayType[]): void => {
     if (component === 'outbound') {
@@ -125,13 +54,16 @@ export const WeekdaySelectorContainer = ({
     }
   };
 
-  const handleMonthSelections = (updatedSelections: MonthType[]) => {
+  const handleMonthSelections = (months: MonthType[]) => {
     console.log('setting months');
-    setSelections({ ...selections, months: updatedSelections });
+    const selectedMonths = months.filter((month) => month.selected);
+    setSelections({ ...selections, months: selectedMonths });
+    dispatch(setMonths(months));
   };
 
   const handleDurationRange = (durationRange: number[]) => {
     setDurationRange(durationRange);
+    dispatch(setDurationRangeAction(durationRange));
   };
 
   const calculateAndSetDates = useCallback(() => {
@@ -172,6 +104,7 @@ export const WeekdaySelectorContainer = ({
           })
         )
       );
+      closePopup();
       return;
     }
 
