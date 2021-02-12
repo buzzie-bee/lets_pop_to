@@ -199,7 +199,7 @@ export const WeekdaySelectorContainer = ({
 
     dispatch(setDates(dateArray));
     closePopup();
-  }, [dispatch, durationRange, selections, tripType]);
+  }, [closePopup, dispatch, durationRange, selections, tripType]);
 
   const checkValid = useCallback((): boolean => {
     const { outbound, inbound, months } = selections;
@@ -317,5 +317,5 @@ const datePlusDays = ({
 }): string => {
   const dateDate = new Date(date);
   const plusDays = new Date(dateDate.setDate(dateDate.getDate() + days));
-  return plusDays.toString();
+  return plusDays.toISOString().substr(0, 10);
 };
