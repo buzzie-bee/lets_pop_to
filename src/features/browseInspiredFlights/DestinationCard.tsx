@@ -176,8 +176,10 @@ const CardData = ({
             console.log('clicked');
             const newTab = window.open(
               `${ROUTES.FLIGHTS_PREFIX}/${JSON.stringify(
-                flights[0].from
-              )}/${JSON.stringify(flights[0].to)}/${JSON.stringify(dates)}`,
+                flights[0].outbound.from
+              )}/${JSON.stringify(flights[0].outbound.to)}/${JSON.stringify(
+                dates
+              )}`,
               '_blank'
             );
             newTab?.focus();
