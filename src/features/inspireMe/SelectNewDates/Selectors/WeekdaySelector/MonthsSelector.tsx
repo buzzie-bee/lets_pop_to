@@ -28,7 +28,7 @@ export const MonthSelector = ({
             selected: !month.selected,
           };
         }
-        return month;
+        return { ...month, selected: false };
       })
     );
   };
@@ -36,7 +36,7 @@ export const MonthSelector = ({
   return (
     <>
       <div className={classes.titleContainer}>
-        <Typography variant="overline">Select possible months</Typography>
+        <Typography variant="overline">Select departure month</Typography>
       </div>
       <div className={classes.monthButtonContainer}>
         {months.map(({ name, selected }) => {

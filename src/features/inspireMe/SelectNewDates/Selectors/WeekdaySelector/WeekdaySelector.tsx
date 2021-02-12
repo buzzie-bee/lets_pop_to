@@ -122,7 +122,7 @@ export const WeekdaySelector = ({
     <div>
       <div className={classes.titleContainer}>
         <Typography variant="overline">
-          {'Select possible departing days'}
+          {'Select up to 3 departing days'}
         </Typography>
       </div>
       <div className={classes.dayButtonContainer}>
@@ -144,6 +144,13 @@ export const WeekdaySelector = ({
           );
         })}
       </div>
+      {days.filter((day) => day.selected).length > 3 && (
+        <div className={classes.nextButtonContainer}>
+          <Typography variant="button" color="secondary">
+            Selected more than 3 days!
+          </Typography>
+        </div>
+      )}
       {tripType === 'return' && direction === 'inbound' && (
         <div className={classes.tripLengthContainer}>
           <Typography variant="overline">Set trip duration (days)</Typography>
@@ -191,7 +198,12 @@ export const WeekdaySelector = ({
               handleDurationRange(durationRange);
             }
           }}
-          disabled={days.find((day) => day.selected) ? false : true}
+          disabled={
+            days.find((day) => day.selected) &&
+            days.filter((day) => day.selected).length <= 3
+              ? false
+              : true
+          }
         >
           {tripType === 'return' && direction === 'outbound'
             ? 'Set Return Weekdays'
