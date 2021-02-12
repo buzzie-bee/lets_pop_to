@@ -11,7 +11,9 @@ import {
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
 import { setDates } from '../../../inspireMeSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../redux/store';
+import { InspireMeStateType } from '../../../../../type';
 
 export const NormalCalendar = ({
   tripType,
@@ -20,9 +22,22 @@ export const NormalCalendar = ({
   tripType: '' | 'oneWay' | 'return';
   closePopup: () => void;
 }) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const { dates: reduxDates }: InspireMeStateType = useSelector(
+    (state: RootState) => state.inspireMe
+  );
+
+  const initialOutbound = reduxDates[0]
+    ? new Date(new Date(reduxDates[0].outbound).toDateString())
+    : null;
+  const initialInbound = reduxDates[0]
+    ? new Date(new Date(reduxDates[0].inbound).toDateString())
+    : null;
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    initialOutbound
+  );
+  const [startDate, setStartDate] = useState<Date | null>(initialOutbound);
+  const [endDate, setEndDate] = useState<Date | null>(initialInbound);
   const dispatch = useDispatch();
 
   const classes = useStyles();

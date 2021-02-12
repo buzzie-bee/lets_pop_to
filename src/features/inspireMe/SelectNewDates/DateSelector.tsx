@@ -29,10 +29,10 @@ export const DateSelector = ({
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const buttons: SelectorType[] = ['Normal', 'Weekdays', 'Advanced'];
+  const buttons: SelectorType[] = ['Normal', 'Advanced', 'Weekdays'];
 
   const setComponent = (
-    selectorType: 'Normal' | 'Weekdays' | 'Advanced'
+    selectorType: 'Normal' | 'Advanced' | 'Weekdays'
   ): void => {
     dispatch(setSelectorType(selectorType));
   };
