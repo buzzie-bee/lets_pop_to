@@ -26,7 +26,12 @@ export const DateSelector = ({
   const renderSelector = () => {
     switch (component) {
       case 'Normal':
-        return <NormalCalendarContainer tripType={tripType} />;
+        return (
+          <NormalCalendarContainer
+            tripType={tripType}
+            closePopup={closePopup}
+          />
+        );
       case 'Advanced':
         return (
           <SpecificDatesContainer tripType={tripType} closePopup={closePopup} />

@@ -15,8 +15,10 @@ import { useDispatch } from 'react-redux';
 
 export const NormalCalendar = ({
   tripType,
+  closePopup,
 }: {
   tripType: '' | 'oneWay' | 'return';
+  closePopup: () => void;
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -138,7 +140,7 @@ export const NormalCalendar = ({
       <div className={classes.saveButtonContainer}>
         <Button
           onClick={() => {
-            console.log('clicked');
+            closePopup();
           }}
           disabled={
             (tripType === 'return' ? startDate : endDate) ? false : true

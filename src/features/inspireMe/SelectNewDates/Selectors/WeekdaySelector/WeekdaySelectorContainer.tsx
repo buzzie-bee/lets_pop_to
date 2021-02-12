@@ -198,6 +198,7 @@ export const WeekdaySelectorContainer = ({
     }
 
     dispatch(setDates(dateArray));
+    closePopup();
   }, [dispatch, durationRange, selections, tripType]);
 
   const checkValid = useCallback((): boolean => {
@@ -243,7 +244,6 @@ export const WeekdaySelectorContainer = ({
       )}
       {component === 'months' && (
         <MonthSelector
-          closePopup={closePopup}
           handleMonthSelections={handleMonthSelections}
           setCompleted={setCompleted}
         />

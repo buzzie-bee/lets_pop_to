@@ -3,12 +3,14 @@ import React from 'react';
 import { NormalCalendar } from './NormalCalendar';
 export const NormalCalendarContainer = ({
   tripType,
+  closePopup,
 }: {
   tripType: '' | 'oneWay' | 'return';
+  closePopup: () => void;
 }) => {
   return (
     <div>
-      <NormalCalendar tripType={tripType} />
+      <NormalCalendar tripType={tripType} closePopup={closePopup} />
     </div>
   );
 };

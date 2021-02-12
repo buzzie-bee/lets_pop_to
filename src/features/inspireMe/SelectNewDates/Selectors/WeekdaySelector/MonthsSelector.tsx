@@ -4,11 +4,9 @@ import React, { useState } from 'react';
 import { MonthType } from './WeekdaySelectorContainer';
 
 export const MonthSelector = ({
-  closePopup,
   handleMonthSelections,
   setCompleted,
 }: {
-  closePopup: () => void;
   handleMonthSelections: (updatedSelections: MonthType[]) => void;
   setCompleted: (completed: boolean) => void;
 }) => {
@@ -56,9 +54,7 @@ export const MonthSelector = ({
         <Button
           onClick={() => {
             handleMonthSelections(months.filter((month) => month.selected));
-            // TODO: wait until months has been fully updated before calculating?
             setCompleted(true);
-            //closePopup()
           }}
           disabled={months.find((month) => month.selected) ? false : true}
         >
