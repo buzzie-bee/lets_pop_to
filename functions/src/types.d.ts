@@ -114,13 +114,18 @@ export interface PlaceOptionType {
   countryName: string;
 }
 
+export interface DateType {
+  outbound: string;
+  inbound: string;
+}
+
 export interface InspireMeQueryType {
   from: PlaceOptionType | null;
-  dates: string[];
+  dates: DateType[];
 }
 
 export interface FetchFlightsQueryType {
   from: PlaceOptionType | null;
   to: PlaceOptionType | null;
-  dates: string[];
+  dates: DateType[];
 }

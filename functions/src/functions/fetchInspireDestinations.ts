@@ -69,13 +69,23 @@ const parseParams = (
   }
 
   if (!Array.isArray(dates)) {
-    // console.log('dates not array');
+    console.log('dates not array');
     error = true;
-  }
+  } else {
+    if (dates.length === 0) {
+      // console.log('dates empty');
+      error = true;
+    }
 
-  if (dates.length === 0) {
-    // console.log('dates empty');
-    error = true;
+    if (!dates[0].outbound) {
+      console.log('date object does not contain outbound');
+      error = true;
+    }
+
+    if (!('inbound' in dates[0])) {
+      console.log('date object does not contain inbound');
+      error = true;
+    }
   }
 
   if (error) {
@@ -110,12 +120,12 @@ export const fetchInspireDestinations = functions
         const locale = 'en-GB';
         const originPlace = from?.placeId;
         const destinationPlace = 'anywhere';
-        const outboundPartialDate = date;
+        const outboundPartialDate = date.outbound;
+        const inboundPartialDate = date.inbound ? date.inbound : '';
 
         const fetchFlightsOptions: AxiosRequestConfig = {
           method: 'GET',
-          url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/${country}/${currency}/${locale}/${originPlace}/${destinationPlace}/${outboundPartialDate}`,
-          // params: { inboundpartialdate: '2019-12-01' },
+          url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/${country}/${currency}/${locale}/${originPlace}/${destinationPlace}/${outboundPartialDate}/${inboundPartialDate}`,
           headers: {
             'x-rapidapi-key':
               functions.config().skyscanner?.key ||
@@ -139,10 +149,13 @@ export const fetchInspireDestinations = functions
             'Fetch Destination Quotes Skyscanner API Error:',
             {
               query: request.query,
-              error: error,
+              error: error.message,
             }
           );
-          response.status(501).json({ query: request.query, error });
+          response.status(501).json({
+            query: request.query,
+            error: error.message,
+          });
           return;
         }
       }
@@ -188,9 +201,11 @@ export const fetchInspireDestinations = functions
       } catch (error) {
         functions.logger.error('Fetch Inspire Destinations Error:', {
           query: request.query,
-          error: error,
+          error: error.message,
         });
-        response.status(501).json({ query: request.query, error });
+        response
+          .status(501)
+          .json({ query: request.query, error: error.message });
         return;
       }
     });
