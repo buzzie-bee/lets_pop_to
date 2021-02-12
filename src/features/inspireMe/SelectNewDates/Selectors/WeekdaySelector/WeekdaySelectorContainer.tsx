@@ -14,10 +14,18 @@ export interface WeekdayType {
   selected: boolean;
 }
 
+export interface MonthType {
+  // TODO: find a better way to say a number between range, or a number with x characters
+  name: string;
+  month: string;
+  year: string;
+  selected: boolean;
+}
+
 interface SelectionsType {
   outbound: WeekdayType[];
   inbound: WeekdayType[];
-  months: string[];
+  months: MonthType[];
 }
 
 const initialState: SelectionsType = {
@@ -108,7 +116,7 @@ export const WeekdaySelectorContainer = ({
     }
   };
 
-  const handleMonthSelections = (updatedSelections: string[]) => {
+  const handleMonthSelections = (updatedSelections: MonthType[]) => {
     console.log('setting months');
     setSelections({ ...selections, months: updatedSelections });
   };
