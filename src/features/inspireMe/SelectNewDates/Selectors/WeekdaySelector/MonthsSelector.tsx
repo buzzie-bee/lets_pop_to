@@ -5,12 +5,14 @@ import { MonthType } from './WeekdaySelectorContainer';
 
 export const MonthSelector = ({
   closePopup,
-  setComponent,
   handleMonthSelections,
+  setDates,
+  setCompleted,
 }: {
   closePopup: () => void;
-  setComponent: (component: 'outbound' | 'inbound' | 'months') => void;
   handleMonthSelections: (updatedSelections: MonthType[]) => void;
+  setDates: () => void;
+  setCompleted: (completed: boolean) => void;
 }) => {
   const [months, setMonths] = useState<MonthType[]>(setInitialDatesState());
   const classes = useStyles();
@@ -35,7 +37,7 @@ export const MonthSelector = ({
         <Typography variant="overline">Select possible months</Typography>
       </div>
       <div className={classes.monthButtonContainer}>
-        {months.map(({ name, month, year, selected }) => {
+        {months.map(({ name, selected }) => {
           const monthClass = clsx(classes.monthButton, {
             [classes.activeMonth]: selected,
           });
@@ -56,6 +58,9 @@ export const MonthSelector = ({
         <Button
           onClick={() => {
             handleMonthSelections(months.filter((month) => month.selected));
+            // TODO: wait until months has been fully updated before calculating?
+            setCompleted(true);
+            //closePopup()
           }}
           disabled={months.find((month) => month.selected) ? false : true}
         >

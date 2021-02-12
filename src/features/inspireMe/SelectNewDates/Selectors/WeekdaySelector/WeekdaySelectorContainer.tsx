@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { MonthSelector } from './MonthsSelector';
 import { WeekdaySelector } from './WeekdaySelector';
 
@@ -103,6 +103,8 @@ export const WeekdaySelectorContainer = ({
   const [component, setComponent] = useState<'outbound' | 'inbound' | 'months'>(
     'outbound'
   );
+  const [durationRange, setDurationRange] = useState<number[]>([0, 14]);
+  const [completed, setCompleted] = useState<boolean>(false);
 
   const handleDaySelections = (updatedSelections: WeekdayType[]): void => {
     if (component === 'outbound') {
@@ -121,9 +123,38 @@ export const WeekdaySelectorContainer = ({
     setSelections({ ...selections, months: updatedSelections });
   };
 
+  const handleDurationRange = (durationRange: number[]) => {
+    setDurationRange(durationRange);
+  };
+
+  const setDates = useCallback(() => {
+    const { outbound, inbound, months } = selections;
+    console.log(outbound);
+    console.log(inbound);
+    console.log(months);
+    console.log(durationRange);
+  }, [durationRange, selections]);
+
+  const checkValid = useCallback((): boolean => {
+    const { outbound, inbound, months } = selections;
+
+    const outboundCheck = outbound.filter((day) => day.selected).length > 0;
+    const inboundCheck =
+      tripType === 'return'
+        ? inbound.filter((day) => day.selected).length > 0
+        : true;
+    const monthsCheck = months.filter((month) => month.selected).length > 0;
+
+    return outboundCheck && inboundCheck && monthsCheck;
+  }, [selections, tripType]);
+
   useEffect(() => {
-    console.log(selections);
-  }, [selections]);
+    if (completed) {
+      if (checkValid()) {
+        setDates();
+      }
+    }
+  }, [selections, completed, checkValid, setDates]);
 
   return (
     <div>
@@ -133,6 +164,7 @@ export const WeekdaySelectorContainer = ({
           direction="outbound"
           setComponent={setComponent}
           handleDaySelections={handleDaySelections}
+          handleDurationRange={handleDurationRange}
         />
       )}
       {component === 'inbound' && (
@@ -141,15 +173,55 @@ export const WeekdaySelectorContainer = ({
           direction="inbound"
           setComponent={setComponent}
           handleDaySelections={handleDaySelections}
+          handleDurationRange={handleDurationRange}
         />
       )}
       {component === 'months' && (
         <MonthSelector
           closePopup={closePopup}
-          setComponent={setComponent}
           handleMonthSelections={handleMonthSelections}
+          setDates={setDates}
+          setCompleted={setCompleted}
         />
       )}
     </div>
   );
+};
+
+const daysInMonth = ({
+  year,
+  month,
+}: {
+  year: string;
+  month: string;
+}): number => {
+  // Had to do this because typescript won't allow strings in position param,
+  // but will allow a string to be passed as the whole argument (same below)
+  const stringDate = `${year}-${month}-0`;
+  return new Date(stringDate).getDate();
+};
+
+const days = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
+const getWeekday = ({
+  day,
+  month,
+  year,
+}: {
+  day: number;
+  month: string;
+  year: string;
+}) => {
+  const stringDate = `${year}-${month}-${day < 10 ? `0${day}` : `${day}`}`;
+  const dayNum: number = new Date(stringDate).getDay();
+  const weekday: string = days[dayNum];
+  return weekday;
 };

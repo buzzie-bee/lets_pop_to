@@ -16,11 +16,13 @@ export const WeekdaySelector = ({
   direction,
   setComponent,
   handleDaySelections,
+  handleDurationRange,
 }: {
   tripType: '' | 'oneWay' | 'return';
   direction: 'outbound' | 'inbound';
   setComponent: (component: 'outbound' | 'inbound' | 'months') => void;
   handleDaySelections: (updatedSelections: WeekdayType[]) => void;
+  handleDurationRange: (durationRange: number[]) => void;
 }) => {
   const [days, setDays] = useState<WeekdayType[]>(initialDaysState);
   const [durationRange, setDurationRange] = useState<number[]>([0, 14]);
@@ -174,6 +176,9 @@ export const WeekdaySelector = ({
                 : 'months'
             );
             handleDaySelections(days);
+            if (direction === 'inbound') {
+              handleDurationRange(durationRange);
+            }
           }}
           disabled={days.find((day) => day.selected) ? false : true}
         >
