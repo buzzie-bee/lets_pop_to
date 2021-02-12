@@ -246,7 +246,13 @@ export const SpecificDatesCalendar = ({
                 closePopup();
               }
             }}
-            disabled={dates.find((date) => date.inbound === '') ? true : false}
+            disabled={
+              dates.find(
+                (date) => date.outbound === settingDate && date.inbound === ''
+              )
+                ? true
+                : false
+            }
           >
             {dates.find((date) => date.inbound === '')
               ? 'To next departing'
