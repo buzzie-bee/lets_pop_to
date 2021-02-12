@@ -41,7 +41,9 @@ export const SpecificDatesCalendar = ({
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    const dateString = `${year}-${month < 10 ? `0${month}` : month}-${day}`;
+    const dateString = `${year}-${month < 10 ? `0${month}` : month}-${
+      day < 10 ? `0${day}` : day
+    }`;
     return dateString;
   };
 
@@ -50,7 +52,7 @@ export const SpecificDatesCalendar = ({
       return;
     }
 
-    const newDateNormalised = new Date(newDate.toUTCString());
+    const newDateNormalised = new Date(newDate.toDateString());
     const newDateString = normalisedDateString(newDateNormalised);
     setSelectedDate(newDateNormalised);
 
