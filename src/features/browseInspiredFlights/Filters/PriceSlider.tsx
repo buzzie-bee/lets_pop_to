@@ -1,3 +1,5 @@
+import React, { ChangeEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   InputAdornment,
@@ -5,15 +7,9 @@ import {
   Slider,
   Typography,
 } from '@material-ui/core';
-import React, { ChangeEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { setPriceRange } from './filtersSlice';
 import { RootState } from '../../../redux/store';
-
-const isNumeric = (str: string) => {
-  const rx = new RegExp(/^\d+$/);
-  return rx.test(str);
-};
+import { isNumeric } from '../../../helpers/isNumeric';
 
 const setInitialValues = (priceRange: number[], highestPrice: number) => {
   if (priceRange.length === 2) {
