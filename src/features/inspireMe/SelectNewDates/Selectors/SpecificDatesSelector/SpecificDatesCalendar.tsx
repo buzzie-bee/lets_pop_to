@@ -261,7 +261,7 @@ export const SpecificDatesCalendar = ({
           </Button>
         </div>
       )}
-      {!returnMode && (
+      {tripType !== 'return' && (
         <div className={classes.returnButtonContainer}>
           <Button
             onClick={() => {
