@@ -13,6 +13,7 @@ import useSize from '@react-hook/size';
 import { DestinationCard } from './DestinationCard';
 import { useDispatch } from 'react-redux';
 import { setHighestPrice } from './Filters/filtersSlice';
+import { DateType } from '../../type';
 
 const useStyles = makeStyles((theme) => ({
   columnItem: { display: 'block' },
@@ -41,7 +42,7 @@ const DestinationGrid = ({
   priceRange,
 }: {
   from: any;
-  dates: any;
+  dates: DateType[];
   directOnly: boolean;
   priceRange: number[];
 }) => {
