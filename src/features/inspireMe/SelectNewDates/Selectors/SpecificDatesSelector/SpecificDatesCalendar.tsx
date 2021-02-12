@@ -259,6 +259,21 @@ export const SpecificDatesCalendar = ({
           </Button>
         </div>
       )}
+      {!returnMode && (
+        <div className={classes.returnButtonContainer}>
+          <Button
+            onClick={() => {
+              if (true) {
+                dispatch(setNewDates(dates));
+                closePopup();
+              }
+            }}
+            disabled={dates.find((date) => date.outbound !== '') ? false : true}
+          >
+            Save Selection
+          </Button>
+        </div>
+      )}
       {returnMode && (
         <Paper component="ul" className={classes.root}>
           {dates.map((date) => {
