@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
-import { setNewDates } from '../../../inspireMeSlice';
+import { setDates } from '../../../inspireMeSlice';
 import { useDispatch } from 'react-redux';
 
 export const NormalCalendar = ({
@@ -59,9 +59,7 @@ export const NormalCalendar = ({
         : '';
 
       dispatch(
-        setNewDates([
-          { outbound: serializeableStart, inbound: serializeableEnd },
-        ])
+        setDates([{ outbound: serializeableStart, inbound: serializeableEnd }])
       );
     }
   }, [startDate, endDate, dispatch]);

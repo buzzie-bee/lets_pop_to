@@ -13,7 +13,7 @@ import { DatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
 
 import { DateType } from '../../../../../type';
-import { setNewDates } from '../../../inspireMeSlice';
+import { setDates as setStoreDates } from '../../../inspireMeSlice';
 
 export const SpecificDatesCalendar = ({
   tripType,
@@ -116,7 +116,9 @@ export const SpecificDatesCalendar = ({
   };
 
   useEffect(() => {
-    dispatch(setNewDates(dates));
+    if (dates) {
+      dispatch(setStoreDates(dates));
+    }
   }, [dates, dispatch]);
 
   const renderDay = (
@@ -241,7 +243,7 @@ export const SpecificDatesCalendar = ({
                 console.log('setting to ', nextUnsetDate.outbound);
                 setSettingDate(nextUnsetDate.outbound);
               } else {
-                dispatch(setNewDates(dates));
+                dispatch(setStoreDates(dates));
                 closePopup();
               }
             }}
@@ -264,7 +266,7 @@ export const SpecificDatesCalendar = ({
           <Button
             onClick={() => {
               if (true) {
-                dispatch(setNewDates(dates));
+                dispatch(setStoreDates(dates));
                 closePopup();
               }
             }}

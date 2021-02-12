@@ -6,12 +6,10 @@ import { MonthType } from './WeekdaySelectorContainer';
 export const MonthSelector = ({
   closePopup,
   handleMonthSelections,
-  setDates,
   setCompleted,
 }: {
   closePopup: () => void;
   handleMonthSelections: (updatedSelections: MonthType[]) => void;
-  setDates: () => void;
   setCompleted: (completed: boolean) => void;
 }) => {
   const [months, setMonths] = useState<MonthType[]>(setInitialDatesState());

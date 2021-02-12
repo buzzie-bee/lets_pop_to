@@ -1,8 +1,8 @@
 import { range } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { isNumeric } from '../../../../../helpers/isNumeric';
-import { setNewDates } from '../../../inspireMeSlice';
+import { setDates } from '../../../inspireMeSlice';
 import { MonthSelector } from './MonthsSelector';
 import { WeekdaySelector } from './WeekdaySelector';
 import { DateType } from './../../../../../type';
@@ -134,7 +134,7 @@ export const WeekdaySelectorContainer = ({
     setDurationRange(durationRange);
   };
 
-  const setDates = useCallback(() => {
+  const calculateAndSetDates = useCallback(() => {
     const { outbound, inbound, months } = selections;
 
     const outboundDays = outbound
@@ -166,7 +166,7 @@ export const WeekdaySelectorContainer = ({
 
     if (tripType === 'oneWay') {
       dispatch(
-        setNewDates(
+        setDates(
           outboundDates.map((date) => {
             return { outbound: date, inbound: '' };
           })
@@ -197,7 +197,7 @@ export const WeekdaySelectorContainer = ({
       return;
     }
 
-    dispatch(setNewDates(dateArray));
+    dispatch(setDates(dateArray));
   }, [dispatch, durationRange, selections, tripType]);
 
   const checkValid = useCallback((): boolean => {
@@ -216,10 +216,10 @@ export const WeekdaySelectorContainer = ({
   useEffect(() => {
     if (completed) {
       if (checkValid()) {
-        setDates();
+        calculateAndSetDates();
       }
     }
-  }, [selections, completed, checkValid, setDates]);
+  }, [selections, completed, checkValid, calculateAndSetDates]);
 
   return (
     <div>
@@ -245,7 +245,6 @@ export const WeekdaySelectorContainer = ({
         <MonthSelector
           closePopup={closePopup}
           handleMonthSelections={handleMonthSelections}
-          setDates={setDates}
           setCompleted={setCompleted}
         />
       )}
