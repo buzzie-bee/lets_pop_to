@@ -6,11 +6,16 @@ export interface FlightsType {
   flights: Flight[];
 }
 
-export interface FlightType {
+export interface FlightLegType {
   from: FromType;
   to: ToType;
   departing: string;
   carrier: CarrierType;
+}
+
+export interface FlightType {
+  outbound: FlightLegType;
+  inbound: FlightLegType | {};
   cost: CostType;
   direct: boolean;
   quotedAt: string;

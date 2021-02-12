@@ -8,21 +8,35 @@ import { parseTime } from '../../helpers/parseTime';
 import { Logo } from './Logo';
 
 export const Flight: React.FC<FlightType> = ({
-  from,
-  to,
-  departing,
-  carrier,
+  outbound,
+  inbound,
   cost,
   direct,
   quotedAt,
 }: FlightType) => {
+  const { from, to, departing, carrier } = outbound;
   if (!from || !to || !departing || !cost) {
     return <></>;
+  }
+
+  let inboundFrom = undefined;
+  let inboundTo = undefined;
+  let inboundDeparting = undefined;
+  let inboundCarrier = undefined;
+
+  if ('from' in inbound) {
+    inboundFrom = inbound.from;
+    inboundTo = inbound.to;
+    inboundDeparting = inbound.departing;
+    inboundCarrier = inbound.carrier;
   }
 
   const originId = from.iataCode;
   const destinationId = to.iataCode;
   const outboundPartialDate = departing.slice(0, 10);
+  const inboundPartialDate = inboundDeparting
+    ? inboundDeparting.slice(0, 10)
+    : outboundPartialDate;
   // This is not a real associate id
   const associateId = 'letspopto';
 
@@ -42,7 +56,7 @@ export const Flight: React.FC<FlightType> = ({
               <Grid item>
                 <CalendarCard
                   start={outboundPartialDate}
-                  end={outboundPartialDate}
+                  end={inboundPartialDate}
                 />
               </Grid>
             </Grid>
@@ -102,6 +116,53 @@ export const Flight: React.FC<FlightType> = ({
               </Grid>
             </Paper>
           </Grid>
+          {inboundFrom && inboundCarrier && inboundTo && inboundDeparting && (
+            <Grid item>
+              <Paper
+                style={{
+                  padding: '4px',
+                  marginRight: '8px',
+                  marginTop: '8px',
+                  marginBottom: '8px',
+                }}
+              >
+                <div style={{ display: 'inline' }}>
+                  <Typography variant="button">Return</Typography>
+                  <div style={{ display: 'inline', marginLeft: '8px' }}>
+                    {inboundDeparting.slice(0, 10)}
+                  </div>
+                </div>
+
+                <Grid
+                  container
+                  item
+                  direction="row"
+                  justify="space-around"
+                  alignItems="flex-start"
+                >
+                  <Grid item>
+                    <Logo airlineName={inboundCarrier.name} />
+                    <Typography
+                      style={{ marginTop: '-8px', fontWeight: 'lighter' }}
+                    >
+                      {inboundCarrier.name}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <FlightDestinations
+                      fromIata={inboundFrom.iataCode}
+                      fromCityName={inboundFrom.cityName}
+                      fromCountryName={inboundFrom.countryName}
+                      toIata={inboundTo.iataCode}
+                      toCityName={inboundTo.cityName}
+                      toCountryName={inboundTo.countryName}
+                      direct={direct}
+                    />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+          )}
           <Grid container item direction="column" justify="center">
             <Grid item>
               <Typography style={{ marginTop: '1rem' }}>
