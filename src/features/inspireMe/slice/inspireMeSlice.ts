@@ -11,6 +11,9 @@ export const inspireMeSlice = createSlice({
     setDates: (state, { payload }) => {
       state.dates = payload;
     },
+    setTripType: (state, { payload }) => {
+      state.tripType = payload;
+    },
     setSelectorType: (state, { payload }) => {
       state.selectorType = payload;
       state.dates = [];
@@ -30,6 +33,7 @@ export const inspireMeSlice = createSlice({
 export const {
   setFrom,
   setDates,
+  setTripType,
   setSelectorType,
   setWeekdaySelections,
   setDurationRange,

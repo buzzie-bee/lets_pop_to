@@ -113,6 +113,7 @@ const setInitialDatesState = (): MonthType[] => {
 export const inspireMeInitialState: InspireMeStateType = {
   from: null,
   dates: [],
+  tripType: '',
   selectorType: 'Normal',
   weekdaySelections: initialWeekdayState,
   durationRange: [0, 14],

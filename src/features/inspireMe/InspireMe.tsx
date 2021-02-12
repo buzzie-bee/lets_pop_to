@@ -13,7 +13,11 @@ import PlaceInput from './PlaceInput';
 import { InspireMeStateType, PlaceOptionType } from '../../type';
 import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFrom, setDates } from './slice/inspireMeSlice';
+import {
+  setFrom,
+  setDates,
+  setTripType as setTripTypeRedux,
+} from './slice/inspireMeSlice';
 import {
   setHighestPrice,
   setPriceRange,
@@ -21,6 +25,8 @@ import {
 } from '../browseInspiredFlights/Filters/filtersSlice';
 import { ROUTES } from '../../constants/routes';
 import { SelectNewDates } from './SelectNewDates/SelectNewDates';
+import { ok } from 'assert';
+import { negate } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,7 +38,10 @@ const useStyles = makeStyles((theme) => ({
 
 const InspireMe: React.FC = () => {
   const dispatch = useDispatch();
-  const [tripType, setTripType] = useState<'oneWay' | 'return' | ''>('');
+  const { tripType }: InspireMeStateType = useSelector(
+    (state: RootState) => state.inspireMe
+  );
+  // const [tripType, setTripType] = useState<'oneWay' | 'return' | ''>('');
   const { from, dates }: InspireMeStateType = useSelector(
     (state: RootState) => state.inspireMe
   );
@@ -59,6 +68,10 @@ const InspireMe: React.FC = () => {
       (date) => `${date.toISOString().substr(0, 10)}`
     );
     dispatch(setDates(serializeableDates));
+  };
+
+  const setTripType = (tripType: '' | 'oneWay' | 'return') => {
+    dispatch(setTripTypeRedux(tripType));
   };
 
   useEffect(() => {
@@ -106,7 +119,7 @@ const InspireMe: React.FC = () => {
           <SelectNewDates
             handleSetDates={handleSetDates}
             tripType={tripType}
-            disabled={false}
+            disabled={tripType.length === 0}
           />
         </Grid>
         <Grid item>
@@ -133,3 +146,8 @@ const InspireMe: React.FC = () => {
 };
 
 export default InspireMe;
+
+// ng
+// https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchInspireDestinations?from={%22placeId%22:%22MUC-sky%22,%22placeName%22:%22Munich%22,%22countryId%22:%22DE-sky%22,%22regionId%22:%22%22,%22cityId%22:%22MUNI-sky%22,%22countryName%22:%22Germany%22}&dates=[{%22outbound%22:%222021-06-4%22,%22inbound%22:%222021-06-13%22},{%22outbound%22:%222021-06-11%22,%22inbound%22:%222021-06-19%22},{%22outbound%22:%222021-06-18%22,%22inbound%22:%222021-06-26%22},{%22outbound%22:%222021-06-25%22,%22inbound%22:%222021-07-3%22},{%22outbound%22:%222021-06-4%22,%22inbound%22:%222021-06-12%22},{%22outbound%22:%222021-06-11%22,%22inbound%22:%222021-06-20%22},{%22outbound%22:%222021-06-18%22,%22inbound%22:%222021-06-27%22},{%22outbound%22:%222021-06-25%22,%22inbound%22:%222021-07-4%22}]
+// ok
+// https://europe-west1-lets-pop-to-dev.cloudfunctions.net/fetchInspireDestinations?from={%22placeId%22:%22MUC-sky%22,%22placeName%22:%22Munich%22,%22countryId%22:%22DE-sky%22,%22regionId%22:%22%22,%22cityId%22:%22MUNI-sky%22,%22countryName%22:%22Germany%22}&dates=[{%22outbound%22:%222021-06-10%22,%22inbound%22:%222021-06-19%22}]

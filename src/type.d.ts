@@ -100,6 +100,7 @@ export type SelectorType = 'Normal' | 'Weekdays' | 'Advanced';
 export interface InspireMeStateType {
   from: PlaceOptionType | null;
   dates: DateType[];
+  tripType: '' | 'oneWay' | 'return';
   selectorType: SelectorType;
   weekdaySelections: SelectionsType;
   durationRange: number[];
