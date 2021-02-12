@@ -33,7 +33,7 @@ export const formatFlightData = (data: BrowseQuotesType): FlightsType => {
       (place) => place.placeId === quote.outboundLeg.destinationId
     );
 
-    const from = {
+    const outboundFrom = {
       iataCode: outboundFromPlace?.iataCode,
       locationName: outboundFromPlace?.name,
       cityName: outboundFromPlace?.cityName,
@@ -82,7 +82,7 @@ export const formatFlightData = (data: BrowseQuotesType): FlightsType => {
       sunlightMinutes,
     } = toWeather;
 
-    const to = {
+    const outboundTo = {
       iataCode: outboundDestinationPlace?.iataCode,
       locationName: outboundDestinationPlace?.name,
       cityName: outboundDestinationPlace?.cityName,
@@ -101,12 +101,49 @@ export const formatFlightData = (data: BrowseQuotesType): FlightsType => {
       },
     };
 
-    const departing = quote.outboundLeg.departureDate;
+    const outboundDeparting = quote.outboundLeg.departureDate;
 
-    const carrier = carriers.find(
+    const outboundCarrier = carriers.find(
       (carr) => carr.carrierId === quote.outboundLeg.carrierIds[0]
     );
 
+    let inboundFrom = undefined;
+    let inboundTo = undefined;
+    let inboundDeparting = undefined;
+    let inboundCarrier = undefined;
+    if (quote.inboundLeg) {
+      const inboundFromPlace = places.find(
+        (place) => place.placeId === quote.inboundLeg.originId
+      );
+
+      const inboundDestinationPlace = places.find(
+        (place) => place.placeId === quote.inboundLeg.destinationId
+      );
+
+      inboundFrom = {
+        iataCode: inboundFromPlace?.iataCode,
+        locationName: inboundFromPlace?.name,
+        cityName: inboundFromPlace?.cityName,
+        countryName: inboundFromPlace?.countryName,
+        weather: {},
+      };
+
+      inboundTo = {
+        iataCode: inboundDestinationPlace?.iataCode,
+        locationName: inboundDestinationPlace?.name,
+        cityName: inboundDestinationPlace?.cityName,
+        countryName: inboundDestinationPlace?.countryName,
+        weather: {},
+      };
+
+      inboundDeparting = quote.inboundLeg.departureDate;
+
+      inboundCarrier = carriers.find(
+        (carr) => carr.carrierId === quote.inboundLeg.carrierIds[0]
+      );
+    }
+
+    // Shared data for both legs
     const cost = {
       cost: quote.minPrice,
       currency: currencies[0].code,
@@ -118,10 +155,18 @@ export const formatFlightData = (data: BrowseQuotesType): FlightsType => {
     const quotedAt = quote.quoteDateTime;
 
     return {
-      from,
-      to,
-      departing,
-      carrier,
+      outbound: {
+        from: outboundFrom,
+        to: outboundTo,
+        departing: outboundDeparting,
+        carrier: outboundCarrier,
+      },
+      inbound: {
+        from: inboundFrom,
+        to: inboundTo,
+        departing: inboundDeparting,
+        carrier: inboundCarrier,
+      },
       cost,
       direct,
       quotedAt,

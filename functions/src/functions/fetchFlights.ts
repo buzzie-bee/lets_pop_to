@@ -54,6 +54,15 @@ const parseParams = (
   if (!Array.isArray(dates)) {
     console.log('dates not array');
     error = true;
+  } else {
+    if (!('outbound' in dates[0])) {
+      console.log('dates does not contain outbound');
+      error = true;
+    }
+    if (!('inbound' in dates[0])) {
+      console.log('dates does not contain inbound');
+      error = true;
+    }
   }
 
   if (dates.length === 0) {
@@ -88,7 +97,10 @@ export const fetchFlights = functions
           query: request.query,
           error: 'Query params failed check',
         });
-        response.status(400).json({ message: 'oops', query: request.query });
+        response.status(400).json({
+          message: 'oops',
+          query: request.query,
+        });
         return;
       }
 
@@ -101,12 +113,12 @@ export const fetchFlights = functions
           const locale = 'en-GB';
           const originPlace = `${from}-iata`;
           const destinationPlace = `${to}-iata`;
-          const outboundPartialDate = date;
+          const outboundPartialDate = date.outbound;
+          const inboundPartialDate = date.inbound ? date.inbound : '';
 
           const fetchFlightsOptions: AxiosRequestConfig = {
             method: 'GET',
-            url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/${country}/${currency}/${locale}/${originPlace}/${destinationPlace}/${outboundPartialDate}`,
-            // params: { inboundpartialdate: '2019-12-01' },
+            url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/${country}/${currency}/${locale}/${originPlace}/${destinationPlace}/${outboundPartialDate}/${inboundPartialDate}`,
             headers: {
               'x-rapidapi-key':
                 functions.config().skyscanner?.key ||
@@ -119,7 +131,7 @@ export const fetchFlights = functions
 
           try {
             const apiResponse = await axios.request(fetchFlightsOptions);
-
+            console.log('fetching');
             const flightData: any = formatFlightData(apiResponse.data);
             if (flightData) {
               allFlights.push(...flightData.flights);
@@ -127,9 +139,11 @@ export const fetchFlights = functions
           } catch (error) {
             functions.logger.error('Fetch Quotes Skyscanner API Error:', {
               query: request.query,
-              error: error,
+              error: error.message,
             });
-            response.status(501).json({ query: request.query, error });
+            response
+              .status(501)
+              .json({ query: request.query, error: error.message });
             return;
           }
         }
@@ -139,12 +153,12 @@ export const fetchFlights = functions
         const errorMessage = 'Fetch Quotes Looping Dates Error:';
         functions.logger.error(errorMessage, {
           query: request.query,
-          error: error,
+          error: error.message,
         });
         response.status(501).json({
           errorMessage: errorMessage,
           query: request.query,
-          error: error,
+          error: error.message,
         });
         return;
       }
