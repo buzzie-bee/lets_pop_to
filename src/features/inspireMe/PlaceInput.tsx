@@ -14,22 +14,11 @@ import { InspireMeStateType, PlaceOptionType } from '../../type';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
-}));
-
 interface PlaceInputProps {
-  from?: PlaceOptionType;
   handleSetFrom: (from: PlaceOptionType) => void;
 }
 
-export const PlaceInput: React.FC<PlaceInputProps> = ({
-  from,
-  handleSetFrom,
-}) => {
+export const PlaceInput: React.FC<PlaceInputProps> = ({ handleSetFrom }) => {
   const { from: fromRedux }: InspireMeStateType = useSelector(
     (state: RootState) => state.inspireMe
   );
@@ -56,17 +45,14 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({
   };
 
   useEffect(() => {
-    console.log(selectedPlace);
     if (selectedPlace) {
-      console.log('setting');
       setInputValue(
         `${selectedPlace.placeName}, ${
           selectedPlace.regionId ? `${selectedPlace.regionId}, ` : ''
         }${selectedPlace.countryName}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedPlace]);
 
   useEffect(() => {
     if (inputValue.length) {
@@ -138,4 +124,9 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({
   );
 };
 
-export default PlaceInput;
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2),
+  },
+}));

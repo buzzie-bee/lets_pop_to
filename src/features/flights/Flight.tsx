@@ -1,8 +1,10 @@
 import React from 'react';
 import { Grid, Hidden, Paper, Typography } from '@material-ui/core';
+
 import { ReferralButton } from './ReferralButton';
 import { CalendarCard } from './CalendarCard';
 import { FlightDestinations } from './FlightDestinations';
+
 import { FlightType } from '../../type';
 import { parseTime } from '../../helpers/parseTime';
 import { Logo } from './Logo';

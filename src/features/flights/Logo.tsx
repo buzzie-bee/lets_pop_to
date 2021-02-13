@@ -1,5 +1,6 @@
-import { Skeleton } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
+import { Skeleton } from '@material-ui/lab';
+
 import { fetchLogo } from './fetchLogo';
 
 export const Logo = ({ airlineName }: { airlineName: string }) => {
@@ -12,8 +13,7 @@ export const Logo = ({ airlineName }: { airlineName: string }) => {
       setLogoUrl,
       setLoading,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [airlineName]);
 
   const renderLogo = () => {
     if (loading) {

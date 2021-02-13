@@ -74,8 +74,6 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderBottom: `2px solid ${theme.palette.divider}`,
-    // background:
-    //   'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(213,129,255,1) 100%)',
     background:
       'linear-gradient(90deg, rgba(95,11,136,1) 0%, rgba(153,51,204,1) 50%, rgba(191,83,245,1) 100%)',
     height: '5em',

@@ -117,7 +117,6 @@ export const PriceSlider = ({
 
   const handleSubmit = () => {
     setShowSlider(false);
-    // handleChange(value);
     dispatch(setPriceRange(value));
   };
 

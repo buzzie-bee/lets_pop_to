@@ -14,7 +14,7 @@ interface PlaceType {
   weather: {};
 }
 
-const Flights = () => {
+export const Flights = () => {
   const params: any = useParams();
   const from: PlaceType = JSON.parse(params.from);
   const to: PlaceType = JSON.parse(params.to);
@@ -31,8 +31,7 @@ const Flights = () => {
       setLoading: setLoading,
       setFlights: setFlights,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dates, from.iataCode, to.iataCode]);
 
   if (loading) {
     return (
@@ -60,5 +59,3 @@ const Flights = () => {
     </Container>
   );
 };
-
-export default Flights;

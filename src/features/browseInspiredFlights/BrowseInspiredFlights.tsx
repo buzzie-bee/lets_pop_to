@@ -8,7 +8,7 @@ import { Filters } from './Filters/Filters';
 import { FiltersStateType } from './Filters/filtersSlice';
 import { RootState } from '../../redux/store';
 
-const BrowseInspiredFlights: React.FC = () => {
+export const BrowseInspiredFlights = () => {
   const params: any = useParams();
   const from = JSON.parse(params.from);
   const dates = JSON.parse(params.dates);
@@ -42,5 +42,3 @@ const BrowseInspiredFlights: React.FC = () => {
     </>
   );
 };
-
-export default BrowseInspiredFlights;

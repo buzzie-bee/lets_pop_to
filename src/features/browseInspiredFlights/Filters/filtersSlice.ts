@@ -30,6 +30,11 @@ export const filtersSlice = createSlice({
     setHighestPrice: (state, { payload }) => {
       state.highestPrice = payload;
     },
+    initialiseFilters: (state) => {
+      state.showPriceFilter = false;
+      state.priceRange = [0, 1000000];
+      state.highestPrice = 0;
+    },
   },
 });
 
@@ -38,6 +43,7 @@ export const {
   setShowPriceFilter,
   setPriceRange,
   setHighestPrice,
+  initialiseFilters,
 } = filtersSlice.actions;
 
 export const filtersReducer = filtersSlice.reducer;

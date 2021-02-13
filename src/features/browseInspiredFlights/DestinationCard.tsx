@@ -11,11 +11,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import './DestinationCardStyles.css';
+
 import { ROUTES } from '../../constants/routes';
 import { DateType } from '../../type';
+import './DestinationCardStyles.css';
 
-// TODO add in types once data structure is settled
+// TODO add in types now data structure is settled
 interface DestinationCardPropTypes {
   place: any;
   weather: any;
@@ -61,8 +62,7 @@ export const DestinationCard = ({
       isSubscribed = false;
       return;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [place.cityName, place.countryName, timeoutR]);
 
   const renderImage = () => {
     if (photo) {
@@ -173,7 +173,6 @@ const CardData = ({
       <Card style={{ margin: '10px' }}>
         <CardActionArea
           onClick={() => {
-            console.log('clicked');
             const newTab = window.open(
               `${ROUTES.FLIGHTS_PREFIX}/${JSON.stringify(
                 flights[0].outbound.from

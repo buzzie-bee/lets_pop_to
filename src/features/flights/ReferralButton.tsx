@@ -22,7 +22,6 @@ export const ReferralButton = ({
   const skyscannerReferalEndpoint =
     'https://skyscanner.net/g/referrals/v1/flights/day-view/?';
   const referralURL = `${skyscannerReferalEndpoint}${params}`;
-  console.log(referralURL);
   return (
     <Button
       variant="outlined"

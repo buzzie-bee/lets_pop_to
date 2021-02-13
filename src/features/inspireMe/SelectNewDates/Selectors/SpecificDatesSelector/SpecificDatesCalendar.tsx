@@ -248,7 +248,6 @@ export const SpecificDatesCalendar = ({
             onClick={() => {
               const nextUnsetDate = dates.find((date) => date.inbound === '');
               if (nextUnsetDate) {
-                console.log('setting to ', nextUnsetDate.outbound);
                 setSettingDate(nextUnsetDate.outbound);
               } else {
                 dispatch(setStoreDates(dates));

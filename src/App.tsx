@@ -4,10 +4,10 @@ import { CssBaseline, makeStyles } from '@material-ui/core';
 
 import { NavBar } from './features/navBar/NavBar';
 
-import Footer from './features/footer/Footer';
-import InspireMe from './features/inspireMe/InspireMe';
-import BrowseInspiredFlights from './features/browseInspiredFlights/BrowseInspiredFlights';
-import Flights from './features/flights/Flights';
+import { Footer } from './features/footer/Footer';
+import { InspireMe } from './features/inspireMe/InspireMe';
+import { BrowseInspiredFlights } from './features/browseInspiredFlights/BrowseInspiredFlights';
+import { Flights } from './features/flights/Flights';
 
 import { ROUTES } from './constants/routes';
 

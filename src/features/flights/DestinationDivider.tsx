@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './DestinationDivider.css';
 
 export const DestinationDivider = ({ stops }: { stops: number }) => {

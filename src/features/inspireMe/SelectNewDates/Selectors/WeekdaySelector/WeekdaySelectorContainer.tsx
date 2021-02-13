@@ -44,18 +44,14 @@ export const WeekdaySelectorContainer = ({
 
   const handleDaySelections = (updatedSelections: WeekdayType[]): void => {
     if (component === 'outbound') {
-      console.log('setting outbound');
       setSelections({ ...selections, outbound: updatedSelections });
     }
     if (component === 'inbound') {
-      //
-      console.log('setting inbound');
       setSelections({ ...selections, inbound: updatedSelections });
     }
   };
 
   const handleMonthSelections = (months: MonthType[]) => {
-    console.log('setting months');
     const selectedMonths = months.filter((month) => month.selected);
     setSelections({ ...selections, months: selectedMonths });
     dispatch(setMonths(months));

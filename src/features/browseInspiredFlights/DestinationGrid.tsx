@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 import {
   Grid,
@@ -14,26 +14,6 @@ import { DestinationCard } from './DestinationCard';
 import { useDispatch } from 'react-redux';
 import { setHighestPrice } from './Filters/filtersSlice';
 import { DateType } from '../../type';
-
-const useStyles = makeStyles((theme) => ({
-  columnItem: { display: 'block' },
-  loadingGridItem: { width: '100%', minHeight: '25%' },
-  loadingDiv: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    minHeight: '25%',
-  },
-  linearProgress: { width: '100%', marginBottom: '1em', marginTop: '2em' },
-  paperStyle: {
-    padding: '2%',
-    marginTop: '1em',
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '73vh',
-  },
-}));
 
 const DestinationGrid = ({
   from,
@@ -58,33 +38,44 @@ const DestinationGrid = ({
   const [imgWidth, setImgWidth] = useState<number>(400);
   const dispatch = useDispatch();
 
-  const sortColumns = (num: number) => {
-    const tempColumns = [];
+  const sortColumns = useCallback(
+    (num: number) => {
+      const tempColumns = [];
 
-    for (let i = 0; i < num; i++) {
-      tempColumns.push(
-        filteredDestinations.filter((d, j) => (j + i) % num === 0)
-      );
-    }
-    return tempColumns;
-  };
+      for (let i = 0; i < num; i++) {
+        tempColumns.push(
+          filteredDestinations.filter((d, j) => (j + i) % num === 0)
+        );
+      }
+      return tempColumns;
+    },
+    [filteredDestinations]
+  );
 
-  const calculatedImgWidth = (columns: number): void => {
-    const padding = theme.spacing(2) * columns;
-    const calculatedImgWidth = Math.floor((divWidth - padding) / columns);
-    setImgWidth(calculatedImgWidth);
-  };
+  const calculatedImgWidth = useCallback(
+    (columns: number): void => {
+      const padding = theme.spacing(2) * columns;
+      const calculatedImgWidth = Math.floor((divWidth - padding) / columns);
+      setImgWidth(calculatedImgWidth);
+    },
+    [divWidth, theme]
+  );
 
   useEffect(() => {
     const directFiltered = sortedDestinations.filter(({ destination }) => {
-      //@ts-ignore
-      return destinations[destination].flights.some(({ direct }) => {
-        if (directOnly) {
-          return direct === directOnly;
-        } else {
-          return true;
+      if (destinations[destination]) {
+        if (destinations[destination].flights) {
+          //@ts-ignore - need to create interfaces now data is shaped how I need it to be
+          return destinations[destination].flights.some(({ direct }) => {
+            if (directOnly) {
+              return direct === directOnly;
+            } else {
+              return true;
+            }
+          });
         }
-      });
+      }
+      return false;
     });
 
     const [minPrice, maxPrice] = priceRange;
@@ -93,8 +84,7 @@ const DestinationGrid = ({
     });
 
     setFilteredDestinations(filtered);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortedDestinations]);
+  }, [destinations, directOnly, priceRange, sortedDestinations]);
 
   useEffect(() => {
     if (filteredDestinations) {
@@ -114,10 +104,9 @@ const DestinationGrid = ({
       calculatedImgWidth(numberOfColumns);
       setColumns(sortedColumns);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [divWidth, filteredDestinations]);
+  }, [calculatedImgWidth, divWidth, filteredDestinations, sortColumns]);
 
-  const fetchFlights = async () => {
+  const fetchFlights = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -155,17 +144,11 @@ const DestinationGrid = ({
       // TODO: Error handling here
       console.log(error.message);
     }
-  };
+  }, [dates, dispatch, from]);
 
   useEffect(() => {
     fetchFlights();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    fetchFlights();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [from, dates]);
+  }, [from, dates, fetchFlights]);
 
   const renderColumn = (columnData: any[]) => {
     if (!loading && destinations && columnData.length && imgWidth) {
@@ -263,3 +246,23 @@ const DestinationGrid = ({
 };
 
 export default DestinationGrid;
+
+const useStyles = makeStyles((theme) => ({
+  columnItem: { display: 'block' },
+  loadingGridItem: { width: '100%', minHeight: '25%' },
+  loadingDiv: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    minHeight: '25%',
+  },
+  linearProgress: { width: '100%', marginBottom: '1em', marginTop: '2em' },
+  paperStyle: {
+    padding: '2%',
+    marginTop: '1em',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '73vh',
+  },
+}));

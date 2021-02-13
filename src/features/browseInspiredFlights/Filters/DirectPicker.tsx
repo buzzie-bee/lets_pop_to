@@ -15,7 +15,6 @@ export const DirectPicker = () => {
   const handleSelect = (direct: boolean) => {
     setDirect(direct);
     dispatch(setDirectFilter(direct));
-    // handleChange(direct);
     setAnchorEl(null);
   };
 

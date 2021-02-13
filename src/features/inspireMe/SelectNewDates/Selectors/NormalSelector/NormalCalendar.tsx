@@ -42,9 +42,6 @@ export const NormalCalendar = ({
   const [endDate, setEndDate] = useState<Date | null>(initialInbound);
   const dispatch = useDispatch();
 
-  console.log('startDate=>', startDate);
-  console.log('startDate=>', endDate);
-
   const classes = useStyles();
 
   const handleChange = (newDate: Date | null) => {
@@ -73,7 +70,6 @@ export const NormalCalendar = ({
   };
 
   useEffect(() => {
-    console.log('setting dates');
     if (startDate) {
       const serializeableStart = `${startDate.toISOString().substr(0, 10)}`;
       const serializeableEnd = endDate
