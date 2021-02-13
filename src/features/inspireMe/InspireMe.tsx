@@ -15,7 +15,6 @@ import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setFrom,
-  setDates,
   setTripType as setTripTypeRedux,
 } from './slice/inspireMeSlice';
 import {
@@ -25,8 +24,6 @@ import {
 } from '../browseInspiredFlights/Filters/filtersSlice';
 import { ROUTES } from '../../constants/routes';
 import { SelectNewDates } from './SelectNewDates/SelectNewDates';
-import { ok } from 'assert';
-import { negate } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -61,13 +58,6 @@ const InspireMe: React.FC = () => {
 
   const handleSetFrom = (from: PlaceOptionType): void => {
     dispatch(setFrom(from));
-  };
-
-  const handleSetDates = (dates: Date[]): void => {
-    const serializeableDates = dates.map(
-      (date) => `${date.toISOString().substr(0, 10)}`
-    );
-    dispatch(setDates(serializeableDates));
   };
 
   const setTripType = (tripType: '' | 'oneWay' | 'return') => {
@@ -117,7 +107,6 @@ const InspireMe: React.FC = () => {
         </Grid>
         <Grid item>
           <SelectNewDates
-            handleSetDates={handleSetDates}
             tripType={tripType}
             disabled={tripType.length === 0}
           />

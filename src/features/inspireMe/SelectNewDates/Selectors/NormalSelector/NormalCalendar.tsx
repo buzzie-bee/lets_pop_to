@@ -26,12 +26,14 @@ export const NormalCalendar = ({
     (state: RootState) => state.inspireMe
   );
 
-  const initialOutbound = reduxDates[0]
-    ? new Date(new Date(reduxDates[0].outbound).toDateString())
-    : null;
-  const initialInbound = reduxDates[0]
-    ? new Date(new Date(reduxDates[0].inbound).toDateString())
-    : null;
+  const initialOutbound =
+    reduxDates[0] && reduxDates[0].outbound
+      ? new Date(new Date(reduxDates[0].outbound).toDateString())
+      : null;
+  const initialInbound =
+    reduxDates[0] && reduxDates[0].inbound
+      ? new Date(new Date(reduxDates[0].inbound).toDateString())
+      : null;
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     initialOutbound
@@ -39,6 +41,9 @@ export const NormalCalendar = ({
   const [startDate, setStartDate] = useState<Date | null>(initialOutbound);
   const [endDate, setEndDate] = useState<Date | null>(initialInbound);
   const dispatch = useDispatch();
+
+  console.log('startDate=>', startDate);
+  console.log('startDate=>', endDate);
 
   const classes = useStyles();
 
