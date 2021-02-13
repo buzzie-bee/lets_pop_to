@@ -10,7 +10,9 @@ import {
 import { LocationOn } from '@material-ui/icons';
 import axios from 'axios';
 
-import { PlaceOptionType } from '../../type';
+import { InspireMeStateType, PlaceOptionType } from '../../type';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -28,10 +30,13 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({
   from,
   handleSetFrom,
 }) => {
+  const { from: fromRedux }: InspireMeStateType = useSelector(
+    (state: RootState) => state.inspireMe
+  );
   const [inputValue, setInputValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedPlace, setSelectedPlace] = useState<PlaceOptionType | null>(
-    from ? from : null
+    fromRedux ? fromRedux : null
   );
   const [suggestedPlaces, setSuggestedPlaces] = useState<any[]>([]);
 
@@ -51,7 +56,9 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({
   };
 
   useEffect(() => {
+    console.log(selectedPlace);
     if (selectedPlace) {
+      console.log('setting');
       setInputValue(
         `${selectedPlace.placeName}, ${
           selectedPlace.regionId ? `${selectedPlace.regionId}, ` : ''
@@ -87,23 +94,31 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({
         setSelectedPlace(newValue);
         handleSetFrom(newValue);
       }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="From"
-          variant="outlined"
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : null}
-              </>
-            ),
-          }}
-        />
-      )}
+      renderInput={(params) => {
+        if ('value' in params.inputProps) {
+          //@ts-ignore - MUI make it difficult to access the value of this text input
+          // TS kicks off because it doesn't think value exists even though we're checking it
+          params.inputProps.value = inputValue;
+        }
+        return (
+          <TextField
+            {...params}
+            label="From"
+            value="123456"
+            variant="outlined"
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
+                </>
+              ),
+            }}
+          />
+        );
+      }}
       renderOption={(place) => {
         return (
           <Grid container alignItems="center">
