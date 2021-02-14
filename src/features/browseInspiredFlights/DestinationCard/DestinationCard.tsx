@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Fab, Typography } from '@material-ui/core';
+import { Box, Fab, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 // ts-ignore TODO - create typefile
@@ -8,7 +8,6 @@ import { DateType } from '../../../type';
 
 import { CardData } from './CardData';
 import { fetchPhoto } from '../fetchPhoto';
-import './DestinationCardStyles.css';
 
 // TODO add in types now data structure is settled
 interface DestinationCardPropTypes {
@@ -25,6 +24,8 @@ export const DestinationCard = ({
 }: DestinationCardPropTypes) => {
   const [photo, setPhoto] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
+
+  const classes = useStyles();
 
   useEffect(() => {
     let isSubscribed = true;
@@ -56,53 +57,49 @@ export const DestinationCard = ({
     };
   }, [place]);
 
-  const renderImage = () => {
-    if (photo) {
-      return (
-        <img
-          key={photo}
-          alt={`${place.cityName}`}
-          src={photo}
-          className="cardImage"
-        />
-      );
-    } else {
-      return <Skeleton variant="rect" height={400} animation="wave" />;
-    }
-  };
-
   if (!photo) {
     return <Skeleton variant="rect" height={400} animation="wave" />;
   }
   return (
-    <div className="cardContainer">
-      {renderImage()}
-      <div className="cardDetailsContainer">
-        <Typography style={{ textAlign: 'right', lineHeight: '110%' }}>
-          <span className="cardDetailsCityName">
+    <div className={classes.cardContainer}>
+      <img
+        key={photo}
+        alt={`${place.cityName}`}
+        src={photo}
+        className={classes.cardImage}
+      />
+      <div className={classes.cardDetailsContainer}>
+        <Typography className={classes.cardDetailsTypography}>
+          <span className={classes.cardDetailsCityName}>
             {place.cityName}
             <br />
           </span>
-          <span className="cardDetailsFrom">
+          <span className={classes.cardDetailsFrom}>
             from:
             <br />
           </span>
-          <span className="cardDetailsCost">{flights[0].cost.formatted}</span>
+          <span className={classes.cardDetailsCost}>
+            {flights[0].cost.formatted}
+          </span>
           <br />
           {flights.some(({ direct }: { direct: boolean }) => direct) ? (
-            <span style={{ color: 'green' }}>direct</span>
+            <span className={classes.directSpan}>direct</span>
           ) : (
             ''
           )}
         </Typography>
       </div>
-      <div className={`cardOverlay ${showOverlay ? 'active' : 'inactive'}`}>
-        <div className="cardButtonContainer">
+      <Box
+        className={`${classes.cardOverlay} ${
+          showOverlay ? 'cardOverlayActive' : ''
+        }`}
+      >
+        <div className={classes.cardButtonContainer}>
           <Fab
             color="default"
             size="small"
             aria-label="up"
-            className="cardOverlayFAB"
+            className={classes.cardOverlayFAB}
             onClick={() => {
               setShowOverlay(!showOverlay);
             }}
@@ -110,11 +107,97 @@ export const DestinationCard = ({
             <KeyboardArrowUpIcon />
           </Fab>
         </div>
-        <div className="cardOverlayContent">
+        <div className={classes.cardOverlayContent}>
           <Typography variant="h4">Flights</Typography>
           <CardData flights={flights} place={place} dates={dates} />
         </div>
-      </div>
+      </Box>
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  cardContainer: {
+    position: 'relative',
+    display: 'inline-block',
+    width: '100%',
+    transition: 'width 0.3s, height 0.3s, transform 0.3s',
+    '&:hover $cardOverlay': {
+      height: '100%',
+      background: 'rgba(255, 255, 255, 0.75)',
+    },
+    '&:hover $cardOverlayFAB': {
+      transform: 'rotate(-180deg)',
+    },
+    '&:hover $cardOverlayContent': {
+      display: 'block',
+    },
+  },
+  cardImage: {
+    borderRadius: '8px',
+    width: '100%',
+    minHeight: '250px',
+    objectFit: 'cover',
+  },
+  cardDetailsContainer: {
+    position: 'absolute',
+    top: '0',
+    right: '0',
+    backgroundColor: '#ffffff',
+    padding: '8px',
+    borderRadius: '4px',
+  },
+  cardDetailsTypography: {
+    textAlign: 'right',
+    lineHeight: '110%',
+  },
+  cardDetailsCityName: {
+    fontSize: '1.3em',
+  },
+  cardDetailsFrom: {
+    fontWeight: 200,
+    fontSize: '0.8em',
+  },
+  cardDetailsCost: {
+    fontStyle: 'bold',
+    fontSize: '1.1em',
+  },
+  directSpan: {
+    color: 'green',
+  },
+  cardOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    overflow: 'hidden',
+    width: '100%',
+    height: '55px',
+    transition: '0.5s ease',
+    '&.cardOverlayActive': {
+      height: '100%',
+      background: 'rgba(255, 255, 255, 0.75)',
+    },
+    '&.cardOverlayActive $cardOverlayFAB': {
+      transition: '0.5s',
+      transform: 'rotate(-180deg)',
+    },
+    '&.cardOverlayActive $cardOverlayContent': {
+      display: 'block',
+    },
+  },
+  cardOverlayFAB: {
+    transition: 'transform 0.5s',
+  },
+  cardButtonContainer: {
+    position: 'absolute',
+    top: '5px',
+    width: '100%',
+    alignContent: 'start',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  cardOverlayContent: {
+    display: 'none',
+  },
+}));
