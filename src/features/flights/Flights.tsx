@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Container, Paper, Typography } from '@material-ui/core';
+import { Container, makeStyles, Paper, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { fetchFlights } from './fetchFlights';
-import { Flight } from './Flight';
+import { FlightCard } from './FlightCard/FlightCard';
 import { Skeleton } from '@material-ui/lab';
 import { DateType } from '../../type';
 
@@ -25,6 +25,8 @@ export const Flights = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [flights, setFlights] = useState<any[]>([]);
 
+  const classes = useStyles();
+
   useEffect(() => {
     fetchFlights({
       from: from.iataCode,
@@ -38,26 +40,38 @@ export const Flights = () => {
   if (loading) {
     return (
       <Container maxWidth="md">
-        <div style={{ margin: '8px' }}>
+        <div className={classes.loading}>
           <Typography variant="h5">
             Let's see what we can find . . .{' '}
           </Typography>
         </div>
-        <Paper style={{ margin: '8px' }}>
+        <Paper className={classes.loading}>
           <Skeleton variant="rect" height={354} />
         </Paper>
       </Container>
     );
   }
   return (
-    <Container maxWidth="md" style={{ marginBottom: '1rem' }}>
-      <div style={{ margin: '8px' }}>
+    <Container maxWidth="md" className={classes.flightsContainer}>
+      <div className={classes.headerContainer}>
         <Typography variant="h4">Flights to {to.cityName}</Typography>
       </div>
       {flights.length &&
         flights.map((flight, index) => (
-          <Flight key={`flight${index}`} {...flight} />
+          <FlightCard key={`flight${index}`} {...flight} />
         ))}
     </Container>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  loading: {
+    margin: '8px',
+  },
+  flightsContainer: {
+    marginBottom: '1rem',
+  },
+  headerContainer: {
+    margin: '8px',
+  },
+}));
