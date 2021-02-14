@@ -6,11 +6,10 @@ import {
   makeStyles,
   Paper,
   Typography,
-  useTheme,
 } from '@material-ui/core';
 import useSize from '@react-hook/size';
 
-import { DestinationCard } from './DestinationCard';
+import { DestinationCard } from './DestinationCard/DestinationCard';
 import { useDispatch } from 'react-redux';
 import { setHighestPrice } from './Filters/filtersSlice';
 import { DateType } from '../../type';
@@ -161,7 +160,6 @@ const DestinationGrid = ({
                 <DestinationCard
                   key={destination}
                   {...destinations[destination]}
-                  timeoutR={index}
                   dates={dates}
                 />
               </Grid>
