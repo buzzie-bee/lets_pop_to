@@ -6,15 +6,15 @@ import {
   Typography,
 } from '@material-ui/core';
 import { ROUTES } from '../../../constants/routes';
-import { DateType } from '../../../type';
+import { DateType, FlightType, PlaceDataType } from '../../../type';
 
 export const CardData = ({
   flights,
   place,
   dates,
 }: {
-  flights: any;
-  place: any;
+  flights: FlightType[];
+  place: PlaceDataType;
   dates: DateType[];
 }) => {
   const classes = useStyles();

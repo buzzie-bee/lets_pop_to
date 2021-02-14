@@ -73,10 +73,10 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({ handleSetFrom }) => {
       }
       className={classes.input}
       disableClearable
-      onInputChange={(event: any, newInputValue: string) => {
+      onInputChange={(event: React.ChangeEvent<{}>, newInputValue: string) => {
         setInputValue(newInputValue);
       }}
-      onChange={(event: any, newValue: PlaceOptionType) => {
+      onChange={(event: React.ChangeEvent<{}>, newValue: PlaceOptionType) => {
         setSelectedPlace(newValue);
         handleSetFrom(newValue);
       }}

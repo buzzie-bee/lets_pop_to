@@ -1,9 +1,28 @@
-export interface FlightsType {
-  loaded: boolean;
-  loading: boolean;
-  error: boolean;
-  errorMessage: string;
-  flights: Flight[];
+export interface SortedByPriceDestinationType {
+  destination: string;
+  cost: number;
+}
+
+export interface FlightDestinationsType {
+  [key: string]: FlightDestinationDataType;
+}
+
+export interface FlightDestinationDataType {
+  place: PlaceDataType;
+  weather: WeatherType;
+  flights: FlightType[];
+  cheapest: number;
+}
+
+export interface PlaceDataType {
+  name: string;
+  type: string;
+  placeId: number;
+  iataCode: string;
+  skyscannerCode: string;
+  cityName: string;
+  cityId: string;
+  countryName: string;
 }
 
 export interface FlightLegType {
@@ -15,7 +34,7 @@ export interface FlightLegType {
 
 export interface FlightType {
   outbound: FlightLegType;
-  inbound: FlightLegType | {};
+  inbound: FlightLegType;
   cost: CostType;
   direct: boolean;
   quotedAt: string;

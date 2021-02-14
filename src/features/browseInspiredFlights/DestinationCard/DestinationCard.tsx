@@ -4,16 +4,20 @@ import { Skeleton } from '@material-ui/lab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 // ts-ignore TODO - create typefile
 import { remove as removeDiacritics } from 'diacritics';
-import { DateType } from '../../../type';
+import {
+  DateType,
+  FlightType,
+  PlaceDataType,
+  WeatherType,
+} from '../../../type';
 
 import { CardData } from './CardData';
 import { fetchPhoto } from '../fetchPhoto';
 
-// TODO add in types now data structure is settled
 interface DestinationCardPropTypes {
-  place: any;
-  weather: any;
-  flights: any;
+  place: PlaceDataType;
+  weather: WeatherType;
+  flights: FlightType[];
   dates: DateType[];
 }
 

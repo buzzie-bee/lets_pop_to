@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { fetchFlights } from './fetchFlights';
 import { FlightCard } from './FlightCard/FlightCard';
 import { Skeleton } from '@material-ui/lab';
-import { DateType } from '../../type';
+import { DateType, FlightType } from '../../type';
 
 interface PlaceType {
   iataCode: string;
@@ -23,7 +23,7 @@ export const Flights = () => {
   ]);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [flights, setFlights] = useState<any[]>([]);
+  const [flights, setFlights] = useState<FlightType[]>([]);
 
   const classes = useStyles();
 

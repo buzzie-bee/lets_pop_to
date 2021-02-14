@@ -68,7 +68,10 @@ export const WeekdaySelector = ({
     );
   };
 
-  const handleDurationChange = (event: any, newValue: number | number[]) => {
+  const handleDurationChange = (
+    event: React.ChangeEvent<{}>,
+    newValue: number | number[]
+  ) => {
     if (Array.isArray(newValue)) {
       if (typeof newValue[1] === 'number') {
         if (newValue[1] >= maxDuration) {

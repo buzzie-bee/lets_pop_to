@@ -4,7 +4,7 @@ import { Grid, Hidden, makeStyles, Paper } from '@material-ui/core';
 import { ReferralButton } from './ReferralButton';
 import { CalendarCard } from './CalendarCard';
 
-import { FlightType } from '../../../type';
+import { FlightLegType, FlightType } from '../../../type';
 import { FlightDetailsCard } from './FlightDetailsCard/FlightDetailsCard';
 import { Price } from './Price';
 import { LastQuoted } from './LastQuoted';
@@ -16,7 +16,7 @@ export const FlightCard: React.FC<FlightType> = ({
   direct,
   quotedAt,
 }: FlightType) => {
-  const { from, to, departing, carrier } = outbound;
+  const { from, to, departing, carrier } = outbound as FlightLegType;
 
   const classes = useStyles();
 
@@ -24,17 +24,24 @@ export const FlightCard: React.FC<FlightType> = ({
     return <></>;
   }
 
-  let inboundFrom = undefined;
-  let inboundTo = undefined;
-  let inboundDeparting = undefined;
-  let inboundCarrier = undefined;
+  const {
+    from: inboundFrom,
+    to: inboundTo,
+    departing: inboundDeparting,
+    carrier: inboundCarrier,
+  } = inbound;
 
-  if ('from' in inbound) {
-    inboundFrom = inbound.from;
-    inboundTo = inbound.to;
-    inboundDeparting = inbound.departing;
-    inboundCarrier = inbound.carrier;
-  }
+  // let inboundFrom = undefined;
+  // let inboundTo = undefined;
+  // let inboundDeparting = undefined;
+  // let inboundCarrier = undefined;
+
+  // if ('from' in inbound) {
+  //   inboundFrom = inbound.from;
+  //   inboundTo = inbound.to;
+  //   inboundDeparting = inbound.departing;
+  //   inboundCarrier = inbound.carrier;
+  // }
 
   const originId = from.iataCode;
   const destinationId = to.iataCode;

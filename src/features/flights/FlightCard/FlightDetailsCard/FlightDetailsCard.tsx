@@ -1,4 +1,5 @@
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { CarrierType, FromType, ToType } from '../../../../type';
 import { FlightDestinations } from './FlightDestinations';
 import { Logo } from './Logo';
 
@@ -10,10 +11,10 @@ export const FlightDetailsCard = ({
   direct,
   direction,
 }: {
-  from: any;
-  to: any;
-  carrier: any;
-  departing: any;
+  from: FromType;
+  to: ToType;
+  carrier: CarrierType;
+  departing: string;
   direct: boolean;
   direction: 'Outbound' | 'Return';
 }) => {

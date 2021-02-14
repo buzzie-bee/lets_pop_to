@@ -12,7 +12,12 @@ import useSize from '@react-hook/size';
 import { DestinationCard } from './DestinationCard/DestinationCard';
 import { useDispatch } from 'react-redux';
 import { setHighestPrice } from './Filters/filtersSlice';
-import { DateType } from '../../type';
+import {
+  DateType,
+  FlightDestinationsType,
+  PlaceOptionType,
+  SortedByPriceDestinationType,
+} from '../../type';
 
 type ColumnWidthType = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
@@ -22,16 +27,20 @@ const DestinationGrid = ({
   directOnly,
   priceRange,
 }: {
-  from: any;
+  from: PlaceOptionType;
   dates: DateType[];
   directOnly: boolean;
   priceRange: number[];
 }) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [destinations, setDestinations] = useState<any>({});
-  const [sortedDestinations, setSortedDestinations] = useState<any[]>([]);
-  const [filteredDestinations, setFilteredDestinations] = useState<any[]>([]);
-  const [columns, setColumns] = useState<any[]>([]);
+  const [destinations, setDestinations] = useState<FlightDestinationsType>({});
+  const [sortedDestinations, setSortedDestinations] = useState<
+    SortedByPriceDestinationType[]
+  >([]);
+  const [filteredDestinations, setFilteredDestinations] = useState<
+    SortedByPriceDestinationType[]
+  >([]);
+  const [columns, setColumns] = useState<SortedByPriceDestinationType[][]>([]);
   const [columnWidth, setColumnWidth] = useState<ColumnWidthType>(12);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -145,7 +154,7 @@ const DestinationGrid = ({
     fetchFlights();
   }, [from, dates, fetchFlights]);
 
-  const renderColumn = (columnData: any[]) => {
+  const renderColumn = (columnData: SortedByPriceDestinationType[]) => {
     if (!loading && destinations && columnData.length) {
       return (
         <>

@@ -14,10 +14,12 @@ import { Filters } from './Filters/Filters';
 import { FiltersStateType } from './Filters/filtersSlice';
 import { RootState } from '../../redux/store';
 
+import { DateType, PlaceOptionType } from '../../type';
+
 export const BrowseInspiredFlights = () => {
   const params: any = useParams();
-  const from = JSON.parse(params.from);
-  const dates = JSON.parse(params.dates);
+  const from: PlaceOptionType = JSON.parse(params.from);
+  const dates: DateType[] = JSON.parse(params.dates);
 
   // TODO: add error checking here to validate search query
 

@@ -36,7 +36,10 @@ export const PriceSlider = ({
 
   const classes = useStyles();
 
-  const handleSliderChange = (event: any, newValue: number | number[]) => {
+  const handleSliderChange = (
+    event: React.ChangeEvent<{}>,
+    newValue: number | number[]
+  ) => {
     setValue(newValue as number[]);
   };
 
