@@ -192,14 +192,13 @@ const DestinationGrid = ({
             return (
               <Grid
                 container
+                item
                 alignItems="flex-start"
                 key={`column${i}`}
                 spacing={1}
                 direction="column"
                 xs={columnWidth}
-                style={{
-                  display: 'block',
-                }}
+                className={classes.columnStyle}
               >
                 {renderColumn(columnData)}
               </Grid>
@@ -226,7 +225,7 @@ const DestinationGrid = ({
         <Grid
           container
           alignItems="flex-start"
-          justify="space-between"
+          justify="space-evenly"
           direction="row"
           spacing={1}
           ref={gridRef}
@@ -257,5 +256,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '73vh',
+  },
+  columnStyle: {
+    display: 'block',
   },
 }));

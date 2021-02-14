@@ -26,43 +26,44 @@ export const PricePicker = () => {
 
   return (
     <div className={classes.filterContainer}>
-      <Typography variant="h5">
+      <Typography variant="h5" className={classes.filterTitle}>
         {'Price is '}
-        <Typography
-          variant="h5"
-          className={classes.filterOption}
-          aria-controls="direct"
-          aria-haspopup="true"
-          onClick={(e) => setAnchorEl(e.currentTarget)}
-        >
-          {showPriceFilter ? 'Important' : 'Unimportant'}
-        </Typography>
+      </Typography>
+      <Typography
+        variant="h5"
+        className={classes.filterOption}
+        aria-controls="direct"
+        aria-haspopup="true"
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+      >
+        {showPriceFilter ? 'Important' : 'Unimportant'}
+      </Typography>
 
-        <Menu
-          id="direct"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={() => {
-            setAnchorEl(null);
+      <Menu
+        id="direct"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={() => {
+          setAnchorEl(null);
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleSelect(true);
           }}
         >
-          <MenuItem
-            onClick={() => {
-              handleSelect(true);
-            }}
-          >
-            Important
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleSelect(false);
-            }}
-          >
-            Unimportant
-          </MenuItem>
-        </Menu>
-      </Typography>
+          Important
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleSelect(false);
+          }}
+        >
+          Unimportant
+        </MenuItem>
+      </Menu>
+
       {highestPrice && showPriceFilter ? <PriceRange /> : <></>}
     </div>
   );
@@ -73,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '4px',
     padding: '4px',
     display: 'block',
+  },
+  filterTitle: {
+    display: 'inline',
   },
   filterOption: {
     boxShadow: '0 2px 0 #9933cc',

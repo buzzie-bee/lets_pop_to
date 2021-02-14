@@ -71,7 +71,7 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({ handleSetFrom }) => {
           place.countryName
         }`
       }
-      style={{ width: 300 }}
+      className={classes.input}
       disableClearable
       onInputChange={(event: any, newInputValue: string) => {
         setInputValue(newInputValue);
@@ -112,7 +112,7 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({ handleSetFrom }) => {
               <LocationOn className={classes.icon} />
             </Grid>
             <Grid item xs>
-              <span style={{}}>{place.placeName}</span>
+              <span>{place.placeName}</span>
               <Typography variant="body2" color="textSecondary">
                 {place.countryName}
               </Typography>
@@ -128,5 +128,8 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme.palette.text.secondary,
     marginRight: theme.spacing(2),
+  },
+  input: {
+    width: 300,
   },
 }));
