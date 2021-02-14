@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Container, Paper, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { fetchFlights } from './fetchFlights';
@@ -16,9 +16,11 @@ interface PlaceType {
 
 export const Flights = () => {
   const params: any = useParams();
-  const from: PlaceType = JSON.parse(params.from);
-  const to: PlaceType = JSON.parse(params.to);
-  const dates: DateType[] = JSON.parse(params.dates);
+  const from: PlaceType = useMemo(() => JSON.parse(params.from), [params.from]);
+  const to: PlaceType = useMemo(() => JSON.parse(params.to), [params.to]);
+  const dates: DateType[] = useMemo(() => JSON.parse(params.dates), [
+    params.dates,
+  ]);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [flights, setFlights] = useState<any[]>([]);
