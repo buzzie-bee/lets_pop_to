@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   InputAdornment,
+  makeStyles,
   OutlinedInput,
   Slider,
   Typography,
@@ -32,6 +33,8 @@ export const PriceSlider = ({
   );
   const initialValues = setInitialValues(priceRange, highestPrice);
   const [value, setValue] = useState<number[]>(initialValues);
+
+  const classes = useStyles();
 
   const handleSliderChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -121,9 +124,9 @@ export const PriceSlider = ({
   };
 
   return (
-    <div className="sliderContainer">
+    <div className={classes.sliderContainer}>
       <Typography variant="h6">Price range</Typography>
-      <div className="sliderInnerContainer">
+      <div className={classes.sliderInnerContainer}>
         <Slider
           value={value}
           onChange={handleSliderChange}
@@ -132,7 +135,7 @@ export const PriceSlider = ({
           max={highestPrice}
         />
       </div>
-      <div className="priceInputContainer">
+      <div className={classes.priceInputContainer}>
         <OutlinedInput
           // TODO implement automatic currency units
           startAdornment={<InputAdornment position="start">£</InputAdornment>}
@@ -149,9 +152,40 @@ export const PriceSlider = ({
           value={value[1]}
         />
       </div>
-      <div className="sliderButtonContainer">
+      <div className={classes.sliderButtonContainer}>
         <Button onClick={handleSubmit}>Save</Button>
       </div>
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  sliderContainer: {
+    margin: '4px',
+    padding: '10px',
+    border: '1px solid #9933cc',
+    borderRadius: '4px',
+    boxSizing: 'content-box',
+    width: '400px',
+  },
+  sliderInnerContainer: {
+    width: '300px',
+    marginTop: '10px',
+    marginLeft: '50px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  priceInputContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  sliderButtonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+}));

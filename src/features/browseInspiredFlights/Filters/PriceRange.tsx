@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { PriceSlider } from './PriceSlider';
 import { RootState } from '../../../redux/store';
@@ -10,17 +10,19 @@ export const PriceRange = () => {
     (state: RootState) => state.filters
   );
 
+  const classes = useStyles();
+
   if (showSlider) {
     return <PriceSlider setShowSlider={setShowSlider} />;
   } else {
     const [minPrice, maxPrice] = priceRange;
     return (
-      <div className="filterContainer">
+      <div className={classes.filterContainer}>
         <Typography variant="h5">
           {'My budget is from '}
           <Typography
             variant="h5"
-            className="filterOption"
+            className={classes.filterOption}
             aria-controls="direct"
             aria-haspopup="true"
             onClick={() => setShowSlider(true)}
@@ -30,7 +32,7 @@ export const PriceRange = () => {
           {' to '}
           <Typography
             variant="h5"
-            className="filterOption"
+            className={classes.filterOption}
             aria-controls="direct"
             aria-haspopup="true"
             onClick={() => setShowSlider(true)}
@@ -42,3 +44,19 @@ export const PriceRange = () => {
     );
   }
 };
+
+const useStyles = makeStyles((theme) => ({
+  filterContainer: {
+    marginTop: '4px',
+    padding: '4px',
+    display: 'block',
+  },
+  filterOption: {
+    boxShadow: '0 2px 0 #9933cc',
+    display: 'inline',
+    '&:hover': {
+      boxShadow: 'none',
+      cursor: 'pointer',
+    },
+  },
+}));

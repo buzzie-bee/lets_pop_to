@@ -1,8 +1,9 @@
 import React from 'react';
-import { Menu, MenuItem, Typography } from '@material-ui/core';
-import { PriceRange } from './PriceRange';
-import './Filters.css';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
+import { PriceRange } from './PriceRange';
+
 import { RootState } from '../../../redux/store';
 import { setShowPriceFilter } from './filtersSlice';
 
@@ -16,18 +17,20 @@ export const PricePicker = () => {
     (EventTarget & HTMLSpanElement) | null
   >(null);
 
+  const classes = useStyles();
+
   const handleSelect = (showFilter: boolean) => {
     dispatch(setShowPriceFilter(showFilter));
     setAnchorEl(null);
   };
 
   return (
-    <div className="filterContainer">
+    <div className={classes.filterContainer}>
       <Typography variant="h5">
         {'Price is '}
         <Typography
           variant="h5"
-          className="filterOption"
+          className={classes.filterOption}
           aria-controls="direct"
           aria-haspopup="true"
           onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -64,3 +67,19 @@ export const PricePicker = () => {
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  filterContainer: {
+    marginTop: '4px',
+    padding: '4px',
+    display: 'block',
+  },
+  filterOption: {
+    boxShadow: '0 2px 0 #9933cc',
+    display: 'inline',
+    '&:hover': {
+      boxShadow: 'none',
+      cursor: 'pointer',
+    },
+  },
+}));

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Menu, MenuItem, Typography } from '@material-ui/core';
+import { makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
 import { setDirectFilter } from './filtersSlice';
-import './Filters.css';
 
 export const DirectPicker = () => {
   const dispatch = useDispatch();
@@ -12,6 +11,8 @@ export const DirectPicker = () => {
     (EventTarget & HTMLSpanElement) | null
   >(null);
 
+  const classes = useStyles();
+
   const handleSelect = (direct: boolean) => {
     setDirect(direct);
     dispatch(setDirectFilter(direct));
@@ -19,13 +20,13 @@ export const DirectPicker = () => {
   };
 
   return (
-    <div className="filterContainer">
+    <div className={classes.filterContainer}>
       <Typography variant="h5">
         {direct ? 'My flight must be ' : 'My flight can be '}
 
         <Typography
           variant="h5"
-          className="filterOption"
+          className={classes.filterOption}
           aria-controls="direct"
           aria-haspopup="true"
           onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -61,3 +62,19 @@ export const DirectPicker = () => {
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  filterContainer: {
+    marginTop: '4px',
+    padding: '4px',
+    display: 'block',
+  },
+  filterOption: {
+    boxShadow: '0 2px 0 #9933cc',
+    display: 'inline',
+    '&:hover': {
+      boxShadow: 'none',
+      cursor: 'pointer',
+    },
+  },
+}));
