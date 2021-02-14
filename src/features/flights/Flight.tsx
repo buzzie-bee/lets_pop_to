@@ -51,9 +51,9 @@ export const Flight: React.FC<FlightType> = ({
               container
               item
               direction="column"
-              justify="space-around"
-              alignItems="flex-start"
-              style={{ height: '100%' }}
+              justify="flex-start"
+              alignItems="center"
+              style={{ height: '100%', paddingTop: '32px' }}
             >
               <Grid item>
                 <CalendarCard
