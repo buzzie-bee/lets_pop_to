@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux';
 import { setHighestPrice } from './Filters/filtersSlice';
 import { DateType } from '../../type';
 
+type ColumnWidthType = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
 const DestinationGrid = ({
   from,
   dates,
@@ -26,17 +28,16 @@ const DestinationGrid = ({
   directOnly: boolean;
   priceRange: number[];
 }) => {
-  const theme = useTheme();
-  const classes = useStyles();
-  const gridRef = React.useRef(null);
-  const [divWidth] = useSize(gridRef);
   const [loading, setLoading] = useState<boolean>(true);
   const [destinations, setDestinations] = useState<any>({});
   const [sortedDestinations, setSortedDestinations] = useState<any[]>([]);
   const [filteredDestinations, setFilteredDestinations] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
-  const [imgWidth, setImgWidth] = useState<number>(400);
+  const [columnWidth, setColumnWidth] = useState<ColumnWidthType>(12);
   const dispatch = useDispatch();
+  const classes = useStyles();
+  const gridRef = React.useRef(null);
+  const [divWidth] = useSize(gridRef);
 
   const sortColumns = useCallback(
     (num: number) => {
@@ -50,15 +51,6 @@ const DestinationGrid = ({
       return tempColumns;
     },
     [filteredDestinations]
-  );
-
-  const calculatedImgWidth = useCallback(
-    (columns: number): void => {
-      const padding = theme.spacing(2) * columns;
-      const calculatedImgWidth = Math.floor((divWidth - padding) / columns);
-      setImgWidth(calculatedImgWidth);
-    },
-    [divWidth, theme]
   );
 
   useEffect(() => {
@@ -88,7 +80,8 @@ const DestinationGrid = ({
 
   useEffect(() => {
     if (filteredDestinations) {
-      let numberOfColumns = 1;
+      type NumCols = 1 | 2 | 3 | 4;
+      let numberOfColumns: NumCols = 1;
 
       if (divWidth <= 600) {
         numberOfColumns = 1;
@@ -100,11 +93,14 @@ const DestinationGrid = ({
         numberOfColumns = 4;
       }
 
+      const colWidth = (12 / numberOfColumns) as ColumnWidthType;
+      console.log(colWidth);
+      setColumnWidth(colWidth);
+
       const sortedColumns = sortColumns(numberOfColumns);
-      calculatedImgWidth(numberOfColumns);
       setColumns(sortedColumns);
     }
-  }, [calculatedImgWidth, divWidth, filteredDestinations, sortColumns]);
+  }, [divWidth, filteredDestinations, sortColumns]);
 
   const fetchFlights = useCallback(async () => {
     try {
@@ -151,7 +147,7 @@ const DestinationGrid = ({
   }, [from, dates, fetchFlights]);
 
   const renderColumn = (columnData: any[]) => {
-    if (!loading && destinations && columnData.length && imgWidth) {
+    if (!loading && destinations && columnData.length) {
       return (
         <>
           {columnData.map(({ destination }, index) => {
@@ -166,7 +162,6 @@ const DestinationGrid = ({
                   key={destination}
                   {...destinations[destination]}
                   timeoutR={index}
-                  width={imgWidth - theme.spacing(2)}
                   dates={dates}
                 />
               </Grid>
@@ -203,9 +198,9 @@ const DestinationGrid = ({
                 key={`column${i}`}
                 spacing={1}
                 direction="column"
+                xs={columnWidth}
                 style={{
                   display: 'block',
-                  width: `${imgWidth + theme.spacing(2)}px`,
                 }}
               >
                 {renderColumn(columnData)}

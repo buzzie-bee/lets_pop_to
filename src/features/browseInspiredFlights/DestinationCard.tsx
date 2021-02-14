@@ -22,7 +22,7 @@ interface DestinationCardPropTypes {
   weather: any;
   flights: any;
   timeoutR: number;
-  width: number;
+
   dates: DateType[];
 }
 
