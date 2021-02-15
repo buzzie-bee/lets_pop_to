@@ -8,6 +8,7 @@ import { Footer } from './features/footer/Footer';
 import { InspireMe } from './features/inspireMe/InspireMe';
 import { BrowseInspiredFlights } from './features/browseInspiredFlights/BrowseInspiredFlights';
 import { Flights } from './features/flights/Flights';
+import { About } from './static/About';
 
 import { ROUTES } from './constants/routes';
 
@@ -23,6 +24,9 @@ export const App: React.FC = () => {
         <Switch>
           <Route exact path={ROUTES.HOME}>
             <div>Home</div>
+          </Route>
+          <Route exact path={`${ROUTES.ABOUT}`}>
+            <About />
           </Route>
           <Route exact path={`${ROUTES.INSPIRATION}`}>
             <BrowseInspiredFlights />

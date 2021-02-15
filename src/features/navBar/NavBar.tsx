@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Button, Link, makeStyles, Toolbar } from '@material-ui/core';
+import { ROUTES } from '../../constants/routes';
 
 export const NavBar: React.FC = () => {
   const classes = useStyles();
@@ -15,7 +16,7 @@ export const NavBar: React.FC = () => {
       <Toolbar>
         <Link
           component={RouterLink}
-          to="/"
+          to={ROUTES.HOME}
           variant="h6"
           color="inherit"
           underline="none"
@@ -27,12 +28,13 @@ export const NavBar: React.FC = () => {
 
         <nav>
           <Link
+            component={RouterLink}
+            to={ROUTES.ABOUT}
             variant="button"
             color="textPrimary"
-            href="#"
             className={classes.link}
           >
-            Link
+            About
           </Link>
           <Link
             variant="button"
