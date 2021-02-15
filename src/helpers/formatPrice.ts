@@ -47,5 +47,6 @@ export const formatPrice = (amount: number, currency: CurrencyType): string => {
   ${formattedDecimals}
   ${!symbolOnLeft ? symbol : ''}`;
 
-  return formattedPrice;
+  // Prettier forces literal to be multiline so need to remove newlines
+  return formattedPrice.replace(/\n|\r/g, '');
 };
