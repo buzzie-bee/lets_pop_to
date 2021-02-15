@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import DestinationGrid from './DestinationGrid';
+import { DestinationGrid } from './DestinationGrid';
 import { useParams } from 'react-router-dom';
 import { Filters } from './Filters/Filters';
 import { FiltersStateType } from './Filters/filtersSlice';

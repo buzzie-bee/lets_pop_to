@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import useSize from '@react-hook/size';
+import { Waypoint } from 'react-waypoint';
 
 import { DestinationCard } from './DestinationCard/DestinationCard';
 import { useDispatch } from 'react-redux';
@@ -21,7 +22,7 @@ import {
 
 type ColumnWidthType = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-const DestinationGrid = ({
+export const DestinationGrid = ({
   from,
   dates,
   directOnly,
@@ -42,6 +43,8 @@ const DestinationGrid = ({
   >([]);
   const [columns, setColumns] = useState<SortedByPriceDestinationType[][]>([]);
   const [columnWidth, setColumnWidth] = useState<ColumnWidthType>(12);
+  const [page, setPage] = useState<number>(1);
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef(null);
@@ -53,12 +56,14 @@ const DestinationGrid = ({
 
       for (let i = 0; i < num; i++) {
         tempColumns.push(
-          filteredDestinations.filter((d, j) => (j + i) % num === 0)
+          filteredDestinations
+            .slice(0, page * 20)
+            .filter((d, j) => (j + i) % num === 0)
         );
       }
       return tempColumns;
     },
-    [filteredDestinations]
+    [filteredDestinations, page]
   );
 
   useEffect(() => {
@@ -102,13 +107,12 @@ const DestinationGrid = ({
       }
 
       const colWidth = (12 / numberOfColumns) as ColumnWidthType;
-      console.log(colWidth);
       setColumnWidth(colWidth);
 
       const sortedColumns = sortColumns(numberOfColumns);
       setColumns(sortedColumns);
     }
-  }, [divWidth, filteredDestinations, sortColumns]);
+  }, [divWidth, filteredDestinations, sortColumns, page]);
 
   const fetchFlights = useCallback(async () => {
     try {
@@ -132,8 +136,6 @@ const DestinationGrid = ({
         setDestinations(flightsResponse.data);
       }
       if (Array.isArray(flightsResponse.sortedByPrice)) {
-        // TODO introduce lazy loading/pagination to use slices of prices?
-        // setSortedDestinations(flightsResponse.sortedByPrice.slice(0, 50));
         setSortedDestinations(flightsResponse.sortedByPrice);
         if (flightsResponse.sortedByPrice.length) {
           const highestPrice =
@@ -154,6 +156,12 @@ const DestinationGrid = ({
     fetchFlights();
   }, [from, dates, fetchFlights]);
 
+  const incrementPage = () => {
+    if (filteredDestinations.length > page * 20) {
+      setPage((page) => page + 1);
+    }
+  };
+
   const renderColumn = (columnData: SortedByPriceDestinationType[]) => {
     if (!loading && destinations && columnData.length) {
       return (
@@ -166,6 +174,9 @@ const DestinationGrid = ({
                 className={classes.columnItem}
                 sm={12}
               >
+                {index === columnData.length - 5 && (
+                  <Waypoint onEnter={() => incrementPage()} />
+                )}
                 <DestinationCard
                   key={destination}
                   {...destinations[destination]}
@@ -245,8 +256,6 @@ const DestinationGrid = ({
     </>
   );
 };
-
-export default DestinationGrid;
 
 const useStyles = makeStyles((theme) => ({
   columnItem: { display: 'block' },
