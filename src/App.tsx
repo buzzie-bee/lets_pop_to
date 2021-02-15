@@ -11,6 +11,7 @@ import { Flights } from './features/flights/Flights';
 import { About } from './static/About';
 
 import { ROUTES } from './constants/routes';
+import { Home } from './static/Home';
 
 export const App: React.FC = () => {
   const classes = useStyles();
@@ -23,7 +24,7 @@ export const App: React.FC = () => {
         <InspireMe />
         <Switch>
           <Route exact path={ROUTES.HOME}>
-            <div>Home</div>
+            <Home />
           </Route>
           <Route exact path={`${ROUTES.ABOUT}`}>
             <About />
