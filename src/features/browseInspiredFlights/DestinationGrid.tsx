@@ -233,10 +233,10 @@ export const DestinationGrid = ({
     <>
       <Paper className={classes.paperStyle}>
         {!loading ? (
-          <div className="resultsFoundContainer">
-            <Typography variant="h5">{`Found ${
+          <div className={classes.resultsFoundContainer}>
+            <Typography variant="h5">{`We found ${
               filteredDestinations.length ? filteredDestinations.length : 0
-            } Flights`}</Typography>
+            } options for you:`}</Typography>
           </div>
         ) : (
           ''
@@ -277,5 +277,9 @@ const useStyles = makeStyles((theme) => ({
   },
   columnStyle: {
     display: 'block',
+  },
+  resultsFoundContainer: {
+    paddingTop: '8px',
+    paddingBottom: '16px',
   },
 }));

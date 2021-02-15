@@ -27,7 +27,7 @@ export const PriceRange = () => {
             aria-haspopup="true"
             onClick={() => setShowSlider(true)}
           >
-            {minPrice}
+            {`£${minPrice}`}
           </Typography>
           {' to '}
           <Typography
@@ -37,7 +37,7 @@ export const PriceRange = () => {
             aria-haspopup="true"
             onClick={() => setShowSlider(true)}
           >
-            {maxPrice === highestPrice ? 'the moon 🚀' : maxPrice}
+            {maxPrice === highestPrice ? 'the moon 🚀' : `£${maxPrice}`}
           </Typography>
         </Typography>
       </div>
