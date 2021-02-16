@@ -64,6 +64,7 @@ export const PlaceInput: React.FC<PlaceInputProps> = ({ handleSetFrom }) => {
     <Autocomplete
       freeSolo
       id="from"
+      fullWidth={true}
       options={suggestedPlaces}
       loading={loading}
       getOptionLabel={(place) =>
@@ -130,6 +131,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   input: {
-    width: 300,
+    minWidth: 260,
   },
 }));

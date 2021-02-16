@@ -11,11 +11,13 @@ import { DateSelector } from './DateSelector';
 interface SelectDatesProps {
   disabled: boolean;
   tripType: 'oneWay' | 'return' | '';
+  large: boolean;
 }
 
 export const SelectNewDates: React.FC<SelectDatesProps> = ({
   disabled,
   tripType,
+  large,
 }: SelectDatesProps) => {
   const popupState = usePopupState({
     variant: 'popover',
@@ -33,7 +35,7 @@ export const SelectNewDates: React.FC<SelectDatesProps> = ({
       <Button
         variant="outlined"
         disabled={disabled}
-        size="large"
+        size={large ? 'large' : 'small'}
         {...bindTrigger(popupState)}
       >
         Select Dates
