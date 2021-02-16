@@ -51,7 +51,14 @@ export const CalendarCarousel = () => {
       stopAutoPlayOnHover={false}
     >
       {images.map(({ src, alt }: CarouselImageType) => {
-        return <img alt={alt} src={src} className={classes.carouselImage} />;
+        return (
+          <img
+            key={alt}
+            alt={alt}
+            src={src}
+            className={classes.carouselImage}
+          />
+        );
       })}
     </Carousel>
   );
