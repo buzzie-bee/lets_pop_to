@@ -68,6 +68,7 @@ export const DateSelector = ({
             const selected = name === selectorType;
             return (
               <Button
+                key={`${name} button`}
                 className={
                   selected ? classes.navButtonSelected : classes.navButton
                 }
