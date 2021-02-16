@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Container,
@@ -18,11 +18,14 @@ import { DateType, PlaceOptionType } from '../../type';
 
 export const BrowseInspiredFlights = () => {
   const params: any = useParams();
-  const from: PlaceOptionType = JSON.parse(params.from);
-  const dates: DateType[] = JSON.parse(params.dates);
+  const from: PlaceOptionType = useMemo(() => JSON.parse(params.from), [
+    params.from,
+  ]);
+  const dates: DateType[] = useMemo(() => JSON.parse(params.dates), [
+    params.dates,
+  ]);
 
   // TODO: add error checking here to validate search query
-
   const { direct, priceRange }: FiltersStateType = useSelector(
     (state: RootState) => state.filters
   );
