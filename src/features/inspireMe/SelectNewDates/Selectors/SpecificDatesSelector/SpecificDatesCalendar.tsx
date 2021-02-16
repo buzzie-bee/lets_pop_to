@@ -15,6 +15,7 @@ import clsx from 'clsx';
 import { DateType, InspireMeStateType } from '../../../../../type';
 import { setDates as setStoreDates } from '../../../slice/inspireMeSlice';
 import { RootState } from '../../../../../redux/store';
+import { formatDates } from './formatDates';
 
 export const SpecificDatesCalendar = ({
   tripType,
@@ -187,7 +188,7 @@ export const SpecificDatesCalendar = ({
     });
 
     return (
-      <div className={wrapperClassName}>
+      <div key={dateString} className={wrapperClassName}>
         <IconButton className={dayClassName}>
           <span>{date?.getDate()}</span>
         </IconButton>
@@ -285,21 +286,29 @@ export const SpecificDatesCalendar = ({
       )}
       {returnMode && (
         <Paper component="ul" className={classes.root}>
-          {dates.map((date) => {
-            const dateText = `${date.outbound}:${date.inbound}`;
-            if (date.inbound) {
-              return (
-                <li key={dateText}>
+          <div className={classes.chipContainer}>
+            {dates.length && (
+              <Typography className={classes.chipHeader} variant="caption">
+                {dates.filter((date) => (date.inbound ? true : false)).length}{' '}
+                Possible date pairs selected
+              </Typography>
+            )}
+            {dates.map((date) => {
+              if (date.inbound) {
+                const dateTextRaw = `${date.outbound}:${date.inbound}`;
+                const formattedDate = formatDates(date);
+                return (
                   <Chip
-                    label={dateText}
+                    key={dateTextRaw}
+                    label={formattedDate ? formattedDate : dateTextRaw}
                     onDelete={handleDeleteDate(date)}
                     className={classes.chip}
                   />
-                </li>
-              );
-            }
-            return <></>;
-          })}
+                );
+              }
+              return <></>;
+            })}
+          </div>
         </Paper>
       )}
     </>
@@ -384,5 +393,20 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     alignItems: 'center',
     flexBasis: 1,
     padding: '4px',
+  },
+  chip: {
+    backgroundColor: '#9933cc',
+    color: '#FFFFFF',
+    marginTop: '2px',
+    marginBottom: '2px',
+  },
+  chipContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  chipHeader: {
+    width: 'auto',
   },
 }));
