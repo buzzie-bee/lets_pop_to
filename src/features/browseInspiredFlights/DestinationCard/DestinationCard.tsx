@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Fab, makeStyles, Typography } from '@material-ui/core';
+import { Box, Fab, makeStyles, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 // ts-ignore TODO - create typefile
@@ -27,6 +27,9 @@ export const DestinationCard = ({
   dates,
 }: DestinationCardPropTypes) => {
   const [photo, setPhoto] = useState<string>('');
+  const [imgOwner, setImgOwner] = useState<string>('');
+  const [imgTitle, setImgTitle] = useState<string>('');
+  const [imgFlickrUrl, setImgFlickrUrl] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
   const classes = useStyles();
@@ -49,6 +52,19 @@ export const DestinationCard = ({
       if (isSubscribed) {
         if (imgData) {
           setPhoto(imgData.url);
+          console.log(imgData.title.substring(0, 10));
+          if (imgData.title.substring(0, 9) === 'Image Not') {
+            return;
+          }
+          if (imgData.owner) {
+            setImgOwner(imgData.owner);
+          }
+          if (imgData.title) {
+            setImgTitle(imgData.title);
+          }
+          if (imgData.flickrUrl) {
+            setImgFlickrUrl(imgData.flickrUrl);
+          }
         }
       }
     };
@@ -114,6 +130,20 @@ export const DestinationCard = ({
         <div className={classes.cardOverlayContent}>
           <Typography variant="h4">Flights</Typography>
           <CardData flights={flights} place={place} dates={dates} />
+          {imgFlickrUrl && (
+            <Paper className={classes.photoCredit}>
+              <Typography variant="caption">
+                {`'${imgTitle ? imgTitle : 'Photo'}' ${
+                  imgOwner ? `by ${imgOwner}` : ''
+                } - `}
+                {imgFlickrUrl && (
+                  <a href={imgFlickrUrl} target="blank">
+                    find them on Flickr
+                  </a>
+                )}
+              </Typography>
+            </Paper>
+          )}
         </div>
       </Box>
     </div>
@@ -140,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
   cardImage: {
     borderRadius: '8px',
     width: '100%',
-    minHeight: '250px',
+    minHeight: '290px',
     objectFit: 'cover',
   },
   cardDetailsContainer: {
@@ -203,5 +233,11 @@ const useStyles = makeStyles((theme) => ({
   },
   cardOverlayContent: {
     display: 'none',
+  },
+  photoCredit: {
+    marginLeft: '14px',
+    marginRight: '14px',
+    marginTop: '4px',
+    padding: '4px',
   },
 }));

@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'stretch',
     width: '100%',
-    marginTop: '50px',
+    marginTop: '40px',
     position: 'relative',
     overflow: 'auto',
     height: '90%',
