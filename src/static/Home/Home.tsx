@@ -219,8 +219,7 @@ export const Home = () => {
             </Typography>
             <br />
             <Typography variant="body1">
-              We do the heavy lifting to find the best flights for your given
-              dates so you can focus on where you can go on your next adventure.
+              Enter a departure location, pick you dates, and go be inspired!
             </Typography>
             <br />
           </Grid>
