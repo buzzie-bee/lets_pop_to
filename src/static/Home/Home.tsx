@@ -355,7 +355,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: '100%',
     minHeight: '500px',
-    backgroundColor: '#82FF9E',
+    backgroundColor: '#17BEBB',
     padding: '16px',
   },
   dividerContent: {
