@@ -21,7 +21,6 @@ export const App: React.FC = () => {
       <CssBaseline />
       <NavBar />
       <div className={classes.root}>
-        <InspireMe />
         <Switch>
           <Route exact path={ROUTES.HOME}>
             <Home />
@@ -30,9 +29,11 @@ export const App: React.FC = () => {
             <About />
           </Route>
           <Route exact path={`${ROUTES.INSPIRATION}`}>
+            <InspireMe floating={false} />
             <BrowseInspiredFlights />
           </Route>
           <Route exact path={`${ROUTES.FLIGHTS}`}>
+            <InspireMe floating={false} />
             <Flights />
           </Route>
         </Switch>
