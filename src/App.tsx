@@ -11,7 +11,7 @@ import { Flights } from './features/flights/Flights';
 import { About } from './static/About';
 
 import { ROUTES } from './constants/routes';
-import { Home } from './static/Home';
+import { Home } from './static/Home/Home';
 
 export const App: React.FC = () => {
   const classes = useStyles();
@@ -50,5 +50,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
+  },
+  '@global': {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+    },
   },
 }));
