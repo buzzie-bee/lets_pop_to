@@ -8,13 +8,12 @@ export const About = () => {
     <div>
       <div className={classes.heroContainer}>
         <img
+          alt="terrace"
           className={classes.heroImage}
-          alt="Man staring across lake - by Rahul Pandit from Pexels "
-          src="https://firebasestorage.googleapis.com/v0/b/lets-pop-to-dev.appspot.com/o/static%2Frahul_looking_md.jpg?alt=media&token=6e3b3030-3c60-459f-9ca8-090a34b1574c"
+          src="https://firebasestorage.googleapis.com/v0/b/lets-pop-to-dev.appspot.com/o/static%2Fterrace_lg.jpg?alt=media&token=3df3ca40-074c-4c24-96c4-909262ff8095"
         />
-
         <Typography variant="h1" className={classes.heroText}>
-          Where will <u>you</u> pop to next?
+          What is <u>our</u> story?
         </Typography>
       </div>
       <Container maxWidth="md" className={classes.bodyContent}>
@@ -131,12 +130,12 @@ export const About = () => {
           alignItems="flex-start"
           spacing={4}
         >
-          <Grid item md={6} xs={12}>
+          <Grid item md={7} xs={12}>
             <Typography variant="h2" className={classes.title1}>
-              Develped with ❤️
+              Developed with ❤️
             </Typography>
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item md={5} xs={12}>
             <Typography variant="body1">
               This site was developed by Tom Bee.
             </Typography>
@@ -166,6 +165,7 @@ const useStyles = makeStyles((theme) => ({
   heroImage: {
     width: '100%',
     minHeight: '600px',
+    maxHeight: '800px',
     objectFit: 'cover',
   },
   heroText: {
