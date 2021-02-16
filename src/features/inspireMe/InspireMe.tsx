@@ -29,7 +29,6 @@ export const InspireMe = ({ floating }: { floating: boolean }) => {
   const mobile = useMediaQuery('(min-width: 460px)', { noSsr: true });
   const tiny = useMediaQuery('(max-width:350px)', { noSsr: true });
 
-  console.log('mobile', mobile);
   const checkValid = useCallback((): boolean => {
     if (from) {
       if (dates.length) {

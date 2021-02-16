@@ -241,7 +241,6 @@ export const Home = () => {
                     const inspireMePosition = inspireRef.current
                       ? inspireRef.current.scrollHeight
                       : 0;
-                    console.log(inspireMePosition);
                     window.scrollTo({
                       top: inspireMePosition,
                       left: 0,
