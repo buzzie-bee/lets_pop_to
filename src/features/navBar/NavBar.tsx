@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { AppBar, Link, makeStyles, Toolbar } from '@material-ui/core';
+import { AppBar, Link, makeStyles, SvgIcon, Toolbar } from '@material-ui/core';
 import { ROUTES } from '../../constants/routes';
+import InvertedLogo from '../../assets/logo_inverted_purple.svg';
 
 export const NavBar: React.FC = () => {
   const classes = useStyles();
@@ -9,6 +10,13 @@ export const NavBar: React.FC = () => {
   return (
     <AppBar position="static" elevation={0} className={classes.appBar}>
       <Toolbar>
+        <RouterLink to={ROUTES.HOME}>
+          <img
+            src={InvertedLogo}
+            className={classes.logo}
+            alt="lets pop to logo"
+          />
+        </RouterLink>
         <Link
           component={RouterLink}
           to={ROUTES.HOME}
@@ -52,5 +60,9 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1, 1.5),
     color: '#FFFFFF',
+  },
+  logo: {
+    height: '50px',
+    marginRight: '16px',
   },
 }));
