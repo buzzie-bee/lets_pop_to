@@ -4,6 +4,8 @@ This is an inspirational flight finding app powered by the skyscanner api and im
 
 You can see a live version at [https://www.letspop.to](https://www.letspop.to/)
 
+Find more of my projects at [https://www.tombee.io](https://www.tombee.io/)
+
 ## Running locally
 
 Clone the repo using:
